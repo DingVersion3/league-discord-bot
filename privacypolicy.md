@@ -31,4 +31,4 @@ We use the collected data strictly to power the Bot's core features:
 We implement reasonable technical measures to safeguard your data. However, please remember that no method of transmission over the internet or electronic database storage is 100% secure.
 
 ### 6. Contact and Data Removal
-If you have any questions about this Privacy Policy, or if you want to request the complete removal of your server data or user data from our systems, please contact the developer via our official Support Server or via Discord: **[INSERT YOUR DISCORD USERNAME OR SUPPORT SERVER LINK HERE]**.
+If you have any questions about this Privacy Policy, or if you want to request the complete removal of your server data or user data from our systems, please contact the developer via our official Support Server or via Discord: **https://discord.gg/Jfhns5WCDb**.
