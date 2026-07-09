@@ -60,3 +60,19 @@ async def get_match(match_id: str) -> dict:
     url = f"https://{REGIONAL_ROUTE}.api.riotgames.com/lol/match/v5/matches/{match_id}"
     async with aiohttp.ClientSession() as session:
         return await _get(session, url)
+    
+async def get_rank(puuid: str) -> dict | None:
+    #Get a player's current Ranked Solo/Duo standing. Returns None if unranked (no RANKED_SOLO_5x5 entry).
+    url = f"https://{PLATFORM_ROUTE}.api.riotgames.com/lol/league/v4/entries/by-puuid/{puuid}"
+    async with aiohttp.ClientSession() as session:
+        entries = await _get(session, url)
+        for entry in entries:
+            if entry["queueType"] == "RANKED_SOLO_5x5":
+                return {
+                    "tier": entry["tier"],
+                    "rank": entry["rank"],
+                    "league_points": entry["leaguePoints"],
+                    "wins": entry["wins"],
+                    "losses": entry["losses"],
+                }
+        return None
