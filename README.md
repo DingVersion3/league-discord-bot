@@ -16,38 +16,8 @@ Every Monday, the bot automatically syncs fresh match/rank data for all register
 
 ## Setup
 
-**1. Clone and install**
-```bash
-git clone https://github.com/DingVersion3/league-discord-bot.git
-cd league-discord-bot
-python3 -m venv venv
-source venv/bin/activate
-pip install -e ".[dev]"
-```
+https://discord.com/oauth2/authorize?client_id=1524695530444427314 is the link to add the bot to your discord server.
 
-**2. Configure environment variables**
-
-Copy `.env.example` to `.env` and fill in:
-DISCORD_BOT_TOKEN=       # From the Discord Developer Portal
-DISCORD_GUILD_ID=        # Your server ID, for fast command sync during development
-RIOT_API_KEY=            # From developer.riotgames.com — dev keys expire every 24h
-
-**3. Pull champion/rune/item data from Data Dragon**
-```bash
-python -m leaguebot.cogs.randomchamp.fetch_ddragon
-```
-Re-run this after each League patch to keep champion/rune/item data current.
-
-**4. Run the bot**
-```bash
-python -m leaguebot.bot
-```
-
-Or, to keep it running persistently in the background:
-```bash
-./run_bot.sh
-```
-(intended to be run inside a `tmux` session so it survives closing the terminal — see project notes)
 
 ## Tech stack
 
