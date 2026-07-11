@@ -16,7 +16,7 @@ Every Monday, the bot automatically syncs fresh match/rank data for all register
 
 ## Setup
 
-https://discord.com/oauth2/authorize?client_id=1524695530444427314 is the link to add the bot to your discord server.
+https://discord.com/oauth2/authorize?client_id=1524695530444427314 is the link to add the bot to your discord server. PLEASE READ LICENSE DO NOT USE CODE ON YOUR MACHINE.
 
 
 ## Tech stack
