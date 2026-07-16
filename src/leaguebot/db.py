@@ -1,14 +1,28 @@
 # SQLite-backed storage for Discord user -> Riot account mappings. Used by /register and any command that accepts @user instead of a raw Riot ID.
+from contextlib import asynccontextmanager
+from pathlib import Path
+
 import aiosqlite
 import discord
-from pathlib import Path
 
 DB_PATH = Path(__file__).parent.parent.parent / "data" / "bot.db"
 
 
-async def init_db() -> None:
-    DB_PATH.parent.mkdir(exist_ok=True)
+@asynccontextmanager
+async def _connect():
     async with aiosqlite.connect(DB_PATH) as db:
+        await db.execute("PRAGMA busy_timeout = 5000")
+        await db.execute("PRAGMA foreign_keys = ON")
+        yield db
+
+
+async def init_db() -> None:
+    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+    DB_PATH.touch(mode=0o600, exist_ok=True)
+    DB_PATH.chmod(0o600)
+
+    async with _connect() as db:
+        await db.execute("PRAGMA journal_mode = WAL")
         await db.execute("""
             CREATE TABLE IF NOT EXISTS users (
                 discord_id INTEGER PRIMARY KEY,
@@ -76,15 +90,22 @@ async def init_db() -> None:
             await db.execute("ALTER TABLE streaks ADD COLUMN last_match_id TEXT")
         await db.commit()
 
-async def clear_stale_data(discord_id: int) -> None:
-    async with aiosqlite.connect(DB_PATH) as db:
-        await db.execute("DELETE FROM ranks WHERE discord_id = ?", (discord_id,))
-        await db.execute("DELETE FROM matches WHERE discord_id = ?", (discord_id,))
-        await db.commit()
-
-
 async def register_user(discord_id: int, game_name: str, tag_line: str, puuid: str) -> None:
-    async with aiosqlite.connect(DB_PATH) as db:
+    async with _connect() as db:
+        await db.execute("BEGIN IMMEDIATE")
+        stale_profile = (discord_id, discord_id, puuid)
+        for table in ("matches", "ranks", "streaks"):
+            await db.execute(
+                f"""
+                DELETE FROM {table}
+                WHERE discord_id = ?
+                  AND EXISTS (
+                      SELECT 1 FROM users
+                      WHERE discord_id = ? AND puuid <> ?
+                  )
+                """,
+                stale_profile,
+            )
         await db.execute(
             """
             INSERT INTO users (discord_id, game_name, tag_line, puuid)
@@ -97,11 +118,10 @@ async def register_user(discord_id: int, game_name: str, tag_line: str, puuid: s
             (discord_id, game_name, tag_line, puuid),
         )
         await db.commit()
-    await clear_stale_data(discord_id)
 
 
 async def get_registered_user(discord_id: int) -> dict | None:
-    async with aiosqlite.connect(DB_PATH) as db:
+    async with _connect() as db:
         db.row_factory = aiosqlite.Row
         async with db.execute(
             "SELECT * FROM users WHERE discord_id = ?", (discord_id,)
@@ -110,7 +130,7 @@ async def get_registered_user(discord_id: int) -> dict | None:
             return dict(row) if row else None
         
 async def get_all_registered_users() -> list[dict]:
-    async with aiosqlite.connect(DB_PATH) as db:
+    async with _connect() as db:
         db.row_factory = aiosqlite.Row
         async with db.execute("SELECT * FROM users") as cursor:
             rows = await cursor.fetchall()
@@ -121,26 +141,30 @@ async def get_registered_users_in_guild(guild: discord.Guild) -> list[dict]:
     return [u for u in all_users if guild.get_member(u["discord_id"]) is not None]
 
 
-async def save_match(discord_id: int, match_id: str, champion: str, win: bool,
+async def save_match(discord_id: int, puuid: str, match_id: str, champion: str, win: bool,
                       kills: int, deaths: int, assists: int, damage: int, played_at: int,
                       duration: int = 0, cs: int = 0, gold: int = 0, doubleKills: int = 0,
-                      tripleKills: int = 0, quadraKills: int = 0, pentaKills: int = 0) -> None:
-    async with aiosqlite.connect(DB_PATH) as db:
-        await db.execute(
+                      tripleKills: int = 0, quadraKills: int = 0, pentaKills: int = 0) -> bool:
+    async with _connect() as db:
+        cursor = await db.execute(
             """
-            INSERT OR IGNORE INTO matches
+            INSERT INTO matches
                 (match_id, discord_id, champion, win, kills, deaths, assists, damage, played_at, duration, cs, gold,
                 doubleKills, tripleKills, quadraKills, pentaKills)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+            FROM users
+            WHERE discord_id = ? AND puuid = ?
+            ON CONFLICT(match_id, discord_id) DO NOTHING
             """,
             (match_id, discord_id, champion, int(win), kills, deaths, assists, damage, played_at, duration, cs, gold,
-             doubleKills, tripleKills, quadraKills, pentaKills),
+             doubleKills, tripleKills, quadraKills, pentaKills, discord_id, puuid),
         )
         await db.commit()
+        return cursor.rowcount == 1
 
 
 async def get_recent_matches(discord_id: int, since_timestamp: int) -> list[dict]:
-    async with aiosqlite.connect(DB_PATH) as db:
+    async with _connect() as db:
         db.row_factory = aiosqlite.Row
         async with db.execute(
             "SELECT * FROM matches WHERE discord_id = ? AND played_at >= ?",
@@ -151,7 +175,7 @@ async def get_recent_matches(discord_id: int, since_timestamp: int) -> list[dict
         
 async def get_all_recent_matches(since_timestamp: int) -> list[dict]:
     # All matches (across every registered user) played since the given timestamp, joined with the player's Riot ID for display purposes.
-    async with aiosqlite.connect(DB_PATH) as db:
+    async with _connect() as db:
         db.row_factory = aiosqlite.Row
         async with db.execute(
             """
@@ -166,26 +190,29 @@ async def get_all_recent_matches(since_timestamp: int) -> list[dict]:
             return [dict(row) for row in rows]
 
 
-async def save_rank(discord_id: int, tier: str | None, rank: str | None,
-                     league_points: int | None, updated_at: int) -> None:
-    async with aiosqlite.connect(DB_PATH) as db:
-        await db.execute(
+async def save_rank(discord_id: int, puuid: str, tier: str | None, rank: str | None,
+                     league_points: int | None, updated_at: int) -> bool:
+    async with _connect() as db:
+        cursor = await db.execute(
             """
             INSERT INTO ranks (discord_id, tier, rank, league_points, updated_at)
-            VALUES (?, ?, ?, ?, ?)
+            SELECT ?, ?, ?, ?, ?
+            FROM users
+            WHERE discord_id = ? AND puuid = ?
             ON CONFLICT(discord_id) DO UPDATE SET
                 tier = excluded.tier,
                 rank = excluded.rank,
                 league_points = excluded.league_points,
                 updated_at = excluded.updated_at
             """,
-            (discord_id, tier, rank, league_points, updated_at),
+            (discord_id, tier, rank, league_points, updated_at, discord_id, puuid),
         )
         await db.commit()
+        return cursor.rowcount == 1
 
 
 async def get_rank(discord_id: int) -> dict | None:
-    async with aiosqlite.connect(DB_PATH) as db:
+    async with _connect() as db:
         db.row_factory = aiosqlite.Row
         async with db.execute(
             "SELECT * FROM ranks WHERE discord_id = ?", (discord_id,)
@@ -195,7 +222,7 @@ async def get_rank(discord_id: int) -> dict | None:
 
 
 async def set_leaderboard_channel(guild_id: int, channel_id: int) -> None:
-    async with aiosqlite.connect(DB_PATH) as db:
+    async with _connect() as db:
         await db.execute(
             """
             INSERT INTO settings (guild_id, leaderboard_channel_id)
@@ -208,7 +235,7 @@ async def set_leaderboard_channel(guild_id: int, channel_id: int) -> None:
 
 
 async def get_leaderboard_channel(guild_id: int) -> int | None:
-    async with aiosqlite.connect(DB_PATH) as db:
+    async with _connect() as db:
         db.row_factory = aiosqlite.Row
         async with db.execute(
             "SELECT leaderboard_channel_id FROM settings WHERE guild_id = ?", (guild_id,)
@@ -217,7 +244,7 @@ async def get_leaderboard_channel(guild_id: int) -> int | None:
             return row["leaderboard_channel_id"] if row else None
         
 async def get_streak(discord_id: int) -> dict | None:
-    async with aiosqlite.connect(DB_PATH) as db:
+    async with _connect() as db:
         db.row_factory = aiosqlite.Row
         async with db.execute(
             "SELECT * FROM streaks WHERE discord_id = ?", (discord_id,)
@@ -236,7 +263,7 @@ async def update_streak(discord_id: int, won: bool) -> tuple[int, str]:
     else:
         current_streak = 1
 
-    async with aiosqlite.connect(DB_PATH) as db:
+    async with _connect() as db:
         await db.execute(
             """
             INSERT INTO streaks (discord_id, current_streak, streak_type)
@@ -251,7 +278,7 @@ async def update_streak(discord_id: int, won: bool) -> tuple[int, str]:
     return current_streak, result_type
 
 async def set_last_alert_streak(discord_id: int, streak: int) -> None:
-    async with aiosqlite.connect(DB_PATH) as db:
+    async with _connect() as db:
         await db.execute(
             "UPDATE streaks SET last_alert_streak = ? WHERE discord_id = ?",
             (streak, discord_id),
@@ -259,7 +286,7 @@ async def set_last_alert_streak(discord_id: int, streak: int) -> None:
         await db.commit()
 
 async def set_last_match_id(discord_id: int, match_id: str) -> None:
-    async with aiosqlite.connect(DB_PATH) as db:
+    async with _connect() as db:
         await db.execute(
             """
             INSERT INTO streaks (discord_id, last_match_id)
