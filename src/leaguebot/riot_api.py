@@ -8,11 +8,15 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-REGIONAL_ROUTE = "americas"  # americas | europe | asia
-PLATFORM_ROUTE = "na1"       # kept for future features that need platform-level endpoints
 REQUEST_TIMEOUT = aiohttp.ClientTimeout(total=30)
 
 API_KEY = os.getenv("RIOT_API_KEY")
+
+PLATFORM_TO_REGIONAL = {
+    "na1": "americas", "br1": "americas", "la1": "americas", "la2": "americas", "oc1": "americas",
+    "euw1": "europe", "eun1": "europe", "tr1": "europe", "ru": "europe",
+    "kr": "asia", "jp1": "asia",
+}
 
 
 class RiotAPIError(Exception):
@@ -47,10 +51,10 @@ async def _get(session: aiohttp.ClientSession, url: str) -> dict | list:
         raise RiotAPIError(None, "Riot API request failed; try again later.") from error
 
 
-async def get_puuid(game_name: str, tag_line: str) -> str:
+async def get_puuid(game_name: str, tag_line: str, regional_route: str = "americas") -> str:
     # Look up a player's PUUID from their Riot ID (e.g. 'ammumu', 'NA1').
     url = (
-        f"https://{REGIONAL_ROUTE}.api.riotgames.com/riot/account/v1/accounts"
+        f"https://{regional_route}.api.riotgames.com/riot/account/v1/accounts"
         f"/by-riot-id/{quote(game_name, safe='')}/{quote(tag_line, safe='')}"
     )
     async with aiohttp.ClientSession(timeout=REQUEST_TIMEOUT) as session:
@@ -58,26 +62,26 @@ async def get_puuid(game_name: str, tag_line: str) -> str:
         return data["puuid"]
 
 
-async def get_match_ids(puuid: str, count: int = 1) -> list[str]:
+async def get_match_ids(puuid: str, regional_route: str = "americas", count: int = 1) -> list[str]:
     # Get the most recent match IDs for a player, newest first.
     url = (
-        f"https://{REGIONAL_ROUTE}.api.riotgames.com/lol/match/v5/matches"
+        f"https://{regional_route}.api.riotgames.com/lol/match/v5/matches"
         f"/by-puuid/{puuid}/ids?start=0&count={count}"
     )
     async with aiohttp.ClientSession(timeout=REQUEST_TIMEOUT) as session:
         return await _get(session, url)
 
 
-async def get_match(match_id: str) -> dict:
+async def get_match(match_id: str, regional_route: str = "americas") -> dict:
     # Get full match details by match ID.
-    url = f"https://{REGIONAL_ROUTE}.api.riotgames.com/lol/match/v5/matches/{match_id}"
+    url = f"https://{regional_route}.api.riotgames.com/lol/match/v5/matches/{match_id}"
     async with aiohttp.ClientSession(timeout=REQUEST_TIMEOUT) as session:
         return await _get(session, url)
 
 
-async def get_rank(puuid: str) -> dict | None:
+async def get_rank(puuid: str, platform_route: str = "na1") -> dict | None:
     #Get a player's current Ranked Solo/Duo standing. Returns None if unranked (no RANKED_SOLO_5x5 entry).
-    url = f"https://{PLATFORM_ROUTE}.api.riotgames.com/lol/league/v4/entries/by-puuid/{puuid}"
+    url = f"https://{platform_route}.api.riotgames.com/lol/league/v4/entries/by-puuid/{puuid}"
     async with aiohttp.ClientSession(timeout=REQUEST_TIMEOUT) as session:
         entries = await _get(session, url)
         for entry in entries:

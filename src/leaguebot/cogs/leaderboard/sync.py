@@ -31,11 +31,11 @@ async def _sync_all_users() -> dict:
         print(f"[SYNC] Processing discord_id={discord_id}")
 
         try:
-            match_ids = await get_match_ids(puuid, count=MATCHES_TO_CHECK)
+            match_ids = await get_match_ids(puuid, regional_route=user["regional_route"], count=MATCHES_TO_CHECK)
             print(f"[SYNC]   got {len(match_ids)} match ids")
             for match_id in match_ids:
                 print(f"[SYNC]   fetching match {match_id}")
-                match = await get_match(match_id)
+                match = await get_match(match_id, regional_route=user["regional_route"])
                 print(f"[SYNC]   fetched match {match_id}")
                 played_at = match["info"]["gameStartTimestamp"] // 1000  # ms -> s
                 if played_at < cutoff:
@@ -66,7 +66,7 @@ async def _sync_all_users() -> dict:
                 )
                 print(f"[SYNC]   saved match {match_id}")
 
-            rank = await get_rank(puuid)
+            rank = await get_rank(puuid, platform_route=user["platform_route"])
             if rank:
                 await save_rank(
                     discord_id=discord_id,

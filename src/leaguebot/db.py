@@ -31,6 +31,12 @@ async def init_db() -> None:
                 puuid TEXT NOT NULL
             )
         """)
+        async with db.execute("PRAGMA table_info(users)") as cursor:
+            existing_user_columns = {row[1] async for row in cursor}
+        if "regional_route" not in existing_user_columns:
+            await db.execute("ALTER TABLE users ADD COLUMN regional_route TEXT DEFAULT 'americas'")
+        if "platform_route" not in existing_user_columns:
+            await db.execute("ALTER TABLE users ADD COLUMN platform_route TEXT DEFAULT 'na1'")
         await db.execute("""
             CREATE TABLE IF NOT EXISTS matches (
                 match_id TEXT NOT NULL,
@@ -90,7 +96,7 @@ async def init_db() -> None:
             await db.execute("ALTER TABLE streaks ADD COLUMN last_match_id TEXT")
         await db.commit()
 
-async def register_user(discord_id: int, game_name: str, tag_line: str, puuid: str) -> None:
+async def register_user(discord_id: int, game_name: str, tag_line: str, puuid: str, regional_route: str = "americas", platform_route: str = "na1") -> None:
     async with _connect() as db:
         await db.execute("BEGIN IMMEDIATE")
         stale_profile = (discord_id, discord_id, puuid)
@@ -108,14 +114,16 @@ async def register_user(discord_id: int, game_name: str, tag_line: str, puuid: s
             )
         await db.execute(
             """
-            INSERT INTO users (discord_id, game_name, tag_line, puuid)
-            VALUES (?, ?, ?, ?)
+            INSERT INTO users (discord_id, game_name, tag_line, puuid, regional_route, platform_route)
+            VALUES (?, ?, ?, ?, ?, ?)
             ON CONFLICT(discord_id) DO UPDATE SET
                 game_name = excluded.game_name,
                 tag_line = excluded.tag_line,
-                puuid = excluded.puuid
+                puuid = excluded.puuid,
+                regional_route = excluded.regional_route,
+                platform_route = excluded.platform_route
             """,
-            (discord_id, game_name, tag_line, puuid),
+            (discord_id, game_name, tag_line, puuid, regional_route, platform_route),
         )
         await db.commit()
 

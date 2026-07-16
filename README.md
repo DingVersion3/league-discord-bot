@@ -4,20 +4,20 @@ A League of Legends companion bot for Discord — post-game recaps, weekly leade
 
 ## Features
 
-- **`/register`** — Link your Discord account to your Riot ID
+- **`/register`** — Link your Discord account to your Riot ID and select your region
 - **`/lastgame [user] [riot_id]`** — Detailed recap of the most recent match: KDA, CS, gold, damage, full item build, and role quest item (e.g. lane-quest boots). Works for any registered server member or a raw Riot ID.
 - **`/leaderboard [stat]`** — Server leaderboard ranked by win rate, average KDA, total wins, or current Solo Queue rank
 - **`/randomchamp`** — Random champion with a fully legal random rune page (correct keystone/row rules) and splash art
 - **`/memestats`** — Weekly superlatives: most deaths, best KDA game, longest game, most damage, most gold, most CS
 - **`/setleaderboardchannel`** — Configure where the weekly leaderboard + meme stats auto-post
--**`/streaks [user]`** - Checks for win/lose streaks for user inserted/defaults to user who puts in command
+- **`/streaks [user]`** - Checks for win/lose streaks for user inserted/defaults to user who puts in command
 - **`/syncnow`** — Manually trigger the weekly data sync + post (admin only)
 
 Every Monday, the bot automatically syncs fresh match/rank data for all registered users and posts the leaderboard (all four stat categories) plus meme stats to the configured channel.
 
 ## Setup
 
-https://discord.com/oauth2/authorize?client_id=1524695530444427314 is the link to add the bot to your discord server. PLEASE READ LICENSE DO NOT USE CODE ON YOUR MACHINE.
+https://discord.com/oauth2/authorize?client_id=1524695530444427314 is the link to add the bot to your discord server.
 
 
 ## Tech stack
@@ -30,4 +30,3 @@ https://discord.com/oauth2/authorize?client_id=1524695530444427314 is the link t
 ## Known limitations
 
 - Riot development API keys expire every 24 hours and must be manually regenerated at [developer.riotgames.com](https://developer.riotgames.com) — a production key would remove this, but requires Riot's app approval process.
-- Currently hardcoded to NA (`americas` regional routing, `na1` platform routing).

@@ -15,9 +15,10 @@ async def check_for_new_results(bot) -> None:
     for user in users:
         discord_id = user["discord_id"]
         puuid = user["puuid"]
+        regional_route = user["regional_route"]
 
         try:
-            match_ids = await get_match_ids(puuid, count=1)
+            match_ids = await get_match_ids(puuid, regional_route=regional_route, count=1)
         except RiotAPIError as e:
             print(f"[ALERTS] failed to fetch latest match for {discord_id}: {e.message}")
             continue
@@ -39,7 +40,7 @@ async def check_for_new_results(bot) -> None:
             continue  # no new game since last check
 
         try:
-            match = await get_match(latest_match_id)
+            match = await get_match(latest_match_id, regional_route=regional_route)
         except RiotAPIError as e:
             print(f"[ALERTS] failed to fetch match details for {discord_id}: {e.message}")
             continue
@@ -56,6 +57,8 @@ async def check_for_new_results(bot) -> None:
 
 async def post_alert(bot, discord_id: int, message: str) -> None:
     for guild in bot.guilds:
+        if guild.get_member(discord_id) is None:
+            continue
         channel_id = await get_leaderboard_channel(guild.id)
         if not channel_id:
             continue
