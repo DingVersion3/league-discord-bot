@@ -141,22 +141,26 @@ async def get_registered_users_in_guild(guild: discord.Guild) -> list[dict]:
     return [u for u in all_users if guild.get_member(u["discord_id"]) is not None]
 
 
-async def save_match(discord_id: int, match_id: str, champion: str, win: bool,
+async def save_match(discord_id: int, puuid: str, match_id: str, champion: str, win: bool,
                       kills: int, deaths: int, assists: int, damage: int, played_at: int,
                       duration: int = 0, cs: int = 0, gold: int = 0, doubleKills: int = 0,
-                      tripleKills: int = 0, quadraKills: int = 0, pentaKills: int = 0) -> None:
+                      tripleKills: int = 0, quadraKills: int = 0, pentaKills: int = 0) -> bool:
     async with _connect() as db:
-        await db.execute(
+        cursor = await db.execute(
             """
-            INSERT OR IGNORE INTO matches
+            INSERT INTO matches
                 (match_id, discord_id, champion, win, kills, deaths, assists, damage, played_at, duration, cs, gold,
                 doubleKills, tripleKills, quadraKills, pentaKills)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+            FROM users
+            WHERE discord_id = ? AND puuid = ?
+            ON CONFLICT(match_id, discord_id) DO NOTHING
             """,
             (match_id, discord_id, champion, int(win), kills, deaths, assists, damage, played_at, duration, cs, gold,
-             doubleKills, tripleKills, quadraKills, pentaKills),
+             doubleKills, tripleKills, quadraKills, pentaKills, discord_id, puuid),
         )
         await db.commit()
+        return cursor.rowcount == 1
 
 
 async def get_recent_matches(discord_id: int, since_timestamp: int) -> list[dict]:
@@ -186,22 +190,25 @@ async def get_all_recent_matches(since_timestamp: int) -> list[dict]:
             return [dict(row) for row in rows]
 
 
-async def save_rank(discord_id: int, tier: str | None, rank: str | None,
-                     league_points: int | None, updated_at: int) -> None:
+async def save_rank(discord_id: int, puuid: str, tier: str | None, rank: str | None,
+                     league_points: int | None, updated_at: int) -> bool:
     async with _connect() as db:
-        await db.execute(
+        cursor = await db.execute(
             """
             INSERT INTO ranks (discord_id, tier, rank, league_points, updated_at)
-            VALUES (?, ?, ?, ?, ?)
+            SELECT ?, ?, ?, ?, ?
+            FROM users
+            WHERE discord_id = ? AND puuid = ?
             ON CONFLICT(discord_id) DO UPDATE SET
                 tier = excluded.tier,
                 rank = excluded.rank,
                 league_points = excluded.league_points,
                 updated_at = excluded.updated_at
             """,
-            (discord_id, tier, rank, league_points, updated_at),
+            (discord_id, tier, rank, league_points, updated_at, discord_id, puuid),
         )
         await db.commit()
+        return cursor.rowcount == 1
 
 
 async def get_rank(discord_id: int) -> dict | None:

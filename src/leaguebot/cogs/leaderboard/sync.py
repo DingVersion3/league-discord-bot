@@ -40,6 +40,7 @@ async def sync_all_users() -> dict:
                 print(f"[SYNC]   saving match {match_id}")
                 await save_match(
                     discord_id=discord_id,
+                    puuid=puuid,
                     match_id=match_id,
                     champion=participant["championName"],
                     win=participant["win"],
@@ -63,6 +64,7 @@ async def sync_all_users() -> dict:
             if rank:
                 await save_rank(
                     discord_id=discord_id,
+                    puuid=puuid,
                     tier=rank["tier"],
                     rank=rank["rank"],
                     league_points=rank["league_points"],
