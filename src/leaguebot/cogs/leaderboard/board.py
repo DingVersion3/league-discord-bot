@@ -60,6 +60,36 @@ async def get_nemesis(discord_id: int, since_timestamp: int) -> dict | None:
     champ, count = max(losses_by_enemy.items(), key=lambda x: x[1])
     return {"champion": champ, "losses": count}
 
+async def get_champion_recommendations(discord_id: int, position: str, champion_filter: list[str] | None = None) -> list[dict]:
+    matches = await get_recent_matches(discord_id, 0)  # 0 = all-time, since match data isn't purged
+
+    position_matches = [m for m in matches if m["position"] == position]
+    if champion_filter:
+        champion_filter_lower = {c.lower() for c in champion_filter}
+        position_matches = [m for m in position_matches if m["champion"].lower() in champion_filter_lower]
+
+    if not position_matches:
+        return []
+
+    by_champion = defaultdict(list)
+    for m in position_matches:
+        by_champion[m["champion"]].append(m)
+
+    MIN_GAMES = 2
+    results = []
+    for champion, champ_matches in by_champion.items():
+        if len(champ_matches) < MIN_GAMES:
+            continue
+        wins = sum(m["win"] for m in champ_matches)
+        results.append({
+            "champion": champion,
+            "win_rate": wins / len(champ_matches),
+            "games": len(champ_matches),
+        })
+
+    results.sort(key=lambda r: r["win_rate"], reverse=True)
+    return results
+
 async def get_duo_stats(discord_id_a: int, discord_id_b: int) -> dict | None:
     since = int(time.time()) - SECONDS_PER_WEEK
     matches = await get_duo_matches(discord_id_a, discord_id_b, since)

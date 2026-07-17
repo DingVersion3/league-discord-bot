@@ -13,8 +13,9 @@ A League of Legends companion bot for Discord — post-game recaps, weekly leade
 - **`/streaks [user]`** - Checks for win/lose streaks for user inserted/defaults to user who puts in command
 - **`/compare [user1] [user2]`** - Compares users stats for the week.
 - **`/nemesis [user1]`** - Shows you the champion you lost to the most in the lane you played the most
-- **`/teamcomp [user1] [user2] [user3] [user4] [user5] [user6] [user7] [user8] [user9] [user10]`** - Generates a random position/champion assignment for a group of players Can define who is on each team or let it randomize it.(amount of users is optional but 2 is the minimum)
+- **`/teamcomp [players] [team_a] [team_b] [randomize_runes]`** - Generates a random position/champion assignment for a group of players Can define who is on each team or let it randomize it.(amount of users is optional but 2 is the minimum)
 - **`/duo [user1] [user2]`** — Win rate/KDA for user games played together
+- **`/whoshouldiplay [optional champion list]`** - Takes your champion winrate data and suggests who you play. Optionally you can add a list of champs youd like to play and have it filtered by those champs
 - **`/syncnow`** — Manually trigger the weekly data sync + post (admin only)
 
 - Every Monday, the bot automatically syncs fresh match/rank data for all registered users and posts the leaderboard (all four stat categories) plus meme stats to the configured channel.
@@ -31,7 +32,11 @@ https://discord.com/oauth2/authorize?client_id=1524695530444427314 is the link t
 - Riot Games API (`account-v1`, `match-v5`, `league-v4`) for live match/rank data
 - Riot Data Dragon CDN for static champion/rune/item data
 - SQLite (`aiosqlite`) for caching registered users, weekly match history, and rank snapshots
+- Supports multiple regions (`NA`, `EUW`, `EUNE`, `KR`, `JP`, `BR`, `LAN`, `LAS`, `OCE`, `TR`, `RU`)
+
 
 ## Known limitations
 
 - Riot development API keys expire every 24 hours and must be manually regenerated at [developer.riotgames.com](https://developer.riotgames.com) — a production key would remove this, but requires Riot's app approval process.
+- Match data growth unbounded.
+- Regional routing accuracy depends on user input since /register requires the user to self-select their region. theres no validation that the region matches their actual Riot account.

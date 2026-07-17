@@ -1,5 +1,6 @@
 #/register: link a Discord account to a Riot ID. 
 # /lastgame: post a detailed recap of a player's most recent match, accepting either a registered @user or a raw riotID#tag.
+# /whoshouldiplay: takes your champion winrate data and suggests who you play. optionally you can add a list of champs youd like to play and have it filtered by those champs
 import discord
 from discord import app_commands
 from discord.ext import commands
@@ -7,6 +8,7 @@ from discord.ext import commands
 from leaguebot.db import register_user, get_registered_user
 from leaguebot.riot_api import get_puuid, get_match_ids, get_match, RiotAPIError, PLATFORM_TO_REGIONAL
 from leaguebot.items import item_name
+from leaguebot.cogs.leaderboard.board import get_champion_recommendations
 
 REGION_CHOICES = [
     app_commands.Choice(name="NA", value="na1"),
@@ -21,6 +23,15 @@ REGION_CHOICES = [
     app_commands.Choice(name="TR", value="tr1"),
     app_commands.Choice(name="RU", value="ru"),
 ]
+
+POSITION_CHOICES = [
+    app_commands.Choice(name="Top", value="TOP"),
+    app_commands.Choice(name="Jungle", value="JUNGLE"),
+    app_commands.Choice(name="Mid", value="MIDDLE"),
+    app_commands.Choice(name="ADC", value="BOTTOM"),
+    app_commands.Choice(name="Support", value="UTILITY"),
+]
+
 
 
 class RecapCog(commands.Cog):
@@ -57,6 +68,35 @@ class RecapCog(commands.Cog):
             regional_route=regional_route, platform_route=platform_route,
         )
         await interaction.followup.send(f"Registered as **{game_name}#{tag_line}** ({region.name}).")
+
+    @app_commands.command(name="whoshouldiplay", description="Get a champion recommendation based on your stats")
+    @app_commands.describe(
+        position="Which position you're about to play",
+        champions="Optional: space-separated champions to choose between, e.g. 'Jhin Corki Zeri'",
+    )
+    @app_commands.choices(position=POSITION_CHOICES)
+    async def whoshouldiplay(
+        self,
+        interaction: discord.Interaction,
+        position: app_commands.Choice[str],
+        champions: str | None = None,
+    ):
+        await interaction.response.defer()
+
+        champion_filter = champions.split() if champions else None
+        recommendations = await get_champion_recommendations(interaction.user.id, position.value, champion_filter)
+
+        if not recommendations:
+            await interaction.followup.send(
+                "Not enough data yet — play a few more games in that position and try again."
+            )
+            return
+
+        lines = [
+            f"**{i+1}.** {r['champion']} — {r['win_rate']*100:.0f}% ({r['games']} games)"
+            for i, r in enumerate(recommendations)
+        ]
+        await interaction.followup.send(f"**Best champions for {position.name}:**\n" + "\n".join(lines))
 
     @app_commands.command(name="lastgame", description="Get a recap of the most recent match")
     @app_commands.describe(
