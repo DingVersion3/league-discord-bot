@@ -35,6 +35,9 @@ MASTER_PLUS_MESSAGE = "just hit {new}!! 🏆"
 
 HIGH_TIERS = ("MASTER", "GRANDMASTER", "CHALLENGER")
 
+MIN_GAMES_FOR_SPIKE = 5
+SPIKE_THRESHOLD = 0.25
+
 def tier_index(tier: str | None) -> int:
     if not tier or tier not in TIER_ORDER:
         return -1
@@ -87,3 +90,35 @@ async def process_result(discord_id: int, won: bool) -> str | None:
     template = random.choice(LOSS_MESSAGES if streak_type == "loss" else WIN_MESSAGES)
     return template.format(streak=current_streak)
 
+def get_spike_message(new_match: dict, previous_matches: list[dict]) -> str | None:
+    if len(previous_matches) < MIN_GAMES_FOR_SPIKE:
+        return None
+
+    new_cs_per_min = new_match["cs"] / max(new_match["duration"] / 60, 1)
+    avg_cs_per_min = sum(m["cs"] / max(m["duration"] / 60, 1) for m in previous_matches) / len(previous_matches)
+
+    new_damage_share = new_match["damage"] / max(new_match["team_damage"], 1)
+    avg_damage_share = sum(m["damage"] / max(m["team_damage"], 1) for m in previous_matches if m["team_damage"] > 0) / max(
+        len([m for m in previous_matches if m["team_damage"] > 0]), 1
+    )
+
+    spikes = []
+
+    if avg_cs_per_min > 0:
+        cs_delta = (new_cs_per_min - avg_cs_per_min) / avg_cs_per_min
+        if cs_delta >= SPIKE_THRESHOLD:
+            spikes.append(f"CS was way up — {new_cs_per_min:.1f}/min vs your usual {avg_cs_per_min:.1f}/min 📈")
+        elif cs_delta <= -SPIKE_THRESHOLD:
+            spikes.append(f"CS took a hit — {new_cs_per_min:.1f}/min vs your usual {avg_cs_per_min:.1f}/min 📉")
+
+    if avg_damage_share > 0:
+        dmg_delta = (new_damage_share - avg_damage_share) / avg_damage_share
+        if dmg_delta >= SPIKE_THRESHOLD:
+            spikes.append(f"Damage share spiked — {new_damage_share*100:.0f}% of team damage vs your usual {avg_damage_share*100:.0f}% 💥")
+        elif dmg_delta <= -SPIKE_THRESHOLD:
+            spikes.append(f"Damage share dropped — {new_damage_share*100:.0f}% of team damage vs your usual {avg_damage_share*100:.0f}% 🫥")
+
+    if not spikes:
+        return None
+
+    return " | ".join(spikes)

@@ -2,10 +2,12 @@
 # independent of leaderboards weekly sync. only pulls each users single 
 # most recent match per tick, attempting to be cheap on the RIOT API rate limit
 
-from leaguebot.db import get_all_registered_users, get_streak, set_last_match_id, get_leaderboard_channel, get_rank as db_get_rank, save_rank
-from leaguebot.riot_api import get_match_ids, get_match, get_rank as riot_get_rank, RiotAPIError
-from . import alerts
 import time
+
+from leaguebot.db import get_all_registered_users, get_streak, set_last_match_id, get_leaderboard_channel,get_rank as db_get_rank, save_rank, get_recent_matches
+from leaguebot.riot_api import get_match_ids, get_match, get_rank as riot_get_rank, RiotAPIError
+from leaguebot.cogs.leaderboard.board import SECONDS_PER_WEEK
+from . import alerts
 
 INTERVAL = 90
 
@@ -33,8 +35,6 @@ async def check_for_new_results(bot) -> None:
         last_seen = streak_row["last_match_id"] if streak_row else None
 
         if last_seen is None:
-            # First time we've seen this user — baseline without alerting,
-            # so we don't retroactively fire on a game played before they registered.
             await set_last_match_id(discord_id, latest_match_id)
             continue
 
@@ -52,7 +52,6 @@ async def check_for_new_results(bot) -> None:
 
         await set_last_match_id(discord_id, latest_match_id)
         alert_msg = await alerts.process_result(discord_id, won)
-
         if alert_msg:
             await post_alert(bot, discord_id, alert_msg)
 
@@ -73,6 +72,22 @@ async def check_for_new_results(bot) -> None:
             )
             if rank_msg:
                 await post_alert(bot, discord_id, rank_msg)
+
+        # check for a stat spike vs. their own recent average
+        since = int(time.time()) - SECONDS_PER_WEEK
+        previous_matches = await get_recent_matches(discord_id, since)
+        new_match_row = {
+            "cs": participant["totalMinionsKilled"] + participant["neutralMinionsKilled"],
+            "duration": match["info"]["gameDuration"],
+            "damage": participant["totalDamageDealtToChampions"],
+            "team_damage": sum(
+                p["totalDamageDealtToChampions"] for p in match["info"]["participants"]
+                if p["teamId"] == participant["teamId"]
+            ),
+        }
+        spike_msg = alerts.get_spike_message(new_match_row, previous_matches)
+        if spike_msg:
+            await post_alert(bot, discord_id, spike_msg)
 
 
 async def post_alert(bot, discord_id: int, message: str) -> None:

@@ -20,6 +20,7 @@ A League of Legends companion bot for Discord — post-game recaps, weekly leade
 
 - Every Monday, the bot automatically syncs fresh match/rank data for all registered users and posts the leaderboard (all four stat categories) plus meme stats to the configured channel.
 - ScuttleBuddy will send alerts for win/loss streaks(in intervals of 5) and when you and/or your friends rank up or rank down(from silver to gold, master to grandmaster)
+- ScuttleBuddy will also send alerts for good/bad games for certain stats(cs, damage etc.), and is based off of the players averages for those stats, not predefined by rank like most companion apps would be
 
 ## In Progress Features
 

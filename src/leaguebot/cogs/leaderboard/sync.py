@@ -50,6 +50,7 @@ async def _sync_all_users() -> dict:
                     p["teamId"] != participant["teamId"] and p["teamPosition"] == participant["teamPosition"]), None,
                 )
                 enemy_champion = enemy["championName"] if enemy else None
+                team_damage = sum(p["totalDamageDealtToChampions"] for p in match["info"]["participants"] if p["teamId"] == participant["teamId"])
                 print(f"[SYNC]   saving match {match_id}")
                 added += await save_match(
                     discord_id=discord_id,
@@ -72,6 +73,7 @@ async def _sync_all_users() -> dict:
                     position=participant["teamPosition"],
                     enemy_champion=enemy_champion,
                     team_id=team_id,
+                    team_damage=team_damage,
                 )
                 print(f"[SYNC]   saved match {match_id}")
 

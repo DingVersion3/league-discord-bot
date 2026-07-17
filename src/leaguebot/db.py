@@ -73,6 +73,8 @@ async def init_db() -> None:
             await db.execute("ALTER TABLE matches ADD COLUMN enemy_champion TEXT DEFAULT ''")
         if "team_id" not in existing_columns:
             await db.execute("ALTER TABLE matches ADD COLUMN team_id INTEGER DEFAULT 0")
+        if "team_damage" not in existing_columns:
+            await db.execute("ALTER TABLE matches ADD COLUMN team_damage INTEGER DEFAULT 0")
         await db.execute("""
             CREATE TABLE IF NOT EXISTS ranks (
                 discord_id INTEGER PRIMARY KEY,
@@ -159,20 +161,20 @@ async def save_match(discord_id: int, puuid: str, match_id: str, champion: str, 
                       kills: int, deaths: int, assists: int, damage: int, played_at: int,
                       duration: int = 0, cs: int = 0, gold: int = 0, doubleKills: int = 0,
                       tripleKills: int = 0, quadraKills: int = 0, pentaKills: int = 0,
-                      position: str = "", enemy_champion: str | None = None, team_id: int = 0) -> bool:
+                      position: str = "", enemy_champion: str | None = None, team_id: int = 0, team_damage: int = 0) -> bool:
     async with _connect() as db:
         cursor = await db.execute(
             """
             INSERT INTO matches
                 (match_id, discord_id, champion, win, kills, deaths, assists, damage, played_at, duration, cs, gold,
-                doubleKills, tripleKills, quadraKills, pentaKills, position, enemy_champion, team_id)
-            SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+                doubleKills, tripleKills, quadraKills, pentaKills, position, enemy_champion, team_id, team_damage)
+            SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
             FROM users
             WHERE discord_id = ? AND puuid = ?
             ON CONFLICT(match_id, discord_id) DO NOTHING
             """,
             (match_id, discord_id, champion, int(win), kills, deaths, assists, damage, played_at, duration, cs, gold,
-             doubleKills, tripleKills, quadraKills, pentaKills, position, enemy_champion, team_id, discord_id, puuid),
+             doubleKills, tripleKills, quadraKills, pentaKills, position, enemy_champion, team_id, team_damage, discord_id, puuid),
         )
         await db.commit()
         return cursor.rowcount == 1
