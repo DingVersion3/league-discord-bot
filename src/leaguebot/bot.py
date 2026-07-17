@@ -28,7 +28,16 @@ async def on_ready():
     synced = await bot.tree.sync()
     print(f"Synced {len(synced)} command(s) globally (may take up to an hour to appear)")
 
+@bot.tree.error
+async def on_app_command_error(interaction: discord.Interaction, error: discord.app_commands.AppCommandError):
+    import traceback
+    print(f"[COMMAND ERROR] /{interaction.command.name if interaction.command else 'unknown'}: {error}")
+    traceback.print_exception(type(error), error, error.__traceback__)
 
+    if interaction.response.is_done():
+        await interaction.followup.send("Something went wrong running that command.", ephemeral=True)
+    else:
+        await interaction.response.send_message("Something went wrong running that command.", ephemeral=True)
 
 async def main():
     await init_db()

@@ -3,6 +3,7 @@
 # Weekly task: syncs fresh data and auto-posts the leaderboard.
 
 import datetime
+import time
 
 import discord
 from discord import app_commands
@@ -10,7 +11,7 @@ from discord.ext import commands, tasks
 
 from leaguebot.db import set_leaderboard_channel, get_leaderboard_channel, get_registered_user
 from leaguebot.cogs.leaderboard.sync import sync_all_users
-from leaguebot.cogs.leaderboard.board import build_leaderboard_embed, build_compare_embed, get_nemesis, get_duo_stats
+from leaguebot.cogs.leaderboard.board import build_leaderboard_embed, build_compare_embed, get_nemesis, get_duo_stats, SECONDS_PER_WEEK
 from leaguebot.cogs.memestats.stats import build_meme_stats_embed
 
 STAT_CHOICES = [
@@ -88,7 +89,8 @@ class LeaderboardCog(commands.Cog):
         await interaction.response.defer()
         target = user or interaction.user
 
-        nemesis = await get_nemesis(target.id)
+        since = int(time.time()) - SECONDS_PER_WEEK
+        nemesis = await get_nemesis(target.id, since)
 
         if not nemesis:
             await interaction.followup.send(f"{target.display_name} has no losses this week — no nemesis found. 🎉 Did you play at all this week? 😡")

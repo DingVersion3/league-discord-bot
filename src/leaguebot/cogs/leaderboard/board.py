@@ -221,34 +221,21 @@ async def build_compare_embed(guild: discord.Guild, user_a: discord.Member, user
         embed.description = f"Neither {label_a} nor {label_b} has played this week."
         return embed
 
-    def _line(value_a, value_b, fmt="{}"):
-        a = fmt.format(value_a) if stats_a else "—"
-        b = fmt.format(value_b) if stats_b else "—"
-        return a, b
+    def _format_stats(stats: dict | None) -> str:
+        if not stats:
+            return "No games played this week."
+        return (
+            f"Games: {stats['games']}\n"
+            f"Wins: {stats['wins']}\n"
+            f"Win Rate: {stats['win_rate']*100:.0f}%\n"
+            f"Avg KDA: {stats['avg_kda']:.2f}\n"
+            f"Double Kills: {stats['double_kills']}\n"
+            f"Triple Kills: {stats['triple_kills']}\n"
+            f"Quadra Kills: {stats['quadra_kills']}\n"
+            f"Penta Kills: {stats['penta_kills']}"
+        )
 
-    # spacer to keep the two-column layout clean
-    embed.add_field(name=label_a, value="\u200b", inline=True)
-    embed.add_field(name=label_b, value="\u200b", inline=True)
-    embed.add_field(name="\u200b", value="\u200b", inline=True)
-
-    fields = [
-        ("Games", "games", "{}"),
-        ("Wins", "wins", "{}"),
-        ("Win Rate", "win_rate", "{:.0%}"),
-        ("Avg KDA", "avg_kda", "{:.2f}"),
-        ("Double Kills", "double_kills", "{}"),
-        ("Triple Kills", "triple_kills", "{}"),
-        ("Quadra Kills", "quadra_kills", "{}"),
-        ("Penta Kills", "penta_kills", "{}"),
-    ]
-
-    for display_name, key, fmt in fields:
-        val_a = stats_a[key] if stats_a else None
-        val_b = stats_b[key] if stats_b else None
-        a_str, b_str = _line(val_a, val_b, fmt)
-        # keep 3-per-row grid aligned
-        embed.add_field(name=display_name, value=a_str, inline=True)
-        embed.add_field(name="\u200b", value=b_str, inline=True)
-        embed.add_field(name="\u200b", value="\u200b", inline=True)  
+    embed.add_field(name=label_a, value=_format_stats(stats_a), inline=True)
+    embed.add_field(name=label_b, value=_format_stats(stats_b), inline=True)
 
     return embed

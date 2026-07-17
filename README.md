@@ -10,7 +10,7 @@ A League of Legends companion bot for Discord — post-game recaps, weekly leade
 - **`/randomchamp`** — Random champion with a fully legal random rune page (correct keystone/row rules) and splash art
 - **`/memestats`** — Weekly superlatives: most deaths, best KDA game, longest game, most damage, most gold, most CS
 - **`/setleaderboardchannel`** — Configure where the weekly leaderboard + meme stats auto-post
-- **`/streaks [user]`** - Checks for win/lose streaks for user inserted/defaults to user who puts in command
+- **`/streak [user]`** - Checks for win/lose streaks for user inserted/defaults to user who puts in command
 - **`/compare [user1] [user2]`** - Compares users stats for the week.
 - **`/nemesis [user1]`** - Shows you the champion you lost to the most in the lane you played the most
 - **`/teamcomp [players] [team_a] [team_b] [randomize_runes]`** - Generates a random position/champion assignment for a group of players Can define who is on each team or let it randomize it.(amount of users is optional but 2 is the minimum)
@@ -20,6 +20,12 @@ A League of Legends companion bot for Discord — post-game recaps, weekly leade
 
 - Every Monday, the bot automatically syncs fresh match/rank data for all registered users and posts the leaderboard (all four stat categories) plus meme stats to the configured channel.
 - ScuttleBuddy will send alerts for win/loss streaks(in intervals of 5) and when you and/or your friends rank up or rank down(from silver to gold, master to grandmaster)
+
+## In Progress Features
+
+- **`Bet/predicition system`** - server members bet on outcomes of games before a players game starts(either manually started by user or automatically started when the game starts via API calls). Bets are made in the currency of Honeyfruit(fake currency that is not tied to anything real, you probably wont be purchasing McDonalds with your Honeyfruit...)
+- **`Postgame spike detector`** - flag when someone had a really good or bad game/stat(KDA, CS/M compared to the role/rank average, etc)
+- **POTENTIAL FEATURE** **`Champion pool suggestions`** based on what's strong into the enemy comp (look into doing algorithmic processing for champ counters via match-v5 API). Doing this is saying im going to basically make a web app but it runs inside discord so im unsure if thats the direction im after with this project or not. If im able to parse from data that is high elo per say and use thoses as baseline counters to things then maybe its a sophisticated enough system to bring a twist to the party. dont commit this message to github or youll ruin your idea(maybe youre a nobody after all :p )
 
 ## Setup
 
