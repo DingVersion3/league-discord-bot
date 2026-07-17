@@ -13,6 +13,7 @@ A League of Legends companion bot for Discord — post-game recaps, weekly leade
 - **`/streaks [user]`** - Checks for win/lose streaks for user inserted/defaults to user who puts in command
 - **`/compare [user1] [user2]`** - Compares users stats for the week.
 - **`/nemesis [user1]`** - Shows you the champion you lost to the most in the lane you played the most
+- **`/teamcomp [user1] [user2] [user3] [user4] [user5] [user6] [user7] [user8] [user9] [user10]`** - Generates a random position/champion assignment for a group of players Can define who is on each team or let it randomize it.(amount of users is optional but 2 is the minimum)
 - **`/syncnow`** — Manually trigger the weekly data sync + post (admin only)
 
 - Every Monday, the bot automatically syncs fresh match/rank data for all registered users and posts the leaderboard (all four stat categories) plus meme stats to the configured channel.
