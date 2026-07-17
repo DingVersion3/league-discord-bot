@@ -10,7 +10,7 @@ from discord.ext import commands, tasks
 
 from leaguebot.db import set_leaderboard_channel, get_leaderboard_channel
 from leaguebot.cogs.leaderboard.sync import sync_all_users
-from leaguebot.cogs.leaderboard.board import build_leaderboard_embed
+from leaguebot.cogs.leaderboard.board import build_leaderboard_embed, build_compare_embed
 from leaguebot.cogs.memestats.stats import build_meme_stats_embed
 
 STAT_CHOICES = [
@@ -73,6 +73,13 @@ class LeaderboardCog(commands.Cog):
     async def leaderboard(self, interaction: discord.Interaction, stat: app_commands.Choice[str]):
         await interaction.response.defer()
         embed = await build_leaderboard_embed(interaction.guild, stat.value)
+        await interaction.followup.send(embed=embed)
+
+    @app_commands.command(name="compare", description="Compare two players' stats for the week")
+    @app_commands.describe(user1="First player", user2="Second player")
+    async def compare(self, interaction: discord.Interaction, user1: discord.Member, user2: discord.Member):
+        await interaction.response.defer()
+        embed = await build_compare_embed(interaction.guild, user1, user2)
         await interaction.followup.send(embed=embed)
 
     @tasks.loop(time=datetime.time(hour=12, minute=0))  # runs daily at 12:00 UTC, checks day inside

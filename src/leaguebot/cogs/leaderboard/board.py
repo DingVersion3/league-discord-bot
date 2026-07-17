@@ -4,7 +4,7 @@ import time
 
 import discord
 
-from leaguebot.db import get_recent_matches, get_rank, get_registered_users_in_guild
+from leaguebot.db import get_recent_matches, get_rank, get_registered_users_in_guild, get_registered_user 
 
 SECONDS_PER_WEEK = 7 * 24 * 60 * 60
 
@@ -138,4 +138,57 @@ async def build_leaderboard_embed(guild: discord.Guild, stat: str) -> discord.Em
         lines = [f"Unknown stat: {stat}"]
 
     embed.description = "\n".join(lines)
+    return embed
+
+async def build_compare_embed(guild: discord.Guild, user_a: discord.Member, user_b: discord.Member) -> discord.Embed:
+    record_a = await get_registered_user(user_a.id)
+    record_b = await get_registered_user(user_b.id)
+
+    embed = discord.Embed(title="⚔️ Head-to-Head — This Week", color=discord.Color.blurple())
+
+    if not record_a or not record_b:
+        missing = user_a.display_name if not record_a else user_b.display_name
+        embed.description = f"{missing} hasn't registered yet — use `/register` first."
+        return embed
+
+    stats_a = await _weekly_stats_for_user(user_a.id)
+    stats_b = await _weekly_stats_for_user(user_b.id)
+
+    label_a = f"{record_a['game_name']}#{record_a['tag_line']}"
+    label_b = f"{record_b['game_name']}#{record_b['tag_line']}"
+
+    if not stats_a and not stats_b:
+        embed.description = f"Neither {label_a} nor {label_b} has played this week."
+        return embed
+
+    def _line(value_a, value_b, fmt="{}"):
+        a = fmt.format(value_a) if stats_a else "—"
+        b = fmt.format(value_b) if stats_b else "—"
+        return a, b
+
+    # spacer to keep the two-column layout clean
+    embed.add_field(name=label_a, value="\u200b", inline=True)
+    embed.add_field(name=label_b, value="\u200b", inline=True)
+    embed.add_field(name="\u200b", value="\u200b", inline=True)
+
+    fields = [
+        ("Games", "games", "{}"),
+        ("Wins", "wins", "{}"),
+        ("Win Rate", "win_rate", "{:.0%}"),
+        ("Avg KDA", "avg_kda", "{:.2f}"),
+        ("Double Kills", "double_kills", "{}"),
+        ("Triple Kills", "triple_kills", "{}"),
+        ("Quadra Kills", "quadra_kills", "{}"),
+        ("Penta Kills", "penta_kills", "{}"),
+    ]
+
+    for display_name, key, fmt in fields:
+        val_a = stats_a[key] if stats_a else None
+        val_b = stats_b[key] if stats_b else None
+        a_str, b_str = _line(val_a, val_b, fmt)
+        # keep 3-per-row grid aligned
+        embed.add_field(name=display_name, value=a_str, inline=True)
+        embed.add_field(name="\u200b", value=b_str, inline=True)
+        embed.add_field(name="\u200b", value="\u200b", inline=True)  
+
     return embed
