@@ -67,6 +67,10 @@ async def init_db() -> None:
             await db.execute("ALTER TABLE matches ADD COLUMN quadraKills INTEGER DEFAULT 0")
         if "pentaKills" not in existing_columns:
             await db.execute("ALTER TABLE matches ADD COLUMN pentaKills INTEGER DEFAULT 0")
+        if "position" not in existing_columns:
+            await db.execute("ALTER TABLE matches ADD COLUMN position TEXT DEFAULT ''")
+        if "enemy_champion" not in existing_columns:
+            await db.execute("ALTER TABLE matches ADD COLUMN enemy_champion TEXT DEFAULT ''")
         await db.execute("""
             CREATE TABLE IF NOT EXISTS ranks (
                 discord_id INTEGER PRIMARY KEY,
@@ -152,20 +156,21 @@ async def get_registered_users_in_guild(guild: discord.Guild) -> list[dict]:
 async def save_match(discord_id: int, puuid: str, match_id: str, champion: str, win: bool,
                       kills: int, deaths: int, assists: int, damage: int, played_at: int,
                       duration: int = 0, cs: int = 0, gold: int = 0, doubleKills: int = 0,
-                      tripleKills: int = 0, quadraKills: int = 0, pentaKills: int = 0) -> bool:
+                      tripleKills: int = 0, quadraKills: int = 0, pentaKills: int = 0,
+                      position: str = "", enemy_champion: str | None = None) -> bool:
     async with _connect() as db:
         cursor = await db.execute(
             """
             INSERT INTO matches
                 (match_id, discord_id, champion, win, kills, deaths, assists, damage, played_at, duration, cs, gold,
-                doubleKills, tripleKills, quadraKills, pentaKills)
-            SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
+                doubleKills, tripleKills, quadraKills, pentaKills, position, enemy_champion)
+            SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
             FROM users
             WHERE discord_id = ? AND puuid = ?
             ON CONFLICT(match_id, discord_id) DO NOTHING
             """,
             (match_id, discord_id, champion, int(win), kills, deaths, assists, damage, played_at, duration, cs, gold,
-             doubleKills, tripleKills, quadraKills, pentaKills, discord_id, puuid),
+             doubleKills, tripleKills, quadraKills, pentaKills, position, enemy_champion, discord_id, puuid),
         )
         await db.commit()
         return cursor.rowcount == 1

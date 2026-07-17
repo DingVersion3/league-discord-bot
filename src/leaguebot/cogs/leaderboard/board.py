@@ -4,6 +4,7 @@ import time
 
 import discord
 
+from collections import defaultdict
 from leaguebot.db import get_recent_matches, get_rank, get_registered_users_in_guild, get_registered_user 
 
 SECONDS_PER_WEEK = 7 * 24 * 60 * 60
@@ -47,6 +48,17 @@ async def _weekly_stats_for_user(discord_id: int) -> dict | None:
         "quadra_kills": total_quadraKills,
         "penta_kills": total_pentaKills,
     }
+# finds the champion you lost to the most for the lane you played
+async def get_nemesis(discord_id: int, since_timestamp: int) -> dict | None:
+    matches = await get_recent_matches(discord_id, since_timestamp)
+    losses_by_enemy = defaultdict(int)
+    for m in matches:
+        if not m["win"] and m["enemy_champion"]:
+            losses_by_enemy[m["enemy_champion"]] += 1
+    if not losses_by_enemy:
+        return None
+    champ, count = max(losses_by_enemy.items(), key=lambda x: x[1])
+    return {"champion": champ, "losses": count}
 
 
 async def build_leaderboard_embed(guild: discord.Guild, stat: str) -> discord.Embed:

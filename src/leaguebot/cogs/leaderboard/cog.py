@@ -10,7 +10,7 @@ from discord.ext import commands, tasks
 
 from leaguebot.db import set_leaderboard_channel, get_leaderboard_channel
 from leaguebot.cogs.leaderboard.sync import sync_all_users
-from leaguebot.cogs.leaderboard.board import build_leaderboard_embed, build_compare_embed
+from leaguebot.cogs.leaderboard.board import build_leaderboard_embed, build_compare_embed, get_nemesis
 from leaguebot.cogs.memestats.stats import build_meme_stats_embed
 
 STAT_CHOICES = [
@@ -81,6 +81,23 @@ class LeaderboardCog(commands.Cog):
         await interaction.response.defer()
         embed = await build_compare_embed(interaction.guild, user1, user2)
         await interaction.followup.send(embed=embed)
+
+    @app_commands.command(name="nemesis", description="See which enemy champion beats you most")
+    @app_commands.describe(user="Whose nemesis to check (defaults to you)")
+    async def nemesis(self, interaction: discord.Interaction, user: discord.Member | None = None):
+        await interaction.response.defer()
+        target = user or interaction.user
+
+        nemesis = await get_nemesis(target.id)
+
+        if not nemesis:
+            await interaction.followup.send(f"{target.display_name} has no losses this week — no nemesis found. 🎉 Did you play at all this week? 😡")
+            return
+
+        await interaction.followup.send(
+            f"{target.display_name}'s nemesis this week: **{nemesis['champion']}** "
+            f"({nemesis['losses']} loss{'es' if nemesis['losses'] != 1 else ''})"
+        )
 
     @tasks.loop(time=datetime.time(hour=12, minute=0))  # runs daily at 12:00 UTC, checks day inside
     async def weekly_sync(self):
