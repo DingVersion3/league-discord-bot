@@ -44,6 +44,7 @@ async def _sync_all_users() -> dict:
                 participant = next(
                     p for p in match["info"]["participants"] if p["puuid"] == puuid
                 )
+                team_id = participant["teamId"]
                 enemy = next(
                     (p for p in match["info"]["participants"] if
                     p["teamId"] != participant["teamId"] and p["teamPosition"] == participant["teamPosition"]), None,
@@ -70,6 +71,7 @@ async def _sync_all_users() -> dict:
                     pentaKills=participant["pentaKills"],
                     position=participant["teamPosition"],
                     enemy_champion=enemy_champion,
+                    team_id=team_id,
                 )
                 print(f"[SYNC]   saved match {match_id}")
 

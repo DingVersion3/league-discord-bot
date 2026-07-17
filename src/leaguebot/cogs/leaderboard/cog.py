@@ -8,9 +8,9 @@ import discord
 from discord import app_commands
 from discord.ext import commands, tasks
 
-from leaguebot.db import set_leaderboard_channel, get_leaderboard_channel
+from leaguebot.db import set_leaderboard_channel, get_leaderboard_channel, get_registered_user
 from leaguebot.cogs.leaderboard.sync import sync_all_users
-from leaguebot.cogs.leaderboard.board import build_leaderboard_embed, build_compare_embed, get_nemesis
+from leaguebot.cogs.leaderboard.board import build_leaderboard_embed, build_compare_embed, get_nemesis, get_duo_stats
 from leaguebot.cogs.memestats.stats import build_meme_stats_embed
 
 STAT_CHOICES = [
@@ -98,6 +98,39 @@ class LeaderboardCog(commands.Cog):
             f"{target.display_name}'s nemesis this week: **{nemesis['champion']}** "
             f"({nemesis['losses']} loss{'es' if nemesis['losses'] != 1 else ''})"
         )
+
+    @app_commands.command(name="duo", description="See win rate and stats when two players queue together")
+    @app_commands.describe(user1="First player", user2="Second player")
+    async def duo(self, interaction: discord.Interaction, user1: discord.Member, user2: discord.Member):
+        await interaction.response.defer()
+
+        record_a = await get_registered_user(user1.id)
+        record_b = await get_registered_user(user2.id)
+
+        if not record_a or not record_b:
+            missing = user1.display_name if not record_a else user2.display_name
+            await interaction.followup.send(f"{missing} hasn't registered yet — use `/register` first.")
+            return
+
+        stats = await get_duo_stats(user1.id, user2.id)
+
+        if not stats:
+            await interaction.followup.send(
+                f"{user1.display_name} and {user2.display_name} haven't played together this week."
+            )
+            return
+
+        embed = discord.Embed(
+            title=f"🤝 Duo Synergy — {user1.display_name} & {user2.display_name}",
+            color=discord.Color.green(),
+        )
+        embed.add_field(name="Games Together", value=str(stats["games"]), inline=True)
+        embed.add_field(name="Wins", value=str(stats["wins"]), inline=True)
+        embed.add_field(name="Win Rate", value=f"{stats['win_rate']*100:.0f}%", inline=True)
+        embed.add_field(name=f"{user1.display_name}'s KDA", value=f"{stats['avg_kda_a']:.2f}", inline=True)
+        embed.add_field(name=f"{user2.display_name}'s KDA", value=f"{stats['avg_kda_b']:.2f}", inline=True)
+
+        await interaction.followup.send(embed=embed)
 
     @tasks.loop(time=datetime.time(hour=12, minute=0))  # runs daily at 12:00 UTC, checks day inside
     async def weekly_sync(self):

@@ -5,7 +5,7 @@ import time
 import discord
 
 from collections import defaultdict
-from leaguebot.db import get_recent_matches, get_rank, get_registered_users_in_guild, get_registered_user 
+from leaguebot.db import get_recent_matches, get_rank, get_registered_users_in_guild, get_registered_user, get_duo_matches 
 
 SECONDS_PER_WEEK = 7 * 24 * 60 * 60
 
@@ -59,6 +59,24 @@ async def get_nemesis(discord_id: int, since_timestamp: int) -> dict | None:
         return None
     champ, count = max(losses_by_enemy.items(), key=lambda x: x[1])
     return {"champion": champ, "losses": count}
+
+async def get_duo_stats(discord_id_a: int, discord_id_b: int) -> dict | None:
+    since = int(time.time()) - SECONDS_PER_WEEK
+    matches = await get_duo_matches(discord_id_a, discord_id_b, since)
+
+    if not matches:
+        return None
+
+    games = len(matches)
+    wins = sum(m["win"] for m in matches)
+
+    return {
+        "games": games,
+        "wins": wins,
+        "win_rate": wins / games,
+        "avg_kda_a": (sum(m["a_kills"] for m in matches) + sum(m["a_assists"] for m in matches)) / max(sum(m["a_deaths"] for m in matches), 1),
+        "avg_kda_b": (sum(m["b_kills"] for m in matches) + sum(m["b_assists"] for m in matches)) / max(sum(m["b_deaths"] for m in matches), 1),
+    }
 
 
 async def build_leaderboard_embed(guild: discord.Guild, stat: str) -> discord.Embed:
