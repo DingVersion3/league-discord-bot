@@ -102,6 +102,31 @@ async def init_db() -> None:
             existing_streak_columns = {row[1] async for row in cursor}
         if "last_match_id" not in existing_streak_columns:
             await db.execute("ALTER TABLE streaks ADD COLUMN last_match_id TEXT")
+
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS wallets (
+                discord_id INTEGER PRIMARY KEY,
+                balance INTEGER DEFAULT 1000
+            )
+        """)
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS bets (
+                bet_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                tracked_discord_id INTEGER NOT NULL,
+                status TEXT DEFAULT 'open',
+                opened_at INTEGER NOT NULL,
+                resolved_at INTEGER
+            )
+        """)
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS wagers (
+                bet_id INTEGER NOT NULL,
+                bettor_discord_id INTEGER NOT NULL,
+                prediction TEXT NOT NULL,
+                amount INTEGER NOT NULL,
+                PRIMARY KEY (bet_id, bettor_discord_id)
+            )
+        """)
         await db.commit()
 
 async def register_user(discord_id: int, game_name: str, tag_line: str, puuid: str, regional_route: str = "americas", platform_route: str = "na1") -> None:
@@ -329,5 +354,119 @@ async def set_last_match_id(discord_id: int, match_id: str) -> None:
             ON CONFLICT(discord_id) DO UPDATE SET last_match_id = excluded.last_match_id
             """,
             (discord_id, match_id),
+        )
+        await db.commit()
+
+async def get_wallet(discord_id: int) -> int:
+    async with _connect() as db:
+        db.row_factory = aiosqlite.Row
+        async with db.execute(
+            "SELECT balance FROM wallets WHERE discord_id = ?", (discord_id,)
+        ) as cursor:
+            row = await cursor.fetchone()
+            if row:
+                return row["balance"]
+
+        await db.execute(
+            "INSERT INTO wallets (discord_id, balance) VALUES (?, 1000)", (discord_id,)
+        )
+        await db.commit()
+        return 1000
+
+
+async def adjust_wallet(discord_id: int, delta: int) -> int:
+    # Applies delta (positive or negative) to a user's balance, creating the wallet if needed. Returns new balance.
+    await get_wallet(discord_id)  # ensures wallet exists
+    async with _connect() as db:
+        await db.execute(
+            "UPDATE wallets SET balance = balance + ? WHERE discord_id = ?",
+            (delta, discord_id),
+        )
+        await db.commit()
+        db.row_factory = aiosqlite.Row
+        async with db.execute(
+            "SELECT balance FROM wallets WHERE discord_id = ?", (discord_id,)
+        ) as cursor:
+            row = await cursor.fetchone()
+            return row["balance"]
+
+
+async def get_open_bet(tracked_discord_id: int) -> dict | None:
+    async with _connect() as db:
+        db.row_factory = aiosqlite.Row
+        async with db.execute(
+            "SELECT * FROM bets WHERE tracked_discord_id = ? AND status = 'open'",
+            (tracked_discord_id,),
+        ) as cursor:
+            row = await cursor.fetchone()
+            return dict(row) if row else None
+
+
+async def create_bet(tracked_discord_id: int, opened_at: int) -> int:
+    async with _connect() as db:
+        cursor = await db.execute(
+            "INSERT INTO bets (tracked_discord_id, status, opened_at) VALUES (?, 'open', ?)",
+            (tracked_discord_id, opened_at),
+        )
+        await db.commit()
+        return cursor.lastrowid
+
+
+async def place_wager(bet_id: int, bettor_discord_id: int, prediction: str, amount: int) -> str | None:
+    # Returns an error message if the wager couldn't be placed, else None on success.
+    await get_wallet(bettor_discord_id)  # ensures wallet exists
+
+    async with _connect() as db:
+        db.row_factory = aiosqlite.Row
+        async with db.execute(
+            "SELECT amount FROM wagers WHERE bet_id = ? AND bettor_discord_id = ?",
+            (bet_id, bettor_discord_id),
+        ) as cursor:
+            existing = await cursor.fetchone()
+
+    # Refund any existing wager on this bet before placing the new one
+    if existing:
+        await adjust_wallet(bettor_discord_id, existing["amount"])
+
+    balance = await get_wallet(bettor_discord_id)
+    if amount > balance:
+        # Put the old wager back if they can't afford the new one
+        if existing:
+            await adjust_wallet(bettor_discord_id, -existing["amount"])
+        return f"You only have {balance} Honeyfruit — can't wager {amount}."
+
+    await adjust_wallet(bettor_discord_id, -amount)
+
+    async with _connect() as db:
+        await db.execute(
+            """
+            INSERT INTO wagers (bet_id, bettor_discord_id, prediction, amount)
+            VALUES (?, ?, ?, ?)
+            ON CONFLICT(bet_id, bettor_discord_id) DO UPDATE SET
+                prediction = excluded.prediction,
+                amount = excluded.amount
+            """,
+            (bet_id, bettor_discord_id, prediction, amount),
+        )
+        await db.commit()
+
+    return None
+
+
+async def get_wagers_for_bet(bet_id: int) -> list[dict]:
+    async with _connect() as db:
+        db.row_factory = aiosqlite.Row
+        async with db.execute(
+            "SELECT * FROM wagers WHERE bet_id = ?", (bet_id,)
+        ) as cursor:
+            rows = await cursor.fetchall()
+            return [dict(row) for row in rows]
+
+
+async def resolve_bet(bet_id: int, resolved_at: int) -> None:
+    async with _connect() as db:
+        await db.execute(
+            "UPDATE bets SET status = 'resolved', resolved_at = ? WHERE bet_id = ?",
+            (resolved_at, bet_id),
         )
         await db.commit()

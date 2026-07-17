@@ -4,9 +4,10 @@
 
 import time
 
-from leaguebot.db import get_all_registered_users, get_streak, set_last_match_id, get_leaderboard_channel,get_rank as db_get_rank, save_rank, get_recent_matches
+from leaguebot.db import get_all_registered_users, get_streak, set_last_match_id, get_leaderboard_channel,get_rank as db_get_rank, save_rank, get_recent_matches, get_open_bet
 from leaguebot.riot_api import get_match_ids, get_match, get_rank as riot_get_rank, RiotAPIError
 from leaguebot.cogs.leaderboard.board import SECONDS_PER_WEEK
+from leaguebot.cogs.betting import betting as betting_logic
 from . import alerts
 
 INTERVAL = 90
@@ -88,6 +89,20 @@ async def check_for_new_results(bot) -> None:
         spike_msg = alerts.get_spike_message(new_match_row, previous_matches)
         if spike_msg:
             await post_alert(bot, discord_id, spike_msg)
+
+        # resolve any open bet on this player's game
+        open_bet = await get_open_bet(discord_id)
+        if open_bet:
+            results = await betting_logic.resolve(open_bet["bet_id"], won)
+            if results:
+                outcome = "won" if won else "lost"
+                lines = [
+                    f"<@{r['discord_id']}> {'won' if r['won'] else 'lost'} {r['amount']} Honeyfruit"
+                    + (f" (+{r['payout']})" if r['won'] else "")
+                    for r in results
+                ]
+                summary = f"🎲 Bet resolved — <@{discord_id}> {outcome} their game!\n" + "\n".join(lines)
+                await post_alert(bot, discord_id, summary)
 
 
 async def post_alert(bot, discord_id: int, message: str) -> None:
