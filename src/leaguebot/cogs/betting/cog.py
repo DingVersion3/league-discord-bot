@@ -2,11 +2,15 @@
 # /bet: place a wager on someone's open bet.
 # /honeyfruit: check your (or someone's) Honeyfruit balance.
 import discord
+import time
 from discord import app_commands
 from discord.ext import commands
 
-from leaguebot.db import get_wallet, get_open_bet, get_leaderboard_channel
+from leaguebot.db import get_wallet, get_open_bet, get_leaderboard_channel, get_last_daily_claim, set_last_daily_claim, adjust_wallet
 from . import betting
+
+DAILY_BONUS = 100
+SECONDS_PER_DAY = 24 * 60 * 60
 
 
 class BettingCog(commands.Cog):
@@ -82,6 +86,27 @@ class BettingCog(commands.Cog):
         target = user or interaction.user
         balance = await get_wallet(target.id)
         await interaction.response.send_message(f"🍯 {target.display_name} has **{balance}** Honeyfruit.")
+
+    @app_commands.command(name="dailybonus", description="Claim your daily Honeyfruit bonus")
+    async def dailybonus(self, interaction: discord.Interaction):
+        last_claim = await get_last_daily_claim(interaction.user.id)
+        now = int(time.time())
+
+        if now - last_claim < SECONDS_PER_DAY:
+            remaining = SECONDS_PER_DAY - (now - last_claim)
+            hours = remaining // 3600
+            minutes = (remaining % 3600) // 60
+            await interaction.response.send_message(
+                f"You already claimed today's bonus - you can find the Shopkeeper hanging out with ScuttleBuddy in {hours}hours and {minutes}minutes.",
+                ephemeral=True,
+            )
+            return
+        
+        new_balance = await adjust_wallet(interaction.user.id, DAILY_BONUS)
+        await set_last_daily_claim(interaction.user.id, now)
+        await interaction.response.send_message(
+            f"🍯 You claimed {DAILY_BONUS} Honeyfruit! New balance: {new_balance}."
+        )
 
 
 async def setup(bot: commands.Bot):

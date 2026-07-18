@@ -5,7 +5,7 @@ import time
 import discord
 
 from collections import defaultdict
-from leaguebot.db import get_recent_matches, get_rank, get_registered_users_in_guild, get_registered_user, get_duo_matches 
+from leaguebot.db import get_recent_matches, get_rank, get_registered_users_in_guild, get_registered_user, get_duo_matches, get_all_wallets 
 
 SECONDS_PER_WEEK = 7 * 24 * 60 * 60
 
@@ -110,6 +110,25 @@ async def get_duo_stats(discord_id_a: int, discord_id_b: int) -> dict | None:
 
 
 async def build_leaderboard_embed(guild: discord.Guild, stat: str) -> discord.Embed:
+    if stat == "honeyfruit":
+        wallets = await get_all_wallets()
+        guild_wallets = [w for w in wallets if guild.get_member(w["discord_id"]) is not None]
+        guild_wallets.sort(key=lambda w: w["balance"], reverse=True)
+        top_wallets = guild_wallets[:5]
+
+        embed = discord.Embed(title="🏆 Leaderboard - Honeyfruit", color=discord.Color.gold())
+
+        if not top_wallets:
+            embed.description = "No one has any Honeyfruit, did we gamble too much or has no one bet yet?"
+            return embed
+        
+        lines = [
+            f"**{i+1}.** <@{w['discord_id']}> - {w['balance']:,} 🍯"
+            for i, w in enumerate(top_wallets)
+        ]
+        embed.description = "\n".join(lines)
+        return embed
+    
     users = await get_registered_users_in_guild(guild)
     rows = []
 

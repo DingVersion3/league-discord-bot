@@ -109,6 +109,10 @@ async def init_db() -> None:
                 balance INTEGER DEFAULT 1000
             )
         """)
+        async with db.execute("PRAGMA table_info(wallets)") as cursor:
+            existing_wallet_columns = {row[1] async for row in cursor}
+        if "last_daily_claim" not in existing_wallet_columns:
+            await db.execute("ALTER TABLE wallets ADD COLUMN last_daily_claim INTEGER DEFAULT 0")
         await db.execute("""
             CREATE TABLE IF NOT EXISTS bets (
                 bet_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -372,6 +376,13 @@ async def get_wallet(discord_id: int) -> int:
         )
         await db.commit()
         return 1000
+    
+async def get_all_wallets() -> list[dict]:
+    async with _connect() as db:
+        db.row_factory = aiosqlite.Row
+        async with db.execute("SELECT * FROM wallets") as cursor:
+            rows = await cursor.fetchall()
+            return [dict(row) for row in rows]
 
 
 async def adjust_wallet(discord_id: int, delta: int) -> int:
@@ -389,6 +400,24 @@ async def adjust_wallet(discord_id: int, delta: int) -> int:
         ) as cursor:
             row = await cursor.fetchone()
             return row["balance"]
+        
+async def get_last_daily_claim(discord_id: int) -> int:
+    await get_wallet(discord_id)
+    async with _connect() as db:
+        db.row_factory = aiosqlite.Row
+        async with db.execute(
+            "SELECT last_daily_claim FROM wallets WHERE discord_id = ?", (discord_id,)
+        ) as cursor:
+            row = await cursor.fetchone()
+            return row["last_daily_claim"] if row else 0
+        
+async def set_last_daily_claim(discord_id: int, timestamp: int) -> None:
+    async with _connect() as db:
+        await db.execute(
+            "UPDATE wallets SET last_daily_claim = ? WHERE discord_id = ?",
+            (timestamp, discord_id),
+        )
+        await db.commit()
 
 
 async def get_open_bet(tracked_discord_id: int) -> dict | None:

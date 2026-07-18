@@ -6,7 +6,7 @@ A League of Legends companion bot for Discord — post-game recaps, weekly leade
 
 - **`/register`** — Link your Discord account to your Riot ID and select your region
 - **`/lastgame [user] [riot_id]`** — Detailed recap of the most recent match: KDA, CS, gold, damage, full item build, and role quest item (e.g. lane-quest boots). Works for any registered server member or a raw Riot ID.
-- **`/leaderboard [stat]`** — Server leaderboard ranked by win rate, average KDA, total wins, or current Solo Queue rank
+- **`/leaderboard [stat]`** — Server leaderboard ranked by win rate, average KDA, total wins, current Solo Queue rank, double, triple, quadra, pentakills and Honeyfruit
 - **`/randomchamp`** — Random champion with a fully legal random rune page (correct keystone/row rules) and splash art
 - **`/memestats`** — Weekly superlatives: most deaths, best KDA game, longest game, most damage, most gold, most CS
 - **`/setleaderboardchannel`** — Configure where the weekly leaderboard + meme stats auto-post
@@ -19,6 +19,7 @@ A League of Legends companion bot for Discord — post-game recaps, weekly leade
 - **`/openbet`** — Open betting on your own next game (Honeyfruit, a fake in-server currency)
 - **`/bet [player] [prediction] [amount]`** — Wager Honeyfruit on whether a player's open bet will resolve as a win or loss
 - **`/honeyfruit [user]`** — Check your (or someone else's) Honeyfruit balance
+- **`/dailybonus`** - Collect 100 Honeyfruit every 24 hours
 - **`/syncnow`** — Manually trigger the weekly data sync + post (admin only)
 
 - Every Monday, the bot automatically syncs fresh match/rank data for all registered users and posts the leaderboard (all four stat categories) plus meme stats to the configured channel.

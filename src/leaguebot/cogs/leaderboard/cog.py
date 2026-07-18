@@ -23,6 +23,7 @@ STAT_CHOICES = [
     app_commands.Choice(name="Triple Kills", value="triple_kills"),
     app_commands.Choice(name="Quadra Kills", value="quadra_kills"),
     app_commands.Choice(name="Penta Kills", value="penta_kills"),
+    app_commands.Choice(name="Honeyfruit", value="honeyfruit"),
 ]
 
 
