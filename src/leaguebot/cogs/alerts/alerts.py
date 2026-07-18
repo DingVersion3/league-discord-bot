@@ -93,23 +93,26 @@ async def process_result(discord_id: int, won: bool) -> str | None:
 def get_spike_message(new_match: dict, previous_matches: list[dict]) -> str | None:
     if len(previous_matches) < MIN_GAMES_FOR_SPIKE:
         return None
+    
+    spikes = []
+    is_support = new_match.get("position") == "UTILITY"
 
-    new_cs_per_min = new_match["cs"] / max(new_match["duration"] / 60, 1)
-    avg_cs_per_min = sum(m["cs"] / max(m["duration"] / 60, 1) for m in previous_matches) / len(previous_matches)
+    if not is_support:
+        new_cs_per_min = new_match["cs"] / max(new_match["duration"] / 60, 1)
+        avg_cs_per_min = sum(m["cs"] / max(m["duration"] / 60, 1) for m in previous_matches) / len(previous_matches)
+
+        if avg_cs_per_min > 0:
+            cs_delta = (new_cs_per_min - avg_cs_per_min) / avg_cs_per_min
+            if cs_delta >= SPIKE_THRESHOLD:
+                spikes.append(f"CS was way up — {new_cs_per_min:.1f}/min vs your usual {avg_cs_per_min:.1f}/min 📈")
+            elif cs_delta <= -SPIKE_THRESHOLD:
+                spikes.append(f"CS took a hit — {new_cs_per_min:.1f}/min vs your usual {avg_cs_per_min:.1f}/min 📉")
 
     new_damage_share = new_match["damage"] / max(new_match["team_damage"], 1)
     avg_damage_share = sum(m["damage"] / max(m["team_damage"], 1) for m in previous_matches if m["team_damage"] > 0) / max(
         len([m for m in previous_matches if m["team_damage"] > 0]), 1
     )
 
-    spikes = []
-
-    if avg_cs_per_min > 0:
-        cs_delta = (new_cs_per_min - avg_cs_per_min) / avg_cs_per_min
-        if cs_delta >= SPIKE_THRESHOLD:
-            spikes.append(f"CS was way up — {new_cs_per_min:.1f}/min vs your usual {avg_cs_per_min:.1f}/min 📈")
-        elif cs_delta <= -SPIKE_THRESHOLD:
-            spikes.append(f"CS took a hit — {new_cs_per_min:.1f}/min vs your usual {avg_cs_per_min:.1f}/min 📉")
 
     if avg_damage_share > 0:
         dmg_delta = (new_damage_share - avg_damage_share) / avg_damage_share

@@ -85,6 +85,7 @@ async def check_for_new_results(bot) -> None:
                 p["totalDamageDealtToChampions"] for p in match["info"]["participants"]
                 if p["teamId"] == participant["teamId"]
             ),
+            "position": participant["teamPosition"],
         }
         spike_msg = alerts.get_spike_message(new_match_row, previous_matches)
         if spike_msg:

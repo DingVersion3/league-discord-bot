@@ -27,6 +27,9 @@ async def on_ready():
     # This bypasses the guild lock and forces a global sync
     synced = await bot.tree.sync()
     print(f"Synced {len(synced)} command(s) globally (may take up to an hour to appear)")
+    # left for debugging when adding new commands, comment out when not debugging
+    # global_cmds = await bot.tree.fetch_commands()
+    # print(f"Global: {[c.name for c in global_cmds]}")
 
 @bot.tree.error
 async def on_app_command_error(interaction: discord.Interaction, error: discord.app_commands.AppCommandError):
