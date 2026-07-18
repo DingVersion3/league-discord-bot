@@ -111,12 +111,27 @@ async def init_db() -> None:
         """)
         async with db.execute("PRAGMA table_info(wallets)") as cursor:
             existing_wallet_columns = {row[1] async for row in cursor}
-        if "last_daily_claim" not in existing_wallet_columns:
-            await db.execute("ALTER TABLE wallets ADD COLUMN last_daily_claim INTEGER DEFAULT 0")
+        if existing_wallet_columns and "guild_id" not in existing_wallet_columns:
+            await db.execute("ALTER TABLE wallets RENAME TO wallets_legacy")
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS wallets (
+                discord_id INTEGER NOT NULL,
+                guild_id INTEGER NOT NULL,
+                balance INTEGER DEFAULT 1000,
+                last_daily_claim INTEGER DEFAULT 0,
+                PRIMARY KEY (discord_id, guild_id)
+            )
+        """)
+
+        async with db.execute("PRAGMA table_info(bets)") as cursor:
+            existing_bet_columns = {row[1] async for row in cursor}
+        if existing_bet_columns and "guild_id" not in existing_bet_columns:
+            await db.execute("ALTER TABLE bets RENAME TO bets_legacy")
         await db.execute("""
             CREATE TABLE IF NOT EXISTS bets (
                 bet_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 tracked_discord_id INTEGER NOT NULL,
+                guild_id INTEGER NOT NULL,
                 status TEXT DEFAULT 'open',
                 opened_at INTEGER NOT NULL,
                 resolved_at INTEGER
@@ -360,90 +375,94 @@ async def set_last_match_id(discord_id: int, match_id: str) -> None:
             (discord_id, match_id),
         )
         await db.commit()
-
-async def get_wallet(discord_id: int) -> int:
+    
+async def get_wallet(discord_id: int, guild_id: int) -> int:
     async with _connect() as db:
         db.row_factory = aiosqlite.Row
         async with db.execute(
-            "SELECT balance FROM wallets WHERE discord_id = ?", (discord_id,)
+            "SELECT balance FROM wallets WHERE discord_id = ? AND guild_id = ?",
+            (discord_id, guild_id),
         ) as cursor:
             row = await cursor.fetchone()
             if row:
                 return row["balance"]
 
         await db.execute(
-            "INSERT INTO wallets (discord_id, balance) VALUES (?, 1000)", (discord_id,)
+            "INSERT INTO wallets (discord_id, guild_id, balance) VALUES (?, ?, 1000)",
+            (discord_id, guild_id),
         )
         await db.commit()
         return 1000
-    
-async def get_all_wallets() -> list[dict]:
+
+async def get_all_wallets(guild_id: int) -> list[dict]:
     async with _connect() as db:
         db.row_factory = aiosqlite.Row
-        async with db.execute("SELECT * FROM wallets") as cursor:
+        async with db.execute(
+            "SELECT * FROM wallets WHERE guild_id = ?", (guild_id,)
+        ) as cursor:
             rows = await cursor.fetchall()
             return [dict(row) for row in rows]
 
 
-async def adjust_wallet(discord_id: int, delta: int) -> int:
-    # Applies delta (positive or negative) to a user's balance, creating the wallet if needed. Returns new balance.
-    await get_wallet(discord_id)  # ensures wallet exists
+async def adjust_wallet(discord_id: int, guild_id: int, delta: int) -> int:
+    await get_wallet(discord_id, guild_id)
     async with _connect() as db:
         await db.execute(
-            "UPDATE wallets SET balance = balance + ? WHERE discord_id = ?",
-            (delta, discord_id),
+            "UPDATE wallets SET balance = balance + ? WHERE discord_id = ? AND guild_id = ?",
+            (delta, discord_id, guild_id),
         )
         await db.commit()
         db.row_factory = aiosqlite.Row
         async with db.execute(
-            "SELECT balance FROM wallets WHERE discord_id = ?", (discord_id,)
+            "SELECT balance FROM wallets WHERE discord_id = ? AND guild_id = ?",
+            (discord_id, guild_id),
         ) as cursor:
             row = await cursor.fetchone()
             return row["balance"]
-        
-async def get_last_daily_claim(discord_id: int) -> int:
-    await get_wallet(discord_id)
+
+async def get_last_daily_claim(discord_id: int, guild_id: int) -> int:
+    await get_wallet(discord_id, guild_id)
     async with _connect() as db:
         db.row_factory = aiosqlite.Row
         async with db.execute(
-            "SELECT last_daily_claim FROM wallets WHERE discord_id = ?", (discord_id,)
+            "SELECT last_daily_claim FROM wallets WHERE discord_id = ? AND guild_id = ?",
+            (discord_id, guild_id),
         ) as cursor:
             row = await cursor.fetchone()
             return row["last_daily_claim"] if row else 0
-        
-async def set_last_daily_claim(discord_id: int, timestamp: int) -> None:
+
+async def set_last_daily_claim(discord_id: int, guild_id: int, timestamp: int) -> None:
     async with _connect() as db:
         await db.execute(
-            "UPDATE wallets SET last_daily_claim = ? WHERE discord_id = ?",
-            (timestamp, discord_id),
+            "UPDATE wallets SET last_daily_claim = ? WHERE discord_id = ? AND guild_id = ?",
+            (timestamp, discord_id, guild_id),
         )
         await db.commit()
 
 
-async def get_open_bet(tracked_discord_id: int) -> dict | None:
+async def get_open_bet(tracked_discord_id: int, guild_id: int) -> dict | None:
     async with _connect() as db:
         db.row_factory = aiosqlite.Row
         async with db.execute(
-            "SELECT * FROM bets WHERE tracked_discord_id = ? AND status = 'open'",
-            (tracked_discord_id,),
+            "SELECT * FROM bets WHERE tracked_discord_id = ? AND guild_id = ? AND status = 'open'",
+            (tracked_discord_id, guild_id),
         ) as cursor:
             row = await cursor.fetchone()
             return dict(row) if row else None
 
 
-async def create_bet(tracked_discord_id: int, opened_at: int) -> int:
+async def create_bet(tracked_discord_id: int, guild_id: int, opened_at: int) -> int:
     async with _connect() as db:
         cursor = await db.execute(
-            "INSERT INTO bets (tracked_discord_id, status, opened_at) VALUES (?, 'open', ?)",
-            (tracked_discord_id, opened_at),
+            "INSERT INTO bets (tracked_discord_id, guild_id, status, opened_at) VALUES (?, ?, 'open', ?)",
+            (tracked_discord_id, guild_id, opened_at),
         )
         await db.commit()
         return cursor.lastrowid
 
 
-async def place_wager(bet_id: int, bettor_discord_id: int, prediction: str, amount: int) -> str | None:
-    # Returns an error message if the wager couldn't be placed, else None on success.
-    await get_wallet(bettor_discord_id)  # ensures wallet exists
+async def place_wager(bet_id: int, bettor_discord_id: int, guild_id: int, prediction: str, amount: int) -> str | None:
+    await get_wallet(bettor_discord_id, guild_id)
 
     async with _connect() as db:
         db.row_factory = aiosqlite.Row
@@ -453,18 +472,16 @@ async def place_wager(bet_id: int, bettor_discord_id: int, prediction: str, amou
         ) as cursor:
             existing = await cursor.fetchone()
 
-    # Refund any existing wager on this bet before placing the new one
     if existing:
-        await adjust_wallet(bettor_discord_id, existing["amount"])
+        await adjust_wallet(bettor_discord_id, guild_id, existing["amount"])
 
-    balance = await get_wallet(bettor_discord_id)
+    balance = await get_wallet(bettor_discord_id, guild_id)
     if amount > balance:
-        # Put the old wager back if they can't afford the new one
         if existing:
-            await adjust_wallet(bettor_discord_id, -existing["amount"])
+            await adjust_wallet(bettor_discord_id, guild_id, -existing["amount"])
         return f"You only have {balance} Honeyfruit — can't wager {amount}."
 
-    await adjust_wallet(bettor_discord_id, -amount)
+    await adjust_wallet(bettor_discord_id, guild_id, -amount)
 
     async with _connect() as db:
         await db.execute(
@@ -498,4 +515,37 @@ async def resolve_bet(bet_id: int, resolved_at: int) -> None:
             "UPDATE bets SET status = 'resolved', resolved_at = ? WHERE bet_id = ?",
             (resolved_at, bet_id),
         )
+        await db.commit()
+
+
+async def migrate_legacy_wallets(guild_member_ids: dict[int, list[int]]) -> None:
+    # guild_member_ids: {guild_id: [discord_id, discord_id, ...]} for every guild the bot is in.
+    # For each legacy (pre-guild-scoping) wallet, credit the balance into every
+    # server that user is currently a member of. Runs once; drops the legacy
+    # table when done so it's a no-op on future startups.
+    async with _connect() as db:
+        async with db.execute(
+            "SELECT name FROM sqlite_master WHERE type='table' AND name='wallets_legacy'"
+        ) as cursor:
+            if not await cursor.fetchone():
+                return
+
+        db.row_factory = aiosqlite.Row
+        async with db.execute("SELECT * FROM wallets_legacy") as cursor:
+            legacy_wallets = [dict(row) async for row in cursor]
+
+        for wallet in legacy_wallets:
+            discord_id = wallet["discord_id"]
+            for guild_id, member_ids in guild_member_ids.items():
+                if discord_id in member_ids:
+                    await db.execute(
+                        """
+                        INSERT INTO wallets (discord_id, guild_id, balance, last_daily_claim)
+                        VALUES (?, ?, ?, ?)
+                        ON CONFLICT(discord_id, guild_id) DO NOTHING
+                        """,
+                        (discord_id, guild_id, wallet["balance"], wallet.get("last_daily_claim", 0)),
+                    )
+
+        await db.execute("DROP TABLE wallets_legacy")
         await db.commit()

@@ -37,7 +37,7 @@ class BettingCog(commands.Cog):
             )
             return
 
-        bet_id, error = await betting.open_bet(interaction.user.id)
+        bet_id, error = await betting.open_bet(interaction.user.id, interaction.guild_id)
 
         if error:
             await interaction.response.send_message(error, ephemeral=True)
@@ -70,7 +70,7 @@ class BettingCog(commands.Cog):
         prediction: app_commands.Choice[str],
         amount: int,
     ):
-        open_bet = await get_open_bet(player.id)
+        open_bet = await get_open_bet(player.id, interaction.guild_id)
         if not open_bet:
             await interaction.response.send_message(
                 f"{player.display_name} doesn't have an open bet right now.", ephemeral=True
@@ -78,7 +78,7 @@ class BettingCog(commands.Cog):
             return
 
         error = await betting.place_bet(
-            open_bet["bet_id"], interaction.user.id, player.id, prediction.value, amount
+            open_bet["bet_id"], interaction.user.id, player.id, interaction.guild_id, prediction.value, amount
         )
 
         if error:
@@ -93,12 +93,12 @@ class BettingCog(commands.Cog):
     @app_commands.describe(user="Whose balance to check (defaults to you)")
     async def honeyfruit(self, interaction: discord.Interaction, user: discord.Member | None = None):
         target = user or interaction.user
-        balance = await get_wallet(target.id)
+        balance = await get_wallet(target.id, interaction.guild_id)
         await interaction.response.send_message(f"🍯 {target.display_name} has **{balance}** Honeyfruit.")
 
     @app_commands.command(name="dailybonus", description="Claim your daily Honeyfruit bonus")
     async def dailybonus(self, interaction: discord.Interaction):
-        last_claim = await get_last_daily_claim(interaction.user.id)
+        last_claim = await get_last_daily_claim(interaction.user.id, interaction.guild_id)
         now = int(time.time())
 
         if now - last_claim < SECONDS_PER_DAY:
@@ -111,8 +111,8 @@ class BettingCog(commands.Cog):
             )
             return
         
-        new_balance = await adjust_wallet(interaction.user.id, DAILY_BONUS)
-        await set_last_daily_claim(interaction.user.id, now)
+        new_balance = await adjust_wallet(interaction.user.id, interaction.guild_id, DAILY_BONUS)
+        await set_last_daily_claim(interaction.user.id, interaction.guild_id, now)
         await interaction.response.send_message(
             f"🍯 You claimed {DAILY_BONUS} Honeyfruit! New balance: {new_balance}."
         )

@@ -111,8 +111,7 @@ async def get_duo_stats(discord_id_a: int, discord_id_b: int) -> dict | None:
 
 async def build_leaderboard_embed(guild: discord.Guild, stat: str) -> discord.Embed:
     if stat == "honeyfruit":
-        wallets = await get_all_wallets()
-        guild_wallets = [w for w in wallets if guild.get_member(w["discord_id"]) is not None]
+        guild_wallets = await get_all_wallets(guild.id)
         guild_wallets.sort(key=lambda w: w["balance"], reverse=True)
         top_wallets = guild_wallets[:5]
 

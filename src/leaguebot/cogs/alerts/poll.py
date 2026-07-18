@@ -91,10 +91,15 @@ async def check_for_new_results(bot) -> None:
         if spike_msg:
             await post_alert(bot, discord_id, spike_msg)
 
-        # resolve any open bet on this player's game
-        open_bet = await get_open_bet(discord_id)
-        if open_bet:
-            results = await betting_logic.resolve(open_bet["bet_id"], won)
+        # resolve any open bets on this player's game, across every guild they're in
+        # (bets are guild-scoped, so a player could have a separate open bet per server)
+        for guild in bot.guilds:
+            if guild.get_member(discord_id) is None:
+                continue
+            open_bet = await get_open_bet(discord_id, guild.id)
+            if not open_bet:
+                continue
+            results = await betting_logic.resolve(open_bet["bet_id"], guild.id, won)
             if results:
                 outcome = "won" if won else "lost"
                 lines = [

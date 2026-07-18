@@ -5,7 +5,7 @@ import os
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
-from leaguebot.db import init_db
+from leaguebot.db import init_db, migrate_legacy_wallets
 
 load_dotenv()
 
@@ -24,12 +24,20 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 async def on_ready():
     print(f"Logged in as {bot.user} (id: {bot.user.id})")
 
-    # This bypasses the guild lock and forces a global sync
+    # One-time migration: credits any pre-guild-scoping wallet balances into
+    # every server the owner is currently a member of. No-ops once the legacy
+    # table is gone.
+    guild_member_ids = {
+        guild.id: [member.id for member in guild.members] for guild in bot.guilds
+    }
+    await migrate_legacy_wallets(guild_member_ids)
+
     synced = await bot.tree.sync()
     print(f"Synced {len(synced)} command(s) globally (may take up to an hour to appear)")
-    # left for debugging when adding new commands, comment out when not debugging
+    # only uncomment this out for debugging
     # global_cmds = await bot.tree.fetch_commands()
     # print(f"Global: {[c.name for c in global_cmds]}")
+
 
 @bot.tree.error
 async def on_app_command_error(interaction: discord.Interaction, error: discord.app_commands.AppCommandError):
@@ -41,6 +49,7 @@ async def on_app_command_error(interaction: discord.Interaction, error: discord.
         await interaction.followup.send("Something went wrong running that command.", ephemeral=True)
     else:
         await interaction.response.send_message("Something went wrong running that command.", ephemeral=True)
+
 
 async def main():
     await init_db()
