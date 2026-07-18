@@ -19,6 +19,24 @@ class BettingCog(commands.Cog):
 
     @app_commands.command(name="openbet", description="Open betting on your own next game")
     async def openbet(self, interaction: discord.Interaction):
+        channel_id = await get_leaderboard_channel(interaction.guild_id)
+        if not channel_id:
+            await interaction.response.send_message(
+                "No leaderboard channel is set for this server yet — an admin needs to run "
+                "`/setleaderboardchannel` before betting can be used.",
+                ephemeral=True,
+            )
+            return
+
+        channel = interaction.guild.get_channel(channel_id)
+        if not channel:
+            await interaction.response.send_message(
+                "The configured leaderboard channel no longer exists — an admin needs to run "
+                "`/setleaderboardchannel` again.",
+                ephemeral=True,
+            )
+            return
+
         bet_id, error = await betting.open_bet(interaction.user.id)
 
         if error:
@@ -26,23 +44,14 @@ class BettingCog(commands.Cog):
             return
 
         await interaction.response.send_message(
+            f"🎲 Betting on **{interaction.user.display_name}**'s next game has been posted to the leaderboard channel!",
+            ephemeral=True,
+        )
+
+        await channel.send(
             f"🎲 Betting is open on **{interaction.user.display_name}**'s next game! "
             f"Use `/bet` to wager Honeyfruit on Win or Loss."
         )
-
-        # Also post to the leaderboard channel(s) so people not watching this channel see it
-        for guild in self.bot.guilds:
-            if guild.get_member(interaction.user.id) is None:
-                continue
-            channel_id = await get_leaderboard_channel(guild.id)
-            if not channel_id:
-                continue
-            channel = guild.get_channel(channel_id)
-            if channel and channel.id != interaction.channel_id:
-                await channel.send(
-                    f"🎲 Betting is open on **{interaction.user.display_name}**'s next game! "
-                    f"Use `/bet` to wager Honeyfruit on Win or Loss."
-                )
 
     @app_commands.command(name="bet", description="Bet Honeyfruit on someone's open game")
     @app_commands.describe(
