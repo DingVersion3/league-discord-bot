@@ -96,8 +96,9 @@ def get_spike_message(new_match: dict, previous_matches: list[dict]) -> str | No
     
     spikes = []
     is_support = new_match.get("position") == "UTILITY"
+    is_classic = new_match.get("game_mode") == "CLASSIC"
 
-    if not is_support:
+    if not is_support and is_classic:
         new_cs_per_min = new_match["cs"] / max(new_match["duration"] / 60, 1)
         avg_cs_per_min = sum(m["cs"] / max(m["duration"] / 60, 1) for m in previous_matches) / len(previous_matches)
 
