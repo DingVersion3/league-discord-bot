@@ -60,6 +60,7 @@ async def main():
         await bot.load_extension("leaguebot.cogs.memestats.cog")
         await bot.load_extension("leaguebot.cogs.alerts.cog")
         await bot.load_extension("leaguebot.cogs.betting.cog")
+        await bot.load_extension("leaguebot.cogs.core.cog")
         await bot.start(TOKEN)
 
 
