@@ -141,10 +141,19 @@ class RecapCog(commands.Cog):
 
         try:
             match_ids = await get_match_ids(puuid, regional_route=regional_route, count=1)
-            match = await get_match(match_ids[0], regional_route=regional_route)
         except RiotAPIError as e:
             await interaction.followup.send(f"Riot API error: {e.message}")
             return
+        
+        if not match_ids:
+            await interaction.followup.send(f"{game_name}#{tag_line} has no match history")
+            return
+        
+        try:
+            match = await get_match(match_ids[0], regional_route=regional_route)
+        except RiotAPIError as e:
+            await interaction.followup.send(f"Riot API Error: {e.message}")
+            return 
 
         participant = next(p for p in match["info"]["participants"] if p["puuid"] == puuid)
 
