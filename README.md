@@ -20,6 +20,7 @@ A League of Legends companion bot for Discord — post-game recaps, weekly leade
 - **`/bet [player] [prediction] [amount]`** — Wager Honeyfruit on whether a player's open bet will resolve as a win or loss
 - **`/honeyfruit [user]`** — Check your (or someone else's) Honeyfruit balance
 - **`/dailybonus`** - Collect 100 Honeyfruit every 24 hours
+- **`/profile`** - Shows you a players profile card
 - **`/help`** - Lists every ScuttleBuddy command, grouped by category
 - **`/syncnow`** — Manually trigger the weekly data sync + post (admin only)
 
