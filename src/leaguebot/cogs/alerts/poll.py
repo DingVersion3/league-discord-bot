@@ -9,6 +9,7 @@ from leaguebot.riot_api import get_match_ids, get_match, get_rank as riot_get_ra
 from leaguebot.constants import INTERVAL, MIN_GAME_DURATION_SECONDS, SECONDS_PER_WEEK
 from leaguebot.cogs.betting import betting as betting_logic
 from . import alerts
+from . import milestones
 
 
 async def check_for_new_results(bot) -> None:
@@ -52,6 +53,15 @@ async def check_for_new_results(bot) -> None:
 
         participant = next(p for p in match["info"]["participants"] if p["puuid"] == puuid)
         won = participant["win"]
+
+        # check for a round-number milestone (games/wins/losses tracked)
+        all_matches = await get_recent_matches(discord_id, 0)  # 0 = all-time
+        total_games = len(all_matches) + 1 # +1 for the game just detected
+        total_wins = sum(1 for m in all_matches if m["win"]) + (1 if won else 0)
+        total_losses = total_games - total_wins
+        milestone_msg = milestones.get_milestone_message(total_games, total_wins, total_losses)
+        if milestone_msg:
+            await post_alert(bot, discord_id, milestone_msg)
 
         await set_last_match_id(discord_id, latest_match_id)
         alert_msg = await alerts.process_result(discord_id, won)
