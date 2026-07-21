@@ -1,8 +1,6 @@
 import random
 from leaguebot.db import update_streak, get_streak, set_last_alert_streak
-from leaguebot.cogs.leaderboard.board import TIER_ORDER
-
-STREAK_THRESHOLD = 5
+from leaguebot.constants import TIER_ORDER, STREAK_THRESHOLD, MIN_GAMES_FOR_SPIKE, SPIKE_THRESHOLD, HIGH_TIERS
 
 LOSS_MESSAGES = [
     "Maybe you should quit while you're ahead...",
@@ -32,11 +30,6 @@ RANK_DOWN_MESSAGES = [
 ]
 
 MASTER_PLUS_MESSAGE = "just hit {new}!! 🏆"
-
-HIGH_TIERS = ("MASTER", "GRANDMASTER", "CHALLENGER")
-
-MIN_GAMES_FOR_SPIKE = 5
-SPIKE_THRESHOLD = 0.25
 
 def tier_index(tier: str | None) -> int:
     if not tier or tier not in TIER_ORDER:

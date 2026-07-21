@@ -6,14 +6,7 @@ import discord
 
 from collections import defaultdict
 from leaguebot.db import get_recent_matches, get_rank, get_registered_users_in_guild, get_registered_user, get_duo_matches, get_all_wallets 
-
-SECONDS_PER_WEEK = 7 * 24 * 60 * 60
-
-TIER_ORDER = [
-    "IRON", "BRONZE", "SILVER", "GOLD", "PLATINUM",
-    "EMERALD", "DIAMOND", "MASTER", "GRANDMASTER", "CHALLENGER",
-]
-DIVISION_ORDER = {"IV": 0, "III": 1, "II": 2, "I": 3}
+from leaguebot.constants import SECONDS_PER_WEEK, TIER_ORDER, DIVISION_ORDER
 
 
 def _rank_sort_key(rank: dict) -> tuple:

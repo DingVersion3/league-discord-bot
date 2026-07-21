@@ -54,6 +54,7 @@ async def on_app_command_error(interaction: discord.Interaction, error: discord.
 async def main():
     await init_db()
     async with bot:
+        await bot.load_extension("leaguebot.cogs.admin.cog")
         await bot.load_extension("leaguebot.cogs.randomchamp.cog")
         await bot.load_extension("leaguebot.cogs.recap.cog")
         await bot.load_extension("leaguebot.cogs.leaderboard.cog")

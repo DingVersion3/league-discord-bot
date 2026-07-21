@@ -6,12 +6,9 @@ import time
 
 from leaguebot.db import get_all_registered_users, get_streak, set_last_match_id, get_leaderboard_channel,get_rank as db_get_rank, save_rank, get_recent_matches, get_open_bet
 from leaguebot.riot_api import get_match_ids, get_match, get_rank as riot_get_rank, RiotAPIError
-from leaguebot.cogs.leaderboard.board import SECONDS_PER_WEEK
+from leaguebot.constants import INTERVAL, MIN_GAME_DURATION_SECONDS, SECONDS_PER_WEEK
 from leaguebot.cogs.betting import betting as betting_logic
 from . import alerts
-
-INTERVAL = 90
-MIN_GAME_DURATION_SECONDS = 15 * 60
 
 
 async def check_for_new_results(bot) -> None:

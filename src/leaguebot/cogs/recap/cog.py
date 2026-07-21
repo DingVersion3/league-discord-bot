@@ -6,7 +6,8 @@ from discord import app_commands
 from discord.ext import commands
 
 from leaguebot.db import register_user, get_registered_user
-from leaguebot.riot_api import get_puuid, get_match_ids, get_match, RiotAPIError, PLATFORM_TO_REGIONAL
+from leaguebot.constants import PLATFORM_TO_REGIONAL
+from leaguebot.riot_api import get_puuid, get_match_ids, get_match, RiotAPIError
 from leaguebot.items import item_name
 from leaguebot.cogs.leaderboard.board import get_champion_recommendations
 

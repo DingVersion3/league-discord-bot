@@ -5,10 +5,8 @@ import time
 
 from leaguebot.db import get_all_registered_users, save_match, save_rank
 from leaguebot.riot_api import get_match_ids, get_match, get_rank, RiotAPIError
-from leaguebot.cogs.alerts.poll import MIN_GAME_DURATION_SECONDS
+from leaguebot.constants import SECONDS_PER_WEEK, MATCHES_TO_CHECK, MIN_GAME_DURATION_SECONDS
 
-SECONDS_PER_WEEK = 7 * 24 * 60 * 60
-MATCHES_TO_CHECK = 15  # how many recent match IDs to pull per user, per sync
 _SYNC_LOCK = asyncio.Lock()
 
 

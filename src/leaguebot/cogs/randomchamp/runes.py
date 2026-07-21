@@ -1,9 +1,8 @@
-"""
-Builds a legal, random League of Legends rune page from Data Dragon's
-runesReforged.json — i.e. respects the actual page-building rules
-(1 keystone + 3 minor runes in primary, 2 runes in secondary from
-different rows, 3 stat shards) rather than picking 4 fully random runes.
-"""
+# Builds a legal, random League of Legends rune page from Data Dragon's
+# runesReforged.json — i.e. respects the actual page-building rules
+# (1 keystone + 3 minor runes in primary, 2 runes in secondary from
+# different rows, 3 stat shards) rather than picking 4 fully random runes.
+
 
 import json
 import random

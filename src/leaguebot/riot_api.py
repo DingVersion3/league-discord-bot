@@ -1,22 +1,9 @@
 #Shared Riot API client. Handles account lookup and match history/details via match-v5 and account-v1, both under regional routing.
-# Region is hardcoded to NA (americas) for now.
-import os
 from urllib.parse import quote
 
 import aiohttp
-from dotenv import load_dotenv
 
-load_dotenv()
-
-REQUEST_TIMEOUT = aiohttp.ClientTimeout(total=30)
-
-API_KEY = os.getenv("RIOT_API_KEY")
-
-PLATFORM_TO_REGIONAL = {
-    "na1": "americas", "br1": "americas", "la1": "americas", "la2": "americas", "oc1": "americas",
-    "euw1": "europe", "eun1": "europe", "tr1": "europe", "ru": "europe",
-    "kr": "asia", "jp1": "asia",
-}
+from leaguebot.constants import REQUEST_TIMEOUT, API_KEY
 
 
 class RiotAPIError(Exception):

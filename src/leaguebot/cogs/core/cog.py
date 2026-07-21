@@ -1,4 +1,5 @@
 # /help: lists every available command, grouped by category.
+# /profile: a player's rank, streak, weekly stats, and Honeyfruit in one card.
 import discord
 from discord import app_commands
 from discord.ext import commands
@@ -11,29 +12,25 @@ CATEGORY_ORDER = [
     "Live Alerts",
     "Honeyfruit Betting",
     "Fun",
+    "Utility",
     "Admin",
 ]
 
-COMMAND_CATEGORIES = {
-    "register": "Track & Compare",
-    "lastgame": "Track & Compare",
-    "leaderboard": "Track & Compare",
-    "compare": "Track & Compare",
-    "nemesis": "Track & Compare",
-    "duo": "Track & Compare",
-    "whoshouldiplay": "Track & Compare",
-    "profile": "Track & Compare",
-    "streak": "Live Alerts",
-    "openbet": "Honeyfruit Betting",
-    "bet": "Honeyfruit Betting",
-    "honeyfruit": "Honeyfruit Betting",
-    "dailybonus": "Honeyfruit Betting",
-    "randomchamp": "Fun",
-    "memestats": "Fun",
-    "teamcomp": "Fun",
-    "setleaderboardchannel": "Admin",
-    "syncnow": "Admin",
+CATEGORY_BY_COG = {
+    "RecapCog": "Track & Compare",
+    "LeaderboardCog": "Track & Compare",
+    "AlertsCog": "Live Alerts",
+    "BettingCog": "Honeyfruit Betting",
+    "RandomChampCog": "Fun",
+    "MemeStatsCog": "Fun",
+    "CoreCog": "Utility",
+    "AdminCog": "Admin",
 }
+
+
+def get_category(command: app_commands.Command) -> str:
+    cog_name = command.binding.__class__.__name__ if command.binding else None
+    return CATEGORY_BY_COG.get(cog_name, "Fun")
 
 
 class CoreCog(commands.Cog):
@@ -48,7 +45,7 @@ class CoreCog(commands.Cog):
         for command in all_commands:
             if isinstance(command, app_commands.Group):
                 continue
-            category = COMMAND_CATEGORIES.get(command.name, "Fun")
+            category = get_category(command)
             description = command.description or "No description."
             grouped[category].append(f"`/{command.name}` — {description}")
 

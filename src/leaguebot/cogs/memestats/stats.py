@@ -5,9 +5,7 @@ import discord
 
 from collections import defaultdict
 from leaguebot.db import get_all_recent_matches
-
-SECONDS_PER_WEEK = 7 * 24 * 60 * 60
-MIN_GAMES_FOR_TITLES = 5
+from leaguebot.constants import SECONDS_PER_WEEK, MIN_GAMES_FOR_TITLES
 
 
 def _label(match: dict) -> str:

@@ -7,10 +7,8 @@ from discord import app_commands
 from discord.ext import commands
 
 from leaguebot.db import get_wallet, get_open_bet, get_leaderboard_channel, get_last_daily_claim, set_last_daily_claim, adjust_wallet
+from leaguebot.constants import DAILY_BONUS, SECONDS_PER_DAY
 from . import betting
-
-DAILY_BONUS = 100
-SECONDS_PER_DAY = 24 * 60 * 60
 
 
 class BettingCog(commands.Cog):
