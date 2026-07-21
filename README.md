@@ -5,6 +5,7 @@ A League of Legends companion bot for Discord — post-game recaps, weekly leade
 ## Features
 
 - **`/register`** — Link your Discord account to your Riot ID and select your region
+- **`/unregister`** — Permanently remove your data from Scuttlebuddy(BE CAREFUL WITH THIS COMMAND)
 - **`/lastgame [user] [riot_id]`** — Detailed recap of the most recent match: KDA, CS, gold, damage, full item build, and role quest item (e.g. lane-quest boots). Works for any registered server member or a raw Riot ID.
 - **`/leaderboard [stat]`** — Server leaderboard ranked by win rate, average KDA, total wins, current Solo Queue rank, double, triple, quadra, pentakills and Honeyfruit
 - **`/randomchamp`** — Random champion with a fully legal random rune page (correct keystone/row rules) and splash art

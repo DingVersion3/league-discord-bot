@@ -549,3 +549,15 @@ async def migrate_legacy_wallets(guild_member_ids: dict[int, list[int]]) -> None
 
         await db.execute("DROP TABLE wallets_legacy")
         await db.commit()
+
+async def delete_user_data(discord_id: int) -> None:
+    async with _connect() as db:
+        await db.execute("BEGIN IMMEDIATE")
+        await db.execute("DELETE FROM matches WHERE discord_id = ?", (discord_id,))
+        await db.execute("DELETE FROM ranks WHERE discord_id = ?", (discord_id,))
+        await db.execute("DELETE FROM streaks WHERE discord_id = ?", (discord_id,))
+        await db.execute("DELETE FROM wallets WHERE discord_id = ?", (discord_id,))
+        await db.execute("DELETE FROM wagers WHERE bettor_discord_id = ?", (discord_id,))
+        await db.execute("DELETE FROM bets WHERE tracked_discord_id = ?", (discord_id,))
+        await db.execute("DELETE FROM users WHERE discord_id = ?", (discord_id,))
+        await db.commit()

@@ -5,7 +5,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-from leaguebot.db import register_user, get_registered_user
+from leaguebot.db import register_user, get_registered_user, delete_user_data
 from leaguebot.constants import PLATFORM_TO_REGIONAL
 from leaguebot.riot_api import get_puuid, get_match_ids, get_match, RiotAPIError
 from leaguebot.items import item_name
@@ -190,6 +190,52 @@ class RecapCog(commands.Cog):
             embed.add_field(name="Role Quest Item", value=role_item, inline=False)
 
         await interaction.response.send_message(embed=embed) if not interaction.response.is_done() else await interaction.followup.send(embed=embed)
+
+    @app_commands.command(name="unregister", description="Permanently delete all your ScuttleBuddy data")
+    async def unregister(self, interaction: discord.Interaction):
+        record = await get_registered_user(interaction.user.id)
+        if not record:
+            await interaction.response.send_message("You don't have any registered data to delete.", ephemeral=True)
+            return
+
+        view = ConfirmDeleteView(interaction.user.id)
+        await interaction.response.send_message(
+            "⚠️ This will **permanently delete** your registration, match history, rank, streaks, "
+            "Honeyfruit balance, and betting history from ScuttleBuddy. This cannot be undone.\n\n"
+            "Are you sure?",
+            view=view,
+            ephemeral=True,
+        )
+
+class ConfirmDeleteView(discord.ui.View):
+    def __init__(self, discord_id: int):
+        super().__init__(timeout=30)
+        self.discord_id = discord_id
+        self.confirmed = False
+
+    @discord.ui.button(label="Yes, delete everything", style=discord.ButtonStyle.danger)
+    async def confirm(self, interaction: discord.Interaction, button: discord.ui.Button):
+        if interaction.user.id != self.discord_id:
+            await interaction.response.send_message("This isn't your confirmation to click.", ephemeral=True)
+            return
+        self.confirmed = True
+        self.stop()
+        await delete_user_data(self.discord_id)
+        for item in self.children:
+            item.disabled = True
+        await interaction.response.edit_message(
+            content="✅ Your data has been permanently deleted from ScuttleBuddy.", view=self
+        )
+
+    @discord.ui.button(label="Cancel", style=discord.ButtonStyle.secondary)
+    async def cancel(self, interaction: discord.Interaction, button: discord.ui.Button):
+        if interaction.user.id != self.discord_id:
+            await interaction.response.send_message("This isn't your confirmation to click.", ephemeral=True)
+            return
+        self.stop()
+        for item in self.children:
+            item.disabled = True
+        await interaction.response.edit_message(content="Cancelled — your data was not touched.", view=self)
 
 
 async def setup(bot: commands.Bot):
