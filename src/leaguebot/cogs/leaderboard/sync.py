@@ -5,6 +5,7 @@ import time
 
 from leaguebot.db import get_all_registered_users, save_match, save_rank
 from leaguebot.riot_api import get_match_ids, get_match, get_rank, RiotAPIError
+from leaguebot.cogs.alerts.poll import MIN_GAME_DURATION_SECONDS
 
 SECONDS_PER_WEEK = 7 * 24 * 60 * 60
 MATCHES_TO_CHECK = 15  # how many recent match IDs to pull per user, per sync
@@ -40,6 +41,9 @@ async def _sync_all_users() -> dict:
                 played_at = match["info"]["gameStartTimestamp"] // 1000  # ms -> s
                 if played_at < cutoff:
                     continue  # older than a week, skip
+
+                if match["info"]["gameDuration"] < MIN_GAME_DURATION_SECONDS:
+                    continue #remakes and early ffs
 
                 participant = next(
                     p for p in match["info"]["participants"] if p["puuid"] == puuid

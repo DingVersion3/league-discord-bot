@@ -11,6 +11,7 @@ from leaguebot.cogs.betting import betting as betting_logic
 from . import alerts
 
 INTERVAL = 90
+MIN_GAME_DURATION_SECONDS = 15 * 60
 
 
 async def check_for_new_results(bot) -> None:
@@ -46,6 +47,10 @@ async def check_for_new_results(bot) -> None:
             match = await get_match(latest_match_id, regional_route=regional_route)
         except RiotAPIError as e:
             print(f"[ALERTS] failed to fetch match details for {discord_id}: {e.message}")
+            continue
+
+        if match["info"]["gameDuration"] < MIN_GAME_DURATION_SECONDS:
+            await set_last_match_id(discord_id, latest_match_id)
             continue
 
         participant = next(p for p in match["info"]["participants"] if p["puuid"] == puuid)
