@@ -250,3 +250,9 @@ async def build_compare_embed(guild: discord.Guild, user_a: discord.Member, user
     embed.add_field(name=label_b, value=_format_stats(stats_b), inline=True)
 
     return embed
+
+async def get_top_honeyfruit_holder(guild_id: int) -> dict | None:
+    wallets = await get_all_wallets(guild_id)
+    if not wallets:
+        return None
+    return max(wallets, key=lambda w: w["balance"])

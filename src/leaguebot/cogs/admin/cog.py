@@ -10,8 +10,10 @@ from discord.ext import commands, tasks
 
 from leaguebot.db import set_leaderboard_channel, get_leaderboard_channel
 from leaguebot.cogs.leaderboard.sync import sync_all_users
-from leaguebot.cogs.leaderboard.board import build_leaderboard_embed
+from leaguebot.cogs.leaderboard.board import build_leaderboard_embed, get_top_honeyfruit_holder
 from leaguebot.cogs.memestats.stats import build_meme_stats_embed
+
+ROLE_NAME = "Kashdaji Queen"
 
 
 class AdminCog(commands.Cog):
@@ -74,9 +76,37 @@ class AdminCog(commands.Cog):
                     meme_embed = await build_meme_stats_embed(guild)
                     await channel.send(embed=meme_embed)
 
+            await self.assign_kashdaji_queen(guild)
+
     @weekly_sync.before_loop
     async def before_weekly_sync(self):
         await self.bot.wait_until_ready()
+
+    async def assign_kashdaji_queen(self, guild: discord.Guild) -> None:
+        top_holder = await get_top_honeyfruit_holder(guild.id)
+        if not top_holder:
+            return
+
+        role = discord.utils.get(guild.roles, name=ROLE_NAME)
+        if role is None:
+            try:
+                role = await guild.create_role(name=ROLE_NAME, color=discord.Color.gold())
+            except discord.Forbidden:
+                print(f"[ADMIN] missing permission to create role in {guild.name}")
+                return
+
+        winner = guild.get_member(top_holder["discord_id"])
+        if winner is None:
+            return
+
+        try:
+            for member in role.members:
+                if member.id != winner.id:
+                    await member.remove_roles(role)
+            if role not in winner.roles:
+                await winner.add_roles(role)
+        except discord.Forbidden:
+            print(f"[ADMIN] missing permission to manage roles in {guild.name}")
 
 
 async def setup(bot: commands.Bot):
