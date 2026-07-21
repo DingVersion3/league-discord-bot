@@ -22,6 +22,7 @@ A League of Legends companion bot for Discord — post-game recaps, weekly leade
 - **`/honeyfruit [user]`** — Check your (or someone else's) Honeyfruit balance
 - **`/dailybonus`** - Collect 100 Honeyfruit every 24 hours
 - **`/profile`** - Shows you a players profile card
+- **`/roast [user] [mode]`** - Roast or compliment(or leave it up to chance) someone based on their most recent game
 - **`/help`** - Lists every ScuttleBuddy command, grouped by category
 - **`/syncnow`** — Manually trigger the weekly data sync + post (admin only)
 
