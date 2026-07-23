@@ -16,7 +16,6 @@ WIN_MESSAGES = [
     "you must be Iron with {streak} wins in a row...",
     "Ain't no way you won {streak} in a row!",
     "Is that Faker? Only Faker could win {streak} in a row!",
-    "Damn not even https://dpm.lol/NOTJT-6767 could win {streak} in a row",
 ]
 
 RANK_UP_MESSAGES = [

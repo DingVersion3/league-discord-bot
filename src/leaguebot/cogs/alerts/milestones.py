@@ -34,7 +34,6 @@ HIGH_WIN_MESSAGES = [
 ]
 
 HIGH_LOSS_MESSAGES = [
-    "Is that NOTJT I see with {count} losses? Pure dedication right there.",
     "It truly takes honor to have {count} losses.",
     "Oh my... {count} losses should've been a sign ages ago to try something else. You've got the passion of a Scuttlecrab.",
 ]
