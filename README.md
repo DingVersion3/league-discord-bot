@@ -32,10 +32,7 @@ A League of Legends companion bot for Discord — post-game recaps, weekly leade
 - Scuttlebuddy will assign the person with the most Honeyfruit for the week with the "Kashdaji Queen" title
 
 ## In Progress Features
-
-- **`Bet/predicition system`** - server members bet on outcomes of games before a players game starts(either manually started by user or automatically started when the game starts via API calls). Bets are made in the currency of Honeyfruit(fake currency that is not tied to anything real, you probably wont be purchasing McDonalds with your Honeyfruit...)
-- **`Postgame spike detector`** - flag when someone had a really good or bad game/stat(KDA, CS/M compared to the role/rank average, etc)
-- **POTENTIAL FEATURE** **`Champion pool suggestions`** based on what's strong into the enemy comp (look into doing algorithmic processing for champ counters via match-v5 API). Doing this is saying im going to basically make a web app but it runs inside discord so im unsure if thats the direction im after with this project or not. If im able to parse from data that is high elo per say and use thoses as baseline counters to things then maybe its a sophisticated enough system to bring a twist to the party. dont commit this message to github or youll ruin your idea(maybe youre a nobody after all :p )
+- Research phase on things i could potentially add. 
 
 ## Setup
 
