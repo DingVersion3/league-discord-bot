@@ -6,6 +6,7 @@ from discord import app_commands
 from discord.ext import commands
 from .roast import get_latest_match, generate_line
 from .wisdom import get_random_quote
+from .scuttlesays import get_response
 
 from leaguebot.cogs.memestats.stats import build_meme_stats_embed
 
@@ -48,6 +49,13 @@ class MemeStatsCog(commands.Cog):
         await interaction.response.defer()
         champion, quote = get_random_quote()
         await interaction.followup.send(f"*\"{quote}\"*\n- {champion}")
+
+    @app_commands.command(name="scuttlesays", description="Ask the crab a yes/no question")
+    @app_commands.describe(question="What do you want to ask me?")
+    async def scuttlesays(self, interaction: discord.Interaction, question: str):
+        await interaction.response.defer()
+        answer = get_response()
+        await interaction.followup.send(f"🦀 **{question}**\n{answer}")
 
 
 async def setup(bot: commands.Bot):

@@ -24,6 +24,7 @@ A League of Legends companion bot for Discord — post-game recaps, weekly leade
 - **`/profile`** - Shows you a players profile card
 - **`/roast [user] [mode]`** - Roast or compliment(or leave it up to chance) someone based on their most recent game
 - **`/wisdom`** - Random quote from a randomly choosen League of Legends Champion
+- **`/scuttlesays [question]`** - Ask ScuttleBuddy a yes or no question and he'll answer.
 - **`/help`** - Lists every ScuttleBuddy command, grouped by category
 - **`/syncnow`** — Manually trigger the weekly data sync + post (admin only)
 
@@ -33,7 +34,13 @@ A League of Legends companion bot for Discord — post-game recaps, weekly leade
 - Scuttlebuddy will assign the person with the most Honeyfruit for the week with the "Kashdaji Queen" title
 
 ## In Progress Features
-- Research phase on things i could potentially add. 
+- /uptime or /status — simple command showing when the bot last synced, how many users are registered, last successful poll — useful for you as the admin to sanity-check things are running without SSHing in every time 
+- /matchup @champion1 @champion2 — tied to real player data
+- /duel @user — two people "duel, for honeyfruit" bot randomly picks a winner with a dramatic one-liner
+- /excuse — generates a random excuse for why you lost/played badly ("my mouse disconnected," "jungler never ganked," "it was ping issues, I swear") — thematically similar to the roast system but self-directed and always available, no match data needed
+- /tierlist — needs real champ data if i do this
+- /trivia — League trivia questions (champion release order, ability names, lore facts) with a small Honeyfruit reward for correct answers — ties into your existing currency system meaningfully, unlike the standalone chaos commands
+- /patchnotes — pulls the latest patch summary from Data Dragon/Riot's patch notes feed and posts a condensed version — genuinely useful, not just flavor text, and you already have Data Dragon integration. maybe able to pull patch notes via riot api instead even and have an auto post message when a patch goes live 
 
 ## Setup
 
