@@ -5,6 +5,7 @@ import random
 from discord import app_commands
 from discord.ext import commands
 from .roast import get_latest_match, generate_line
+from .wisdom import get_random_quote
 
 from leaguebot.cogs.memestats.stats import build_meme_stats_embed
 
@@ -40,6 +41,13 @@ class MemeStatsCog(commands.Cog):
 
         line = generate_line(match, chosen_mode)
         await interaction.followup.send(f"{user.mention} {line}")
+
+
+    @app_commands.command(name="wisdom", description="Ancient League wisdom, from League Champions")
+    async def wisdom(self, interaction: discord.Interaction):
+        await interaction.response.defer()
+        champion, quote = get_random_quote()
+        await interaction.followup.send(f"*\"{quote}\"*\n- {champion}")
 
 
 async def setup(bot: commands.Bot):
