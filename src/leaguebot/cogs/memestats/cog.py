@@ -7,6 +7,7 @@ from discord.ext import commands
 from .roast import get_latest_match, generate_line
 from .wisdom import get_random_quote
 from .scuttlesays import get_response
+from .excuse import get_excuse
 
 from leaguebot.cogs.memestats.stats import build_meme_stats_embed
 
@@ -49,6 +50,11 @@ class MemeStatsCog(commands.Cog):
         await interaction.response.defer()
         champion, quote = get_random_quote()
         await interaction.followup.send(f"*\"{quote}\"*\n- {champion}")
+
+    @app_commands.command(name="excuse", description="Get a random excuse for your last bad game")
+    async def excuse(self, interaction: discord.Interaction):
+        await interaction.response.defer()
+        await interaction.followup.send(f"🎤 {get_excuse()}")
 
     @app_commands.command(name="scuttlesays", description="Ask the crab a yes/no question")
     @app_commands.describe(question="What do you want to ask me?")
