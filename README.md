@@ -25,6 +25,7 @@ A League of Legends companion bot for Discord — post-game recaps, weekly leade
 - **`/roast [user] [mode]`** - Roast or compliment(or leave it up to chance) someone based on their most recent game
 - **`/wisdom`** - Random quote from a randomly choosen League of Legends Champion
 - **`/scuttlesays [question]`** - Ask ScuttleBuddy a yes or no question and he'll answer.
+- **`/mundododgeball [opponent] [bet_amount]`** — Challenge someone to Mundo Dodgeball with Honeyfruit on the line. Limited to 3 games per person every 24 hours.
 - **`/help`** - Lists every ScuttleBuddy command, grouped by category
 - **`/syncnow`** — Manually trigger the weekly data sync + post (admin only)
 

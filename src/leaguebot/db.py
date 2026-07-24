@@ -146,6 +146,15 @@ async def init_db() -> None:
                 PRIMARY KEY (bet_id, bettor_discord_id)
             )
         """)
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS dodgeball_games (
+                game_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                guild_id INTEGER NOT NULL,
+                player_a INTEGER NOT NULL,
+                player_b INTEGER NOT NULL,
+                played_at INTEGER NOT NULL
+            )
+        """)
         await db.commit()
 
 async def register_user(discord_id: int, game_name: str, tag_line: str, puuid: str, regional_route: str = "americas", platform_route: str = "na1") -> None:
@@ -561,3 +570,41 @@ async def delete_user_data(discord_id: int) -> None:
         await db.execute("DELETE FROM bets WHERE tracked_discord_id = ?", (discord_id,))
         await db.execute("DELETE FROM users WHERE discord_id = ?", (discord_id,))
         await db.commit()
+
+async def log_dodgeball_game(guild_id: int, player_a: int, player_b: int, played_at: int) -> None:
+    async with _connect() as db:
+        await db.execute(
+            "INSERT INTO dodgeball_games (guild_id, player_a, player_b, played_at) VALUES (?, ?, ?, ?)",
+            (guild_id, player_a, player_b, played_at),
+        )
+        await db.commit()
+
+
+async def count_recent_dodgeball_games(guild_id: int, challenger_id: int, since_timestamp: int) -> int:
+    async with _connect() as db:
+        async with db.execute(
+            """
+            SELECT COUNT(*) FROM dodgeball_games
+            WHERE guild_id = ? AND played_at >= ?
+              AND (player_a = ? OR player_b = ?)
+            """,
+            (guild_id, since_timestamp, challenger_id, challenger_id),
+        ) as cursor:
+            row = await cursor.fetchone()
+            return row[0] if row else 0
+
+async def get_oldest_recent_dodgeball_game(guild_id: int, challenger_id: int, since_timestamp: int) -> int | None:
+    async with _connect() as db:
+        db.row_factory = aiosqlite.Row
+        async with db.execute(
+            """
+            SELECT played_at FROM dodgeball_games
+            WHERE guild_id = ? AND played_at >= ?
+              AND (player_a = ? OR player_b = ?)
+            ORDER BY played_at ASC
+            LIMIT 1
+            """,
+            (guild_id, since_timestamp, challenger_id, challenger_id),
+        ) as cursor:
+            row = await cursor.fetchone()
+            return row["played_at"] if row else None
