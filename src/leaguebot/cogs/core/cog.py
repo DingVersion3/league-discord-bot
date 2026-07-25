@@ -1,10 +1,11 @@
 # /help: lists every available command, grouped by category.
 # /profile: a player's rank, streak, weekly stats, and Honeyfruit in one card.
+import time
 import discord
 from discord import app_commands
 from discord.ext import commands
 
-from leaguebot.db import get_registered_user, get_rank, get_streak, get_wallet
+from leaguebot.db import get_registered_user, get_rank, get_streak, get_wallet, get_all_registered_users, get_registered_users_in_guild
 from leaguebot.cogs.leaderboard.board import _weekly_stats_for_user
 
 CATEGORY_ORDER = [
@@ -104,6 +105,25 @@ class CoreCog(commands.Cog):
         else:
             weekly_text = "No games played this week 😡"
         embed.add_field(name="This Week", value=weekly_text, inline=False)
+
+        await interaction.followup.send(embed=embed)
+
+    @app_commands.command(name="status", description="Check ScuttleBuddy's uptime and registration stats")
+    async def status(self, interaction: discord.Interaction):
+        await interaction.response.defer()
+
+        uptime_seconds = int(time.time() - self.bot.start_time)
+        days = uptime_seconds // 86400
+        hours = (uptime_seconds % 86400) // 3600
+        minutes = (uptime_seconds % 3600) // 60
+
+        all_users = await get_all_registered_users()
+        guild_users = await get_registered_users_in_guild(interaction.guild)
+
+        embed = discord.Embed(title="🦀 ScuttleBuddy Status", color=discord.Color.blue())
+        embed.add_field(name="Uptime", value=f"{days}d {hours}h {minutes}m", inline=True)
+        embed.add_field(name="Registered (this server)", value=str(len(guild_users)), inline=True)
+        embed.add_field(name="Registered (all servers)", value=str(len(all_users)), inline=True)
 
         await interaction.followup.send(embed=embed)
 

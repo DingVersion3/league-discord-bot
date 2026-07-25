@@ -1,6 +1,7 @@
 # Bot entrypoint. Run with: python -m leaguebot.bot
 import asyncio
 import os
+import time
 
 import discord
 from discord.ext import commands
@@ -23,6 +24,9 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 @bot.event
 async def on_ready():
     print(f"Logged in as {bot.user} (id: {bot.user.id})")
+
+    if not hasattr(bot, "start_time"):
+        bot.start_time = time.time()
 
     # One-time migration: credits any pre-guild-scoping wallet balances into
     # every server the owner is currently a member of. No-ops once the legacy
