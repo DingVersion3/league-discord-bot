@@ -13,6 +13,8 @@ from leaguebot.cogs.leaderboard.sync import sync_all_users
 from leaguebot.cogs.leaderboard.board import build_leaderboard_embed, get_top_honeyfruit_holder
 from leaguebot.cogs.memestats.stats import build_meme_stats_embed
 
+from . import patchwatch
+
 ROLE_NAME = "Kashdaji Queen"
 
 
@@ -20,9 +22,19 @@ class AdminCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
         self.weekly_sync.start()
+        self.patch_check.start()
 
     def cog_unload(self):
         self.weekly_sync.cancel()
+        self.patch_check.cancel()
+
+    @tasks.loop(hours=3)
+    async def patch_check(self):
+        await patchwatch.check_for_new_patch(self.bot)
+
+    @patch_check.before_loop
+    async def before_patch_check(self):
+        await self.bot.wait_until_ready()
 
     @app_commands.command(name="setleaderboardchannel", description="Set the channel for weekly leaderboard posts")
     @app_commands.checks.has_permissions(manage_guild=True)

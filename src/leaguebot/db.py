@@ -162,6 +162,12 @@ async def init_db() -> None:
                 played_at INTEGER NOT NULL
             )
         """)
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS bot_state (
+                key TEXT PRIMARY KEY,
+                value TEXT
+            )
+        """)
         await db.commit()
 
 async def register_user(discord_id: int, game_name: str, tag_line: str, puuid: str, regional_route: str = "americas", platform_route: str = "na1") -> None:
@@ -633,3 +639,24 @@ async def count_recent_trivia_plays(discord_id: int, guild_id: int, since_timest
         ) as cursor:
             row = await cursor.fetchone()
             return row[0] if row else 0
+
+async def get_bot_state(key: str) -> str | None:
+    async with _connect() as db:
+        db.row_factory = aiosqlite.Row
+        async with db.execute(
+            "SELECT value FROM bot_state WHERE key = ?", (key,)
+        ) as cursor:
+            row = await cursor.fetchone()
+            return row["value"] if row else None
+
+
+async def set_bot_state(key: str, value: str) -> None:
+    async with _connect() as db:
+        await db.execute(
+            """
+            INSERT INTO bot_state (key, value) VALUES (?, ?)
+            ON CONFLICT(key) DO UPDATE SET value = excluded.value
+            """,
+            (key, value),
+        )
+        await db.commit()
