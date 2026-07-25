@@ -35,6 +35,8 @@ MIN_GAMES_FOR_TITLES = 5
 
 # --- Betting ---
 DAILY_BONUS = 100
+TRIVIA_REWARD = 100
+MAX_TRIVIA_PER_DAY = 5
 
 # --- Rank tiers ---
 TIER_ORDER = [

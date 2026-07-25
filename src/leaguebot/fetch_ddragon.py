@@ -2,14 +2,15 @@
 Fetches the latest champion and rune data from Riot's Data Dragon CDN
 and caches it locally in data/. Re-run this after each League patch.
 
-Usage: python -m leaguebot.cogs.randomchamp.fetch_ddragon
+Usage: python -m leaguebot.fetch_ddragon
 """
 import json
+import time
 import urllib.request
 from pathlib import Path
 
 # data/ lives at the project root, four levels up from this file
-DATA_DIR = Path(__file__).parents[4] / "data"
+DATA_DIR = Path(__file__).parents[2] / "data"
 DATA_DIR.mkdir(exist_ok=True)
 
 
@@ -43,6 +44,7 @@ def main() -> None:
     with open(DATA_DIR / "runes.json", "w") as f:
         json.dump(rune_data, f, indent=2)
     print("Saved rune trees to data/runes.json")
+
     print("Fetching item data...")
     item_data = fetch_json(
         f"https://ddragon.leagueoflegends.com/cdn/{latest}/data/en_US/item.json"
@@ -51,6 +53,27 @@ def main() -> None:
     with open(DATA_DIR / "items.json", "w") as f:
         json.dump({"version": latest, "items": items}, f, indent=2)
     print(f"Saved {len(items)} items to data/items.json")
+
+    print(f"Fetching individual ability data for {len(champions)} champions (this takes a bit)...")
+    abilities = {}
+    for champ_id in champions:
+        detail = fetch_json(
+            f"https://ddragon.leagueoflegends.com/cdn/{latest}/data/en_US/champion/{champ_id}.json"
+        )
+        champ_detail = detail["data"][champ_id]
+        entries = [{
+            "slot": "P",
+            "name": champ_detail["passive"]["name"],
+            "icon": champ_detail["passive"]["image"]["full"],
+        }]
+        for slot, spell in zip(["Q", "W", "E", "R"], champ_detail["spells"]):
+            entries.append({"slot": slot, "name": spell["name"], "icon": spell["image"]["full"]})
+        abilities[champ_id] = entries
+        time.sleep(0.05)  # light throttling to be polite to Data Dragon's CDN
+
+    with open(DATA_DIR / "abilities.json", "w") as f:
+        json.dump({"version": latest, "abilities": abilities}, f, indent=2)
+    print(f"Saved ability data for {len(abilities)} champions to data/abilities.json")
 
 
 if __name__ == "__main__":

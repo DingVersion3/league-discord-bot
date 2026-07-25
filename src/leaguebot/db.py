@@ -98,6 +98,13 @@ async def init_db() -> None:
                 last_alert_streak INTEGER DEFAULT 0
             )
         """)
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS trivia_plays (
+                discord_id INTEGER NOT NULL,
+                guild_id INTEGER NOT NULL,
+                played_at INTEGER NOT NULL
+            )
+        """)
         async with db.execute("PRAGMA table_info(streaks)") as cursor:
             existing_streak_columns = {row[1] async for row in cursor}
         if "last_match_id" not in existing_streak_columns:
@@ -608,3 +615,21 @@ async def get_oldest_recent_dodgeball_game(guild_id: int, challenger_id: int, si
         ) as cursor:
             row = await cursor.fetchone()
             return row["played_at"] if row else None
+
+async def log_trivia_play(discord_id: int, guild_id: int, played_at: int) -> None:
+    async with _connect() as db:
+        await db.execute(
+            "INSERT INTO trivia_plays (discord_id, guild_id, played_at) VALUES (?, ?, ?)",
+            (discord_id, guild_id, played_at),
+        )
+        await db.commit()
+
+
+async def count_recent_trivia_plays(discord_id: int, guild_id: int, since_timestamp: int) -> int:
+    async with _connect() as db:
+        async with db.execute(
+            "SELECT COUNT(*) FROM trivia_plays WHERE discord_id = ? AND guild_id = ? AND played_at >= ?",
+            (discord_id, guild_id, since_timestamp),
+        ) as cursor:
+            row = await cursor.fetchone()
+            return row[0] if row else 0

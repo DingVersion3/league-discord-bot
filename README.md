@@ -28,6 +28,7 @@ A League of Legends companion bot for Discord — post-game recaps, weekly leade
 - **`/mundododgeball [opponent] [bet_amount]`** — Challenge someone to Mundo Dodgeball with Honeyfruit on the line. Limited to 3 games per person every 24 hours.
 - **`/excuse`** - Generates a random excuse for your poor performance.
 - **`/help`** - Lists every ScuttleBuddy command, grouped by category
+- **`/trivia`** — League trivia questions with a small Honeyfruit reward for correct answers
 - **`/syncnow`** — Manually trigger the weekly data sync + post (admin only)
 
 - Every Monday, the bot automatically syncs fresh match/rank data for all registered users and posts the leaderboard (all four stat categories) plus meme stats to the configured channel.
@@ -39,7 +40,7 @@ A League of Legends companion bot for Discord — post-game recaps, weekly leade
 - /uptime or /status — simple command showing when the bot last synced, how many users are registered, last successful poll — useful for you as the admin to sanity-check things are running without SSHing in every time 
 - /matchup @champion1 @champion2 — tied to real player data
 - /tierlist — needs real champ data if i do this
-- /trivia — League trivia questions (champion release order, ability names, lore facts) with a small Honeyfruit reward for correct answers — ties into your existing currency system meaningfully, unlike the standalone chaos commands
+
 - /patchnotes — pulls the latest patch summary from Data Dragon/Riot's patch notes feed and posts a condensed version — genuinely useful, not just flavor text, and you already have Data Dragon integration. maybe able to pull patch notes via riot api instead even and have an auto post message when a patch goes live 
 
 ## Setup
