@@ -6,7 +6,7 @@ from pathlib import Path
 
 from leaguebot.cogs.memestats.wisdom import CHAMPION_QUOTES
 
-DATA_DIR = Path(__file__).parents[3] / "data"
+DATA_DIR = Path(__file__).parents[4] / "data"
 
 
 def _load_champions() -> dict[str, str]:
