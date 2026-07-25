@@ -30,6 +30,8 @@ A League of Legends companion bot for Discord — post-game recaps, weekly leade
 - **`/help`** - Lists every ScuttleBuddy command, grouped by category
 - **`/trivia`** — League trivia questions with a small Honeyfruit reward for correct answers
 - **`/status`** — Check ScuttleBuddy's uptime and how many users are registered, server-wide and across all servers
+- **`/matchup [my_champion] [opponent_champion] [position]`** — Get lane matchup guidance between two champions (tips, lane advantage, top counters), powered by OP.GG
+- **`/tierlist [position]`** — Show the current lane tier list ranked by tier and win rate, powered by OP.GG
 - **`/syncnow`** — Manually trigger the weekly data sync + post (admin only)
 
 - Every Monday, the bot automatically syncs fresh match/rank data for all registered users and posts the leaderboard (all four stat categories) plus meme stats to the configured channel.
@@ -39,8 +41,7 @@ A League of Legends companion bot for Discord — post-game recaps, weekly leade
 - Patch Notes Auto-posts to the leaderboard channel with a link to the full patch notes whenever a new League patch goes live
 
 ## In Progress Features
-- /matchup @champion1 @champion2 — tied to real player data
-- /tierlist — needs real champ data if i do this
+- As of right now, unsure. If you'd like to leave a suggestion lemme know here https://discord.gg/V2bSpFrRet
 
 ## Setup
 

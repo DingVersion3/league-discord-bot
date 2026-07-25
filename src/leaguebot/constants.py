@@ -54,3 +54,19 @@ PLATFORM_TO_REGIONAL = {
     "euw1": "europe", "eun1": "europe", "tr1": "europe", "ru": "europe",
     "kr": "asia", "jp1": "asia",
 }
+
+# --- Positions ---
+POSITION_CHOICES = [
+    {"name": "Top", "value": "TOP"},
+    {"name": "Jungle", "value": "JUNGLE"},
+    {"name": "Mid", "value": "MIDDLE"},
+    {"name": "ADC", "value": "BOTTOM"},
+    {"name": "Support", "value": "UTILITY"},
+]
+RIOT_TO_OPGG_POSITION = {
+    "TOP": "top",
+    "JUNGLE": "jungle",
+    "MIDDLE": "mid",
+    "BOTTOM": "adc",
+    "UTILITY": "support",
+}

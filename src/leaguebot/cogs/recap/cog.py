@@ -6,7 +6,7 @@ from discord import app_commands
 from discord.ext import commands
 
 from leaguebot.db import register_user, get_registered_user, delete_user_data
-from leaguebot.constants import PLATFORM_TO_REGIONAL
+from leaguebot.constants import PLATFORM_TO_REGIONAL, POSITION_CHOICES
 from leaguebot.riot_api import get_puuid, get_match_ids, get_match, RiotAPIError
 from leaguebot.items import item_name
 from leaguebot.cogs.leaderboard.board import get_champion_recommendations
@@ -23,14 +23,6 @@ REGION_CHOICES = [
     app_commands.Choice(name="OCE", value="oc1"),
     app_commands.Choice(name="TR", value="tr1"),
     app_commands.Choice(name="RU", value="ru"),
-]
-
-POSITION_CHOICES = [
-    app_commands.Choice(name="Top", value="TOP"),
-    app_commands.Choice(name="Jungle", value="JUNGLE"),
-    app_commands.Choice(name="Mid", value="MIDDLE"),
-    app_commands.Choice(name="ADC", value="BOTTOM"),
-    app_commands.Choice(name="Support", value="UTILITY"),
 ]
 
 
@@ -75,7 +67,7 @@ class RecapCog(commands.Cog):
         position="Which position you're about to play",
         champions="Optional: space-separated champions to choose between, e.g. 'Jhin Corki Zeri'",
     )
-    @app_commands.choices(position=POSITION_CHOICES)
+    @app_commands.choices(position=[app_commands.Choice(**c) for c in POSITION_CHOICES])
     async def whoshouldiplay(
         self,
         interaction: discord.Interaction,
