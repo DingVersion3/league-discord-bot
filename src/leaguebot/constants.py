@@ -24,6 +24,7 @@ SECONDS_PER_DAY = 24 * 60 * 60
 MATCHES_TO_CHECK = 15       # how many recent match IDs to pull per user, per sync
 INTERVAL = 90                # alerts poll loop interval, in seconds
 MIN_GAME_DURATION_SECONDS = 15 * 60  # below this, treat as a remake/early ff
+MIN_GAMES_FOR_PERSONAL_WEIGHT = 3
 
 # --- Alerts thresholds ---
 STREAK_THRESHOLD = 5

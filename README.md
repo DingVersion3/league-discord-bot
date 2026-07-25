@@ -16,7 +16,7 @@ A League of Legends companion bot for Discord — post-game recaps, weekly leade
 - **`/nemesis [user1]`** - Shows you the champion you lost to the most in the lane you played the most
 - **`/teamcomp [players] [team_a] [team_b] [randomize_runes]`** - Generates a random position/champion assignment for a group of players Can define who is on each team or let it randomize it.(amount of users is optional but 2 is the minimum)
 - **`/duo [user1] [user2]`** — Win rate/KDA for user games played together
-- **`/whoshouldiplay [optional champion list]`** - Takes your champion winrate data and suggests who you play. Optionally you can add a list of champs youd like to play and have it filtered by those champs
+- **`/whoshouldiplay [position] [optional champion list]`** — Recommends champions for a position, blending your personal win rate with current meta strength from OP.GG. Works even with no personal data, falling back to pure meta rankings. Optionally filter to a specific list of champions.
 - **`/openbet`** — Open betting on your own next game (Honeyfruit, a fake in-server currency)
 - **`/bet [player] [prediction] [amount]`** — Wager Honeyfruit on whether a player's open bet will resolve as a win or loss
 - **`/honeyfruit [user]`** — Check your (or someone else's) Honeyfruit balance

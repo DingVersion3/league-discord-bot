@@ -6,7 +6,8 @@ import discord
 
 from collections import defaultdict
 from leaguebot.db import get_recent_matches, get_rank, get_registered_users_in_guild, get_registered_user, get_duo_matches, get_all_wallets 
-from leaguebot.constants import SECONDS_PER_WEEK, TIER_ORDER, DIVISION_ORDER
+from leaguebot.constants import SECONDS_PER_WEEK, TIER_ORDER, DIVISION_ORDER, MIN_GAMES_FOR_PERSONAL_WEIGHT, RIOT_TO_OPGG_POSITION
+from leaguebot.opgg_client import get_lane_tier_list, OpggError
 
 
 def _rank_sort_key(rank: dict) -> tuple:
@@ -61,26 +62,60 @@ async def get_champion_recommendations(discord_id: int, position: str, champion_
         champion_filter_lower = {c.lower() for c in champion_filter}
         position_matches = [m for m in position_matches if m["champion"].lower() in champion_filter_lower]
 
-    if not position_matches:
-        return []
-
     by_champion = defaultdict(list)
     for m in position_matches:
         by_champion[m["champion"]].append(m)
 
-    MIN_GAMES = 2
-    results = []
+    personal_stats = {}
     for champion, champ_matches in by_champion.items():
-        if len(champ_matches) < MIN_GAMES:
-            continue
         wins = sum(m["win"] for m in champ_matches)
-        results.append({
-            "champion": champion,
+        personal_stats[champion] = {
             "win_rate": wins / len(champ_matches),
             "games": len(champ_matches),
+        }
+
+    # pull current meta tier list for this lane, fold in as a fallback/blend signal
+    meta_by_champion = {}
+    opgg_position = RIOT_TO_OPGG_POSITION.get(position)
+    if opgg_position:
+        try:
+            tier_list = await get_lane_tier_list(opgg_position)
+            meta_by_champion = {entry["champion"]: entry["win_rate"] for entry in tier_list}
+        except OpggError:
+            pass  # degrade gracefully — blend just uses personal data alone
+
+    all_champions = set(personal_stats) | set(meta_by_champion)
+    if champion_filter:
+        champion_filter_lower = {c.lower() for c in champion_filter}
+        all_champions = {c for c in all_champions if c.lower() in champion_filter_lower}
+
+    results = []
+    for champion in all_champions:
+        personal = personal_stats.get(champion)
+        meta_win_rate = meta_by_champion.get(champion)
+
+        personal_win_rate = personal["win_rate"] if personal else None
+        personal_games = personal["games"] if personal else 0
+
+        if personal_win_rate is not None and meta_win_rate is not None:
+            confidence = min(personal_games / MIN_GAMES_FOR_PERSONAL_WEIGHT, 1.0)
+            score = (personal_win_rate * confidence) + (meta_win_rate * (1 - confidence))
+        elif personal_win_rate is not None:
+            score = personal_win_rate
+        elif meta_win_rate is not None:
+            score = meta_win_rate
+        else:
+            continue
+
+        results.append({
+            "champion": champion,
+            "score": score,
+            "personal_win_rate": personal_win_rate,
+            "personal_games": personal_games,
+            "meta_win_rate": meta_win_rate,
         })
 
-    results.sort(key=lambda r: r["win_rate"], reverse=True)
+    results.sort(key=lambda r: r["score"], reverse=True)
     return results
 
 async def get_duo_stats(discord_id_a: int, discord_id_b: int) -> dict | None:

@@ -81,14 +81,20 @@ class RecapCog(commands.Cog):
 
         if not recommendations:
             await interaction.followup.send(
-                "Not enough data yet — play a few more games in that position and try again."
+                "Couldn't get any recommendations right now — no personal data for that position, "
+                "and the meta data source didn't return anything either. Try again in a bit."
             )
             return
 
-        lines = [
-            f"**{i+1}.** {r['champion']} — {r['win_rate']*100:.0f}% ({r['games']} games)"
-            for i, r in enumerate(recommendations)
-        ]
+        lines = []
+        for i, r in enumerate(recommendations[:10]):
+            parts = [f"**{i+1}.** {r['champion']} — {r['score']*100:.0f}%"]
+            if r["personal_games"] > 0:
+                parts.append(f"(you: {r['personal_win_rate']*100:.0f}% in {r['personal_games']} games)")
+            if r["meta_win_rate"] is not None:
+                parts.append(f"(meta: {r['meta_win_rate']*100:.0f}%)")
+            lines.append(" ".join(parts))
+
         await interaction.followup.send(f"**Best champions for {position.name}:**\n" + "\n".join(lines))
 
     @app_commands.command(name="lastgame", description="Get a recap of the most recent match")
