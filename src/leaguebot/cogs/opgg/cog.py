@@ -90,7 +90,7 @@ class OpggCog(commands.Cog):
         lines = [
             f"{'⭐' if e['is_meta'] else '🔍'} **{e['rank']}.** {e['champion']} — "
             f"Tier {TIER_LABELS.get(e['tier'], e['tier'])} ({e['win_rate']*100:.0f}% WR, {e['pick_rate']*100:.0f}% PR)"
-            for e in entries[:15]
+            for e in entries[:25]
         ]
  
         embed = discord.Embed(title=f"📊 Tier List — {position.name}", color=discord.Color.gold())
