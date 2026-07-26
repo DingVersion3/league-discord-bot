@@ -1,5 +1,10 @@
 # Shared OP.GG MCP client. Handles lane matchup guidance and lane tier lists
 # via OP.GG's public MCP server. Mirrors riot_api.py's structure/error handling.
+#
+# Meta/off-meta classification:
+#   - meta:        pick_rate >= META_PICK_RATE_THRESHOLD -> shown by default
+#   - off-meta:    pick_rate below threshold, but play >= MIN_GAMES_FOR_OFFMETA -> shown only when include_off_meta=True
+#   - insufficient data: play < MIN_GAMES_FOR_OFFMETA -> never shown
 import ast
 import json
 import re
@@ -8,6 +13,9 @@ from mcp import ClientSession
 from mcp.client.streamable_http import streamable_http_client
 
 OPGG_MCP_URL = "https://mcp-api.op.gg/mcp"
+
+META_PICK_RATE_THRESHOLD = 0.01  # 1% 
+MIN_GAMES_FOR_OFFMETA = 50       # below this, a pick is noise, not signal
 
 
 class OpggError(Exception):
@@ -38,7 +46,7 @@ async def _call_tool(tool_name: str, arguments: dict) -> str:
 
 def _parse_repr_list(raw_text: str, class_name: str, field_names: list[str]) -> list[dict]:
     # Parses OP.GG's non-JSON Python-repr-style responses, e.g.:
-    #   Mid("Ahri", 1, 0.51, 2)
+    #   Mid("Ahri", 1, 0.51, 0.09, 103491, 2)
     # into a list of dicts using the field names in the order they were requested.
     pattern = rf'{class_name}\((.*?)\)'
     matches = re.findall(pattern, raw_text)
@@ -55,8 +63,46 @@ def _parse_repr_list(raw_text: str, class_name: str, field_names: list[str]) -> 
     return entries
 
 
-async def get_lane_matchup(my_champion: str, opponent_champion: str, position: str) -> dict:
-    # position: "top" | "mid" | "jungle" | "adc" | "support"
+async def get_lane_tier_list(position: str, include_off_meta: bool = False) -> list[dict]:
+    # position: "top" | "mid" | "jungle" | "adc" | "support" | "all"
+    raw_text = await _call_tool(
+        "lol_list_lane_meta_champions",
+        arguments={
+            "position": position,
+            "desired_output_fields": [
+                f"data.positions.{position}[].{{champion,tier,win_rate,pick_rate,play,rank}}"
+            ],
+        },
+    )
+
+    class_name = position.capitalize()  # "mid" -> "Mid", matching OP.GG's response class name
+    entries = _parse_repr_list(
+        raw_text, class_name, ["champion", "tier", "win_rate", "pick_rate", "play", "rank"]
+    )
+
+    if not entries:
+        raise OpggError("Couldn't parse tier list response.")
+
+    filtered = []
+    for e in entries:
+        games = e.get("play", 0)
+        pick_rate = e.get("pick_rate", 0)
+
+        if games < MIN_GAMES_FOR_OFFMETA:
+            continue  # insufficient data, never shown
+
+        is_meta = pick_rate >= META_PICK_RATE_THRESHOLD
+        if is_meta or include_off_meta:
+            e["is_meta"] = is_meta
+            filtered.append(e)
+
+    filtered.sort(key=lambda e: e["rank"])
+    return filtered
+
+
+async def get_lane_matchup(
+    my_champion: str, opponent_champion: str, position: str, include_off_meta: bool = False
+) -> dict:
     raw_text = await _call_tool(
         "lol_get_lane_matchup_guide",
         arguments={
@@ -74,31 +120,37 @@ async def get_lane_matchup(my_champion: str, opponent_champion: str, position: s
     data = parsed.get("data", {})
     counters = data.get("summary", {}).get("positions", [{}])[0].get("counters", [])
 
+    # cross-reference each counter's real pick rate against the current lane
+    # tier list, so we can classify meta vs. off-meta the same way /tierlist does
+    try:
+        tier_list = await get_lane_tier_list(position, include_off_meta=True)
+        pick_rate_by_champion = {e["champion"]: e["pick_rate"] for e in tier_list}
+    except OpggError:
+        pick_rate_by_champion = {}
+
+    classified = []
+    for c in counters:
+        champion_name = c["champion_name"]
+        games = c.get("play", 0)
+        if games < MIN_GAMES_FOR_OFFMETA:
+            continue  # insufficient data, never shown
+
+        pick_rate = pick_rate_by_champion.get(champion_name, 0)
+        is_meta = pick_rate >= META_PICK_RATE_THRESHOLD
+
+        if is_meta or include_off_meta:
+            classified.append({
+                "champion": champion_name,
+                "play": games,
+                "win_rate": c["win"] / games if games else None,
+                "is_meta": is_meta,
+            })
+
+    classified.sort(key=lambda c: c["play"], reverse=True)
+
     return {
         "tip": data.get("opponent_champion_tip"),
         "lane_advantage": data.get("lane_advantage_champion"),
         "play_style": data.get("recommended_play_style"),
-        "top_counters": [c["champion_name"] for c in counters[:5]],
+        "top_counters": classified[:5],
     }
-
-
-async def get_lane_tier_list(position: str) -> list[dict]:
-    # position: "top" | "mid" | "jungle" | "adc" | "support" | "all"
-    raw_text = await _call_tool(
-        "lol_list_lane_meta_champions",
-        arguments={
-            "position": position,
-            "desired_output_fields": [
-                f"data.positions.{position}[].{{champion,tier,win_rate,rank}}"
-            ],
-        },
-    )
-
-    class_name = position.capitalize()  # "mid" -> "Mid", matching OP.GG's response class name
-    entries = _parse_repr_list(raw_text, class_name, ["champion", "tier", "win_rate", "rank"])
-
-    if not entries:
-        raise OpggError("Couldn't parse tier list response.")
-
-    entries.sort(key=lambda e: e["rank"])
-    return entries
