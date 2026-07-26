@@ -2,9 +2,16 @@
 # via OP.GG's public MCP server. Mirrors riot_api.py's structure/error handling.
 #
 # Meta/off-meta classification:
-#   - meta:        pick_rate >= META_PICK_RATE_THRESHOLD -> shown by default
-#   - off-meta:    pick_rate below threshold, but play >= MIN_GAMES_FOR_OFFMETA -> shown only when include_off_meta=True
-#   - insufficient data: play < MIN_GAMES_FOR_OFFMETA -> never shown
+#   OP.GG's MCP tier-list data only exposes pick_rate rounded to the nearest
+#   whole percent (e.g. "0.01" could really be anywhere from 0.51% to 1.49%).
+#   To keep the meta/off-meta boundary unambiguous despite that rounding, the
+#   cutoff is set at 2% rather than 1% -- anything that rounds down to "1%"
+#   or lower is confidently below a 2% threshold either way.
+#
+#   - meta:     pick_rate > META_PICK_RATE_THRESHOLD -> shown by default
+#   - off-meta: pick_rate <= META_PICK_RATE_THRESHOLD, but has real (nonzero)
+#               play data -> shown only when include_off_meta=True
+#   - excluded: zero games played -> never shown, regardless of toggle
 import ast
 import json
 import re
@@ -14,8 +21,7 @@ from mcp.client.streamable_http import streamable_http_client
 
 OPGG_MCP_URL = "https://mcp-api.op.gg/mcp"
 
-META_PICK_RATE_THRESHOLD = 0.01  # 1% 
-MIN_GAMES_FOR_OFFMETA = 50       # below this, a pick is noise, not signal
+META_PICK_RATE_THRESHOLD = 0.02  # 2%, accounts for OP.GG's whole-percent rounding
 
 
 class OpggError(Exception):
@@ -88,10 +94,10 @@ async def get_lane_tier_list(position: str, include_off_meta: bool = False) -> l
         games = e.get("play", 0)
         pick_rate = e.get("pick_rate", 0)
 
-        if games < MIN_GAMES_FOR_OFFMETA:
-            continue  # insufficient data, never shown
+        if games <= 0:
+            continue  # only exclude genuinely zero-game entries
 
-        is_meta = pick_rate >= META_PICK_RATE_THRESHOLD
+        is_meta = pick_rate > META_PICK_RATE_THRESHOLD
         if is_meta or include_off_meta:
             e["is_meta"] = is_meta
             filtered.append(e)
@@ -132,11 +138,11 @@ async def get_lane_matchup(
     for c in counters:
         champion_name = c["champion_name"]
         games = c.get("play", 0)
-        if games < MIN_GAMES_FOR_OFFMETA:
-            continue  # insufficient data, never shown
+        if games <= 0:
+            continue  # only exclude genuinely zero-game entries
 
         pick_rate = pick_rate_by_champion.get(champion_name, 0)
-        is_meta = pick_rate >= META_PICK_RATE_THRESHOLD
+        is_meta = pick_rate > META_PICK_RATE_THRESHOLD
 
         if is_meta or include_off_meta:
             classified.append({

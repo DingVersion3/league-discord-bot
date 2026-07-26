@@ -89,7 +89,7 @@ class OpggCog(commands.Cog):
         TIER_LABELS = {0: "OP", 1: "S", 2: "A", 3: "B", 4: "C", 5: "D"}
         lines = [
             f"{'⭐' if e['is_meta'] else '🔍'} **{e['rank']}.** {e['champion']} — "
-            f"Tier {TIER_LABELS.get(e['tier'], e['tier'])} ({e['win_rate']*100:.0f}% WR, {e['pick_rate']*100:.1f}% PR)"
+            f"Tier {TIER_LABELS.get(e['tier'], e['tier'])} ({e['win_rate']*100:.0f}% WR, {e['pick_rate']*100:.0f}% PR)"
             for e in entries[:15]
         ]
  
