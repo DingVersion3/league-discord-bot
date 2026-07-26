@@ -291,3 +291,25 @@ async def get_top_honeyfruit_holder(guild_id: int) -> dict | None:
     if not wallets:
         return None
     return max(wallets, key=lambda w: w["balance"])
+
+async def get_server_champion_stats(guild: discord.Guild, position: str) -> dict[str, dict]:
+    # Returns {champion_name: {"wins": int, "losses": int, "games": int}} for
+    # every champion played in the given position by members of this guild.
+    # Used to show a server's own record alongside global OP.GG tier data.
+    users = await get_registered_users_in_guild(guild)
+
+    stats = defaultdict(lambda: {"wins": 0, "losses": 0, "games": 0})
+
+    for user in users:
+        matches = await get_recent_matches(user["discord_id"], 0)  # 0 = all-time
+        for m in matches:
+            if m["position"] != position:
+                continue
+            champion = m["champion"]
+            stats[champion]["games"] += 1
+            if m["win"]:
+                stats[champion]["wins"] += 1
+            else:
+                stats[champion]["losses"] += 1
+
+    return dict(stats)

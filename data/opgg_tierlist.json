@@ -1,0 +1,6273 @@
+{
+  "generated_at": 1785081312,
+  "brackets": {
+    "gold_plus": {
+      "top": {
+        "Aatrox": {
+          "play": 309332,
+          "win_rate": 0.5,
+          "pick_rate": 0.06,
+          "ban_rate": 0.07,
+          "tier": 2,
+          "rank": 9
+        },
+        "Akali": {
+          "play": 122416,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.15,
+          "tier": 3,
+          "rank": 37
+        },
+        "Ambessa": {
+          "play": 201266,
+          "win_rate": 0.48,
+          "pick_rate": 0.04,
+          "ban_rate": 0.04,
+          "tier": 3,
+          "rank": 39
+        },
+        "Anivia": {
+          "play": 33246,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 49
+        },
+        "Camille": {
+          "play": 105715,
+          "win_rate": 0.49,
+          "pick_rate": 0.02,
+          "ban_rate": 0.07,
+          "tier": 4,
+          "rank": 44
+        },
+        "Cho'Gath": {
+          "play": 147286,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 33
+        },
+        "Darius": {
+          "play": 400061,
+          "win_rate": 0.5,
+          "pick_rate": 0.07,
+          "ban_rate": 0.14,
+          "tier": 2,
+          "rank": 11
+        },
+        "Dr. Mundo": {
+          "play": 282512,
+          "win_rate": 0.51,
+          "pick_rate": 0.05,
+          "ban_rate": 0.04,
+          "tier": 2,
+          "rank": 6
+        },
+        "Fiora": {
+          "play": 178563,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.03,
+          "tier": 3,
+          "rank": 27
+        },
+        "Gangplank": {
+          "play": 272135,
+          "win_rate": 0.51,
+          "pick_rate": 0.05,
+          "ban_rate": 0.05,
+          "tier": 2,
+          "rank": 13
+        },
+        "Garen": {
+          "play": 424299,
+          "win_rate": 0.52,
+          "pick_rate": 0.08,
+          "ban_rate": 0.07,
+          "tier": 1,
+          "rank": 2
+        },
+        "Gnar": {
+          "play": 190940,
+          "win_rate": 0.49,
+          "pick_rate": 0.04,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 38
+        },
+        "Gragas": {
+          "play": 101382,
+          "win_rate": 0.49,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 46
+        },
+        "Gwen": {
+          "play": 97554,
+          "win_rate": 0.49,
+          "pick_rate": 0.02,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 48
+        },
+        "Heimerdinger": {
+          "play": 96856,
+          "win_rate": 0.51,
+          "pick_rate": 0.02,
+          "ban_rate": 0.03,
+          "tier": 3,
+          "rank": 34
+        },
+        "Illaoi": {
+          "play": 172794,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.07,
+          "tier": 2,
+          "rank": 15
+        },
+        "Irelia": {
+          "play": 199019,
+          "win_rate": 0.5,
+          "pick_rate": 0.04,
+          "ban_rate": 0.11,
+          "tier": 2,
+          "rank": 21
+        },
+        "Jax": {
+          "play": 299621,
+          "win_rate": 0.5,
+          "pick_rate": 0.06,
+          "ban_rate": 0.09,
+          "tier": 2,
+          "rank": 12
+        },
+        "Jayce": {
+          "play": 227032,
+          "win_rate": 0.47,
+          "pick_rate": 0.04,
+          "ban_rate": 0.04,
+          "tier": 4,
+          "rank": 43
+        },
+        "K'Sante": {
+          "play": 160711,
+          "win_rate": 0.46,
+          "pick_rate": 0.03,
+          "ban_rate": 0.02,
+          "tier": 5,
+          "rank": 53
+        },
+        "Kayle": {
+          "play": 128673,
+          "win_rate": 0.52,
+          "pick_rate": 0.02,
+          "ban_rate": 0.02,
+          "tier": 2,
+          "rank": 18
+        },
+        "Kennen": {
+          "play": 66678,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 50
+        },
+        "Kled": {
+          "play": 84894,
+          "win_rate": 0.51,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 30
+        },
+        "Locke": {
+          "play": 67443,
+          "win_rate": 0.47,
+          "pick_rate": 0.01,
+          "ban_rate": 0.67,
+          "tier": 4,
+          "rank": 47
+        },
+        "Malphite": {
+          "play": 361533,
+          "win_rate": 0.51,
+          "pick_rate": 0.07,
+          "ban_rate": 0.16,
+          "tier": 1,
+          "rank": 4
+        },
+        "Malzahar": {
+          "play": 37424,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.14,
+          "tier": 5,
+          "rank": 51
+        },
+        "Master Yi": {
+          "play": 43326,
+          "win_rate": 0.48,
+          "pick_rate": 0.01,
+          "ban_rate": 0.15,
+          "tier": 5,
+          "rank": 56
+        },
+        "Wukong": {
+          "play": 45883,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 40
+        },
+        "Mordekaiser": {
+          "play": 627001,
+          "win_rate": 0.54,
+          "pick_rate": 0.12,
+          "ban_rate": 0.17,
+          "tier": 0,
+          "rank": 1
+        },
+        "Nasus": {
+          "play": 191751,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.1,
+          "tier": 2,
+          "rank": 19
+        },
+        "Olaf": {
+          "play": 153095,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.03,
+          "tier": 3,
+          "rank": 23
+        },
+        "Ornn": {
+          "play": 158284,
+          "win_rate": 0.52,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 17
+        },
+        "Pantheon": {
+          "play": 136330,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 28
+        },
+        "Poppy": {
+          "play": 56927,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.04,
+          "tier": 4,
+          "rank": 42
+        },
+        "Quinn": {
+          "play": 46554,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 41
+        },
+        "Renekton": {
+          "play": 284318,
+          "win_rate": 0.5,
+          "pick_rate": 0.05,
+          "ban_rate": 0.03,
+          "tier": 2,
+          "rank": 16
+        },
+        "Riven": {
+          "play": 143224,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 36
+        },
+        "Rumble": {
+          "play": 76550,
+          "win_rate": 0.47,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 55
+        },
+        "Ryze": {
+          "play": 30525,
+          "win_rate": 0.48,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 5,
+          "rank": 57
+        },
+        "Sett": {
+          "play": 341924,
+          "win_rate": 0.51,
+          "pick_rate": 0.06,
+          "ban_rate": 0.03,
+          "tier": 1,
+          "rank": 5
+        },
+        "Shen": {
+          "play": 181877,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 20
+        },
+        "Singed": {
+          "play": 137703,
+          "win_rate": 0.52,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 10
+        },
+        "Sion": {
+          "play": 182274,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 26
+        },
+        "Swain": {
+          "play": 49076,
+          "win_rate": 0.48,
+          "pick_rate": 0.01,
+          "ban_rate": 0.03,
+          "tier": 5,
+          "rank": 54
+        },
+        "Tahm Kench": {
+          "play": 122406,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.04,
+          "tier": 3,
+          "rank": 29
+        },
+        "Teemo": {
+          "play": 316905,
+          "win_rate": 0.52,
+          "pick_rate": 0.06,
+          "ban_rate": 0.12,
+          "tier": 1,
+          "rank": 3
+        },
+        "Trundle": {
+          "play": 100844,
+          "win_rate": 0.49,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 45
+        },
+        "Tryndamere": {
+          "play": 205829,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.03,
+          "tier": 2,
+          "rank": 14
+        },
+        "Urgot": {
+          "play": 141753,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 22
+        },
+        "Varus": {
+          "play": 38565,
+          "win_rate": 0.47,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 58
+        },
+        "Vayne": {
+          "play": 187340,
+          "win_rate": 0.49,
+          "pick_rate": 0.03,
+          "ban_rate": 0.11,
+          "tier": 3,
+          "rank": 31
+        },
+        "Vladimir": {
+          "play": 56415,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.04,
+          "tier": 5,
+          "rank": 52
+        },
+        "Volibear": {
+          "play": 166869,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 32
+        },
+        "Warwick": {
+          "play": 83588,
+          "win_rate": 0.52,
+          "pick_rate": 0.02,
+          "ban_rate": 0.04,
+          "tier": 3,
+          "rank": 24
+        },
+        "Yasuo": {
+          "play": 186772,
+          "win_rate": 0.48,
+          "pick_rate": 0.03,
+          "ban_rate": 0.17,
+          "tier": 3,
+          "rank": 35
+        },
+        "Yone": {
+          "play": 391029,
+          "win_rate": 0.5,
+          "pick_rate": 0.07,
+          "ban_rate": 0.08,
+          "tier": 2,
+          "rank": 7
+        },
+        "Yorick": {
+          "play": 253981,
+          "win_rate": 0.51,
+          "pick_rate": 0.05,
+          "ban_rate": 0.1,
+          "tier": 2,
+          "rank": 8
+        },
+        "Zaahen": {
+          "play": 152942,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 25
+        }
+      },
+      "jungle": {
+        "Aatrox": {
+          "play": 57152,
+          "win_rate": 0.52,
+          "pick_rate": 0.01,
+          "ban_rate": 0.07,
+          "tier": 3,
+          "rank": 30
+        },
+        "Ambessa": {
+          "play": 58242,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.04,
+          "tier": 5,
+          "rank": 52
+        },
+        "Amumu": {
+          "play": 159960,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.02,
+          "tier": 2,
+          "rank": 21
+        },
+        "Bel'Veth": {
+          "play": 98774,
+          "win_rate": 0.51,
+          "pick_rate": 0.02,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 31
+        },
+        "Briar": {
+          "play": 319822,
+          "win_rate": 0.52,
+          "pick_rate": 0.06,
+          "ban_rate": 0.11,
+          "tier": 1,
+          "rank": 2
+        },
+        "Darius": {
+          "play": 38643,
+          "win_rate": 0.52,
+          "pick_rate": 0.01,
+          "ban_rate": 0.14,
+          "tier": 4,
+          "rank": 34
+        },
+        "Diana": {
+          "play": 199661,
+          "win_rate": 0.5,
+          "pick_rate": 0.04,
+          "ban_rate": 0.05,
+          "tier": 3,
+          "rank": 27
+        },
+        "Dr. Mundo": {
+          "play": 43714,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.04,
+          "tier": 5,
+          "rank": 48
+        },
+        "Ekko": {
+          "play": 178574,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 24
+        },
+        "Elise": {
+          "play": 75336,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 42
+        },
+        "Evelynn": {
+          "play": 116669,
+          "win_rate": 0.51,
+          "pick_rate": 0.02,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 29
+        },
+        "Fiddlesticks": {
+          "play": 103253,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 33
+        },
+        "Fizz": {
+          "play": 31882,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.08,
+          "tier": 5,
+          "rank": 51
+        },
+        "Gragas": {
+          "play": 31951,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 60
+        },
+        "Graves": {
+          "play": 521997,
+          "win_rate": 0.5,
+          "pick_rate": 0.1,
+          "ban_rate": 0.08,
+          "tier": 2,
+          "rank": 10
+        },
+        "Gwen": {
+          "play": 28070,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 5,
+          "rank": 56
+        },
+        "Hecarim": {
+          "play": 184236,
+          "win_rate": 0.49,
+          "pick_rate": 0.03,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 32
+        },
+        "Ivern": {
+          "play": 44177,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 4,
+          "rank": 43
+        },
+        "Jarvan IV": {
+          "play": 300138,
+          "win_rate": 0.51,
+          "pick_rate": 0.05,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 16
+        },
+        "Jax": {
+          "play": 150731,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.09,
+          "tier": 3,
+          "rank": 22
+        },
+        "Jayce": {
+          "play": 80512,
+          "win_rate": 0.47,
+          "pick_rate": 0.01,
+          "ban_rate": 0.04,
+          "tier": 5,
+          "rank": 61
+        },
+        "Karthus": {
+          "play": 63317,
+          "win_rate": 0.48,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 59
+        },
+        "Kayn": {
+          "play": 475992,
+          "win_rate": 0.51,
+          "pick_rate": 0.09,
+          "ban_rate": 0.06,
+          "tier": 1,
+          "rank": 4
+        },
+        "Kha'Zix": {
+          "play": 240229,
+          "win_rate": 0.49,
+          "pick_rate": 0.04,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 26
+        },
+        "Kindred": {
+          "play": 135546,
+          "win_rate": 0.49,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 35
+        },
+        "Lee Sin": {
+          "play": 661407,
+          "win_rate": 0.49,
+          "pick_rate": 0.12,
+          "ban_rate": 0.13,
+          "tier": 2,
+          "rank": 18
+        },
+        "Lillia": {
+          "play": 143705,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 20
+        },
+        "Locke": {
+          "play": 144998,
+          "win_rate": 0.44,
+          "pick_rate": 0.03,
+          "ban_rate": 0.68,
+          "tier": 5,
+          "rank": 58
+        },
+        "Malphite": {
+          "play": 61512,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.16,
+          "tier": 5,
+          "rank": 53
+        },
+        "Master Yi": {
+          "play": 409304,
+          "win_rate": 0.5,
+          "pick_rate": 0.07,
+          "ban_rate": 0.15,
+          "tier": 2,
+          "rank": 11
+        },
+        "Wukong": {
+          "play": 285335,
+          "win_rate": 0.52,
+          "pick_rate": 0.05,
+          "ban_rate": 0.02,
+          "tier": 1,
+          "rank": 6
+        },
+        "Naafiri": {
+          "play": 343389,
+          "win_rate": 0.51,
+          "pick_rate": 0.06,
+          "ban_rate": 0.26,
+          "tier": 1,
+          "rank": 9
+        },
+        "Nasus": {
+          "play": 231939,
+          "win_rate": 0.52,
+          "pick_rate": 0.04,
+          "ban_rate": 0.1,
+          "tier": 1,
+          "rank": 7
+        },
+        "Nidalee": {
+          "play": 105381,
+          "win_rate": 0.49,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 47
+        },
+        "Nocturne": {
+          "play": 485534,
+          "win_rate": 0.52,
+          "pick_rate": 0.09,
+          "ban_rate": 0.16,
+          "tier": 1,
+          "rank": 1
+        },
+        "Nunu & Willump": {
+          "play": 104520,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.0,
+          "tier": 4,
+          "rank": 36
+        },
+        "Pantheon": {
+          "play": 58989,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 5,
+          "rank": 55
+        },
+        "Poppy": {
+          "play": 37577,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.04,
+          "tier": 5,
+          "rank": 54
+        },
+        "Qiyana": {
+          "play": 121698,
+          "win_rate": 0.46,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 63
+        },
+        "Quinn": {
+          "play": 78763,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 38
+        },
+        "Rammus": {
+          "play": 113459,
+          "win_rate": 0.53,
+          "pick_rate": 0.02,
+          "ban_rate": 0.05,
+          "tier": 2,
+          "rank": 13
+        },
+        "Rek'Sai": {
+          "play": 54480,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 4,
+          "rank": 46
+        },
+        "Rengar": {
+          "play": 176980,
+          "win_rate": 0.47,
+          "pick_rate": 0.03,
+          "ban_rate": 0.04,
+          "tier": 5,
+          "rank": 50
+        },
+        "Sejuani": {
+          "play": 107256,
+          "win_rate": 0.51,
+          "pick_rate": 0.02,
+          "ban_rate": 0.0,
+          "tier": 3,
+          "rank": 28
+        },
+        "Shaco": {
+          "play": 297531,
+          "win_rate": 0.5,
+          "pick_rate": 0.05,
+          "ban_rate": 0.23,
+          "tier": 2,
+          "rank": 14
+        },
+        "Shyvana": {
+          "play": 231295,
+          "win_rate": 0.53,
+          "pick_rate": 0.04,
+          "ban_rate": 0.03,
+          "tier": 1,
+          "rank": 5
+        },
+        "Skarner": {
+          "play": 52558,
+          "win_rate": 0.48,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 5,
+          "rank": 62
+        },
+        "Sylas": {
+          "play": 417487,
+          "win_rate": 0.5,
+          "pick_rate": 0.08,
+          "ban_rate": 0.16,
+          "tier": 2,
+          "rank": 12
+        },
+        "Talon": {
+          "play": 184065,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.03,
+          "tier": 3,
+          "rank": 23
+        },
+        "Teemo": {
+          "play": 48157,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.12,
+          "tier": 5,
+          "rank": 49
+        },
+        "Trundle": {
+          "play": 47663,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 41
+        },
+        "Udyr": {
+          "play": 118464,
+          "win_rate": 0.51,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 25
+        },
+        "Vi": {
+          "play": 315032,
+          "win_rate": 0.5,
+          "pick_rate": 0.06,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 17
+        },
+        "Viego": {
+          "play": 541210,
+          "win_rate": 0.51,
+          "pick_rate": 0.1,
+          "ban_rate": 0.08,
+          "tier": 1,
+          "rank": 8
+        },
+        "Volibear": {
+          "play": 65912,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 39
+        },
+        "Warwick": {
+          "play": 265256,
+          "win_rate": 0.53,
+          "pick_rate": 0.05,
+          "ban_rate": 0.04,
+          "tier": 1,
+          "rank": 3
+        },
+        "Xin Zhao": {
+          "play": 238754,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 19
+        },
+        "Zac": {
+          "play": 113911,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 37
+        },
+        "Zed": {
+          "play": 112422,
+          "win_rate": 0.47,
+          "pick_rate": 0.02,
+          "ban_rate": 0.19,
+          "tier": 5,
+          "rank": 57
+        },
+        "Zyra": {
+          "play": 37781,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.03,
+          "tier": 4,
+          "rank": 44
+        }
+      },
+      "mid": {
+        "Ahri": {
+          "play": 494455,
+          "win_rate": 0.51,
+          "pick_rate": 0.09,
+          "ban_rate": 0.03,
+          "tier": 1,
+          "rank": 5
+        },
+        "Akali": {
+          "play": 339350,
+          "win_rate": 0.5,
+          "pick_rate": 0.06,
+          "ban_rate": 0.15,
+          "tier": 3,
+          "rank": 22
+        },
+        "Akshan": {
+          "play": 127068,
+          "win_rate": 0.49,
+          "pick_rate": 0.02,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 35
+        },
+        "Anivia": {
+          "play": 115262,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 30
+        },
+        "Annie": {
+          "play": 107500,
+          "win_rate": 0.51,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 29
+        },
+        "Aurelion Sol": {
+          "play": 85636,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 32
+        },
+        "Aurora": {
+          "play": 113618,
+          "win_rate": 0.49,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 43
+        },
+        "Azir": {
+          "play": 89982,
+          "win_rate": 0.47,
+          "pick_rate": 0.02,
+          "ban_rate": 0.0,
+          "tier": 5,
+          "rank": 54
+        },
+        "Brand": {
+          "play": 56836,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.08,
+          "tier": 4,
+          "rank": 42
+        },
+        "Cassiopeia": {
+          "play": 77479,
+          "win_rate": 0.48,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 50
+        },
+        "Cho'Gath": {
+          "play": 30146,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 45
+        },
+        "Diana": {
+          "play": 233858,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.05,
+          "tier": 2,
+          "rank": 12
+        },
+        "Ekko": {
+          "play": 159188,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 23
+        },
+        "Fizz": {
+          "play": 334148,
+          "win_rate": 0.52,
+          "pick_rate": 0.06,
+          "ban_rate": 0.09,
+          "tier": 1,
+          "rank": 3
+        },
+        "Galio": {
+          "play": 245290,
+          "win_rate": 0.5,
+          "pick_rate": 0.04,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 24
+        },
+        "Hwei": {
+          "play": 201650,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 19
+        },
+        "Irelia": {
+          "play": 153165,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.11,
+          "tier": 3,
+          "rank": 25
+        },
+        "Jayce": {
+          "play": 39652,
+          "win_rate": 0.48,
+          "pick_rate": 0.01,
+          "ban_rate": 0.04,
+          "tier": 5,
+          "rank": 53
+        },
+        "Kassadin": {
+          "play": 134333,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 27
+        },
+        "Katarina": {
+          "play": 363841,
+          "win_rate": 0.5,
+          "pick_rate": 0.07,
+          "ban_rate": 0.07,
+          "tier": 2,
+          "rank": 15
+        },
+        "LeBlanc": {
+          "play": 216733,
+          "win_rate": 0.49,
+          "pick_rate": 0.04,
+          "ban_rate": 0.11,
+          "tier": 4,
+          "rank": 28
+        },
+        "Lissandra": {
+          "play": 228275,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 20
+        },
+        "Locke": {
+          "play": 433607,
+          "win_rate": 0.51,
+          "pick_rate": 0.08,
+          "ban_rate": 0.68,
+          "tier": 0,
+          "rank": 1
+        },
+        "Lux": {
+          "play": 247989,
+          "win_rate": 0.51,
+          "pick_rate": 0.05,
+          "ban_rate": 0.08,
+          "tier": 2,
+          "rank": 11
+        },
+        "Malphite": {
+          "play": 51974,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.15,
+          "tier": 4,
+          "rank": 40
+        },
+        "Malzahar": {
+          "play": 410635,
+          "win_rate": 0.52,
+          "pick_rate": 0.07,
+          "ban_rate": 0.14,
+          "tier": 1,
+          "rank": 2
+        },
+        "Mel": {
+          "play": 181830,
+          "win_rate": 0.46,
+          "pick_rate": 0.03,
+          "ban_rate": 0.35,
+          "tier": 5,
+          "rank": 49
+        },
+        "Morgana": {
+          "play": 30100,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.2,
+          "tier": 4,
+          "rank": 44
+        },
+        "Naafiri": {
+          "play": 152636,
+          "win_rate": 0.52,
+          "pick_rate": 0.03,
+          "ban_rate": 0.26,
+          "tier": 1,
+          "rank": 7
+        },
+        "Orianna": {
+          "play": 150333,
+          "win_rate": 0.47,
+          "pick_rate": 0.03,
+          "ban_rate": 0.0,
+          "tier": 5,
+          "rank": 51
+        },
+        "Pantheon": {
+          "play": 60354,
+          "win_rate": 0.52,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 26
+        },
+        "Qiyana": {
+          "play": 94496,
+          "win_rate": 0.48,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 46
+        },
+        "Riven": {
+          "play": 51466,
+          "win_rate": 0.52,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 31
+        },
+        "Ryze": {
+          "play": 141789,
+          "win_rate": 0.48,
+          "pick_rate": 0.03,
+          "ban_rate": 0.0,
+          "tier": 5,
+          "rank": 48
+        },
+        "Sion": {
+          "play": 38806,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 38
+        },
+        "Smolder": {
+          "play": 39144,
+          "win_rate": 0.47,
+          "pick_rate": 0.01,
+          "ban_rate": 0.04,
+          "tier": 5,
+          "rank": 56
+        },
+        "Swain": {
+          "play": 46982,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.03,
+          "tier": 4,
+          "rank": 36
+        },
+        "Sylas": {
+          "play": 474819,
+          "win_rate": 0.5,
+          "pick_rate": 0.09,
+          "ban_rate": 0.16,
+          "tier": 1,
+          "rank": 8
+        },
+        "Syndra": {
+          "play": 378432,
+          "win_rate": 0.51,
+          "pick_rate": 0.07,
+          "ban_rate": 0.05,
+          "tier": 2,
+          "rank": 10
+        },
+        "Taliyah": {
+          "play": 58058,
+          "win_rate": 0.48,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 5,
+          "rank": 52
+        },
+        "Talon": {
+          "play": 106253,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.03,
+          "tier": 4,
+          "rank": 34
+        },
+        "Twisted Fate": {
+          "play": 229568,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 21
+        },
+        "Veigar": {
+          "play": 259819,
+          "win_rate": 0.52,
+          "pick_rate": 0.05,
+          "ban_rate": 0.02,
+          "tier": 1,
+          "rank": 9
+        },
+        "Vel'Koz": {
+          "play": 51890,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 39
+        },
+        "Vex": {
+          "play": 174827,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.03,
+          "tier": 3,
+          "rank": 16
+        },
+        "Viktor": {
+          "play": 411894,
+          "win_rate": 0.51,
+          "pick_rate": 0.07,
+          "ban_rate": 0.07,
+          "tier": 1,
+          "rank": 6
+        },
+        "Vladimir": {
+          "play": 204153,
+          "win_rate": 0.52,
+          "pick_rate": 0.04,
+          "ban_rate": 0.05,
+          "tier": 2,
+          "rank": 13
+        },
+        "Xerath": {
+          "play": 228864,
+          "win_rate": 0.52,
+          "pick_rate": 0.04,
+          "ban_rate": 0.18,
+          "tier": 1,
+          "rank": 4
+        },
+        "Yasuo": {
+          "play": 528958,
+          "win_rate": 0.49,
+          "pick_rate": 0.1,
+          "ban_rate": 0.17,
+          "tier": 3,
+          "rank": 18
+        },
+        "Yone": {
+          "play": 399338,
+          "win_rate": 0.5,
+          "pick_rate": 0.07,
+          "ban_rate": 0.08,
+          "tier": 3,
+          "rank": 17
+        },
+        "Zed": {
+          "play": 396251,
+          "win_rate": 0.5,
+          "pick_rate": 0.07,
+          "ban_rate": 0.19,
+          "tier": 2,
+          "rank": 14
+        },
+        "Ziggs": {
+          "play": 51833,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.04,
+          "tier": 4,
+          "rank": 41
+        },
+        "Zoe": {
+          "play": 122841,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 33
+        }
+      },
+      "adc": {
+        "Aphelios": {
+          "play": 206531,
+          "win_rate": 0.5,
+          "pick_rate": 0.04,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 30
+        },
+        "Ashe": {
+          "play": 475537,
+          "win_rate": 0.5,
+          "pick_rate": 0.09,
+          "ban_rate": 0.03,
+          "tier": 2,
+          "rank": 12
+        },
+        "Brand": {
+          "play": 72798,
+          "win_rate": 0.53,
+          "pick_rate": 0.01,
+          "ban_rate": 0.08,
+          "tier": 3,
+          "rank": 20
+        },
+        "Caitlyn": {
+          "play": 1009355,
+          "win_rate": 0.5,
+          "pick_rate": 0.18,
+          "ban_rate": 0.22,
+          "tier": 1,
+          "rank": 4
+        },
+        "Corki": {
+          "play": 75225,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 5,
+          "rank": 38
+        },
+        "Draven": {
+          "play": 180845,
+          "win_rate": 0.49,
+          "pick_rate": 0.03,
+          "ban_rate": 0.09,
+          "tier": 5,
+          "rank": 34
+        },
+        "Ezreal": {
+          "play": 752900,
+          "win_rate": 0.47,
+          "pick_rate": 0.14,
+          "ban_rate": 0.05,
+          "tier": 4,
+          "rank": 27
+        },
+        "Hwei": {
+          "play": 79414,
+          "win_rate": 0.53,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 22
+        },
+        "Jhin": {
+          "play": 816563,
+          "win_rate": 0.5,
+          "pick_rate": 0.15,
+          "ban_rate": 0.02,
+          "tier": 1,
+          "rank": 7
+        },
+        "Jinx": {
+          "play": 576245,
+          "win_rate": 0.52,
+          "pick_rate": 0.1,
+          "ban_rate": 0.03,
+          "tier": 1,
+          "rank": 1
+        },
+        "Kai'Sa": {
+          "play": 647106,
+          "win_rate": 0.49,
+          "pick_rate": 0.12,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 15
+        },
+        "Kalista": {
+          "play": 76098,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 5,
+          "rank": 39
+        },
+        "Katarina": {
+          "play": 30297,
+          "win_rate": 0.52,
+          "pick_rate": 0.01,
+          "ban_rate": 0.07,
+          "tier": 5,
+          "rank": 35
+        },
+        "Kog'Maw": {
+          "play": 88292,
+          "win_rate": 0.52,
+          "pick_rate": 0.02,
+          "ban_rate": 0.0,
+          "tier": 4,
+          "rank": 25
+        },
+        "Lucian": {
+          "play": 382382,
+          "win_rate": 0.49,
+          "pick_rate": 0.07,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 23
+        },
+        "Mel": {
+          "play": 271963,
+          "win_rate": 0.47,
+          "pick_rate": 0.05,
+          "ban_rate": 0.35,
+          "tier": 5,
+          "rank": 36
+        },
+        "Miss Fortune": {
+          "play": 757589,
+          "win_rate": 0.51,
+          "pick_rate": 0.14,
+          "ban_rate": 0.02,
+          "tier": 1,
+          "rank": 2
+        },
+        "Nilah": {
+          "play": 64542,
+          "win_rate": 0.53,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 17
+        },
+        "Samira": {
+          "play": 271471,
+          "win_rate": 0.51,
+          "pick_rate": 0.05,
+          "ban_rate": 0.08,
+          "tier": 3,
+          "rank": 16
+        },
+        "Senna": {
+          "play": 232531,
+          "win_rate": 0.53,
+          "pick_rate": 0.04,
+          "ban_rate": 0.09,
+          "tier": 1,
+          "rank": 5
+        },
+        "Seraphine": {
+          "play": 188064,
+          "win_rate": 0.53,
+          "pick_rate": 0.03,
+          "ban_rate": 0.15,
+          "tier": 1,
+          "rank": 3
+        },
+        "Sivir": {
+          "play": 213276,
+          "win_rate": 0.5,
+          "pick_rate": 0.04,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 26
+        },
+        "Smolder": {
+          "play": 287347,
+          "win_rate": 0.52,
+          "pick_rate": 0.05,
+          "ban_rate": 0.04,
+          "tier": 2,
+          "rank": 8
+        },
+        "Swain": {
+          "play": 73955,
+          "win_rate": 0.53,
+          "pick_rate": 0.01,
+          "ban_rate": 0.03,
+          "tier": 4,
+          "rank": 24
+        },
+        "Syndra": {
+          "play": 121457,
+          "win_rate": 0.51,
+          "pick_rate": 0.02,
+          "ban_rate": 0.05,
+          "tier": 4,
+          "rank": 31
+        },
+        "Tristana": {
+          "play": 388115,
+          "win_rate": 0.51,
+          "pick_rate": 0.07,
+          "ban_rate": 0.03,
+          "tier": 2,
+          "rank": 11
+        },
+        "Twitch": {
+          "play": 264351,
+          "win_rate": 0.51,
+          "pick_rate": 0.05,
+          "ban_rate": 0.06,
+          "tier": 2,
+          "rank": 13
+        },
+        "Varus": {
+          "play": 130030,
+          "win_rate": 0.47,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 40
+        },
+        "Vayne": {
+          "play": 292708,
+          "win_rate": 0.5,
+          "pick_rate": 0.05,
+          "ban_rate": 0.11,
+          "tier": 3,
+          "rank": 14
+        },
+        "Veigar": {
+          "play": 96680,
+          "win_rate": 0.54,
+          "pick_rate": 0.02,
+          "ban_rate": 0.02,
+          "tier": 2,
+          "rank": 9
+        },
+        "Vel'Koz": {
+          "play": 47271,
+          "win_rate": 0.52,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 33
+        },
+        "Xayah": {
+          "play": 181369,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.0,
+          "tier": 3,
+          "rank": 18
+        },
+        "Xerath": {
+          "play": 188340,
+          "win_rate": 0.52,
+          "pick_rate": 0.03,
+          "ban_rate": 0.18,
+          "tier": 2,
+          "rank": 10
+        },
+        "Yasuo": {
+          "play": 76659,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.17,
+          "tier": 4,
+          "rank": 32
+        },
+        "Yunara": {
+          "play": 353298,
+          "win_rate": 0.49,
+          "pick_rate": 0.06,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 28
+        },
+        "Zeri": {
+          "play": 135637,
+          "win_rate": 0.51,
+          "pick_rate": 0.02,
+          "ban_rate": 0.0,
+          "tier": 4,
+          "rank": 29
+        },
+        "Ziggs": {
+          "play": 342073,
+          "win_rate": 0.52,
+          "pick_rate": 0.06,
+          "ban_rate": 0.04,
+          "tier": 1,
+          "rank": 6
+        }
+      },
+      "support": {
+        "Alistar": {
+          "play": 177004,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 32
+        },
+        "Amumu": {
+          "play": 29982,
+          "win_rate": 0.52,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 38
+        },
+        "Anivia": {
+          "play": 27269,
+          "win_rate": 0.48,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 5,
+          "rank": 49
+        },
+        "Ashe": {
+          "play": 61315,
+          "win_rate": 0.46,
+          "pick_rate": 0.01,
+          "ban_rate": 0.03,
+          "tier": 5,
+          "rank": 53
+        },
+        "Bard": {
+          "play": 233673,
+          "win_rate": 0.5,
+          "pick_rate": 0.04,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 29
+        },
+        "Blitzcrank": {
+          "play": 293109,
+          "win_rate": 0.51,
+          "pick_rate": 0.05,
+          "ban_rate": 0.12,
+          "tier": 3,
+          "rank": 13
+        },
+        "Brand": {
+          "play": 204028,
+          "win_rate": 0.5,
+          "pick_rate": 0.04,
+          "ban_rate": 0.08,
+          "tier": 3,
+          "rank": 24
+        },
+        "Braum": {
+          "play": 183244,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.03,
+          "tier": 3,
+          "rank": 16
+        },
+        "Camille": {
+          "play": 345801,
+          "win_rate": 0.49,
+          "pick_rate": 0.06,
+          "ban_rate": 0.07,
+          "tier": 4,
+          "rank": 31
+        },
+        "Elise": {
+          "play": 28227,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 43
+        },
+        "Fiddlesticks": {
+          "play": 27811,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 46
+        },
+        "Galio": {
+          "play": 63432,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 33
+        },
+        "Hwei": {
+          "play": 36381,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 5,
+          "rank": 42
+        },
+        "Janna": {
+          "play": 133519,
+          "win_rate": 0.52,
+          "pick_rate": 0.02,
+          "ban_rate": 0.0,
+          "tier": 3,
+          "rank": 20
+        },
+        "Karma": {
+          "play": 285498,
+          "win_rate": 0.5,
+          "pick_rate": 0.05,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 27
+        },
+        "LeBlanc": {
+          "play": 38768,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.1,
+          "tier": 5,
+          "rank": 45
+        },
+        "Leona": {
+          "play": 440314,
+          "win_rate": 0.52,
+          "pick_rate": 0.08,
+          "ban_rate": 0.09,
+          "tier": 1,
+          "rank": 3
+        },
+        "Lulu": {
+          "play": 360336,
+          "win_rate": 0.5,
+          "pick_rate": 0.07,
+          "ban_rate": 0.05,
+          "tier": 3,
+          "rank": 15
+        },
+        "Lux": {
+          "play": 545193,
+          "win_rate": 0.5,
+          "pick_rate": 0.1,
+          "ban_rate": 0.08,
+          "tier": 3,
+          "rank": 8
+        },
+        "Malphite": {
+          "play": 43640,
+          "win_rate": 0.47,
+          "pick_rate": 0.01,
+          "ban_rate": 0.15,
+          "tier": 5,
+          "rank": 50
+        },
+        "Maokai": {
+          "play": 93280,
+          "win_rate": 0.51,
+          "pick_rate": 0.02,
+          "ban_rate": 0.0,
+          "tier": 4,
+          "rank": 30
+        },
+        "Mel": {
+          "play": 153404,
+          "win_rate": 0.44,
+          "pick_rate": 0.03,
+          "ban_rate": 0.35,
+          "tier": 5,
+          "rank": 51
+        },
+        "Milio": {
+          "play": 259753,
+          "win_rate": 0.51,
+          "pick_rate": 0.05,
+          "ban_rate": 0.03,
+          "tier": 3,
+          "rank": 9
+        },
+        "Morgana": {
+          "play": 331225,
+          "win_rate": 0.51,
+          "pick_rate": 0.06,
+          "ban_rate": 0.2,
+          "tier": 2,
+          "rank": 7
+        },
+        "Nami": {
+          "play": 392833,
+          "win_rate": 0.51,
+          "pick_rate": 0.07,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 5
+        },
+        "Nautilus": {
+          "play": 542069,
+          "win_rate": 0.5,
+          "pick_rate": 0.1,
+          "ban_rate": 0.13,
+          "tier": 2,
+          "rank": 6
+        },
+        "Neeko": {
+          "play": 93575,
+          "win_rate": 0.48,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 44
+        },
+        "Pantheon": {
+          "play": 237430,
+          "win_rate": 0.5,
+          "pick_rate": 0.04,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 26
+        },
+        "Poppy": {
+          "play": 144839,
+          "win_rate": 0.52,
+          "pick_rate": 0.03,
+          "ban_rate": 0.04,
+          "tier": 3,
+          "rank": 10
+        },
+        "Pyke": {
+          "play": 376285,
+          "win_rate": 0.5,
+          "pick_rate": 0.07,
+          "ban_rate": 0.19,
+          "tier": 3,
+          "rank": 18
+        },
+        "Rakan": {
+          "play": 138956,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.0,
+          "tier": 4,
+          "rank": 28
+        },
+        "Rell": {
+          "play": 169646,
+          "win_rate": 0.52,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 12
+        },
+        "Renata Glasc": {
+          "play": 43149,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 4,
+          "rank": 41
+        },
+        "Senna": {
+          "play": 368017,
+          "win_rate": 0.51,
+          "pick_rate": 0.07,
+          "ban_rate": 0.09,
+          "tier": 2,
+          "rank": 4
+        },
+        "Seraphine": {
+          "play": 637825,
+          "win_rate": 0.51,
+          "pick_rate": 0.12,
+          "ban_rate": 0.15,
+          "tier": 1,
+          "rank": 2
+        },
+        "Shaco": {
+          "play": 84643,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.23,
+          "tier": 4,
+          "rank": 34
+        },
+        "Shen": {
+          "play": 86224,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 37
+        },
+        "Sona": {
+          "play": 151280,
+          "win_rate": 0.52,
+          "pick_rate": 0.03,
+          "ban_rate": 0.0,
+          "tier": 3,
+          "rank": 14
+        },
+        "Soraka": {
+          "play": 223562,
+          "win_rate": 0.52,
+          "pick_rate": 0.04,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 11
+        },
+        "Swain": {
+          "play": 215972,
+          "win_rate": 0.49,
+          "pick_rate": 0.04,
+          "ban_rate": 0.03,
+          "tier": 4,
+          "rank": 35
+        },
+        "Tahm Kench": {
+          "play": 169731,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.04,
+          "tier": 3,
+          "rank": 22
+        },
+        "Taric": {
+          "play": 62929,
+          "win_rate": 0.53,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 3,
+          "rank": 25
+        },
+        "Teemo": {
+          "play": 44684,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.12,
+          "tier": 4,
+          "rank": 40
+        },
+        "Thresh": {
+          "play": 606135,
+          "win_rate": 0.52,
+          "pick_rate": 0.11,
+          "ban_rate": 0.06,
+          "tier": 1,
+          "rank": 1
+        },
+        "Veigar": {
+          "play": 33057,
+          "win_rate": 0.47,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 5,
+          "rank": 52
+        },
+        "Vel'Koz": {
+          "play": 192222,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 21
+        },
+        "Xerath": {
+          "play": 199918,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.18,
+          "tier": 3,
+          "rank": 17
+        },
+        "Yuumi": {
+          "play": 234607,
+          "win_rate": 0.48,
+          "pick_rate": 0.04,
+          "ban_rate": 0.04,
+          "tier": 4,
+          "rank": 36
+        },
+        "Zilean": {
+          "play": 136623,
+          "win_rate": 0.52,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 19
+        },
+        "Zoe": {
+          "play": 35509,
+          "win_rate": 0.48,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 5,
+          "rank": 48
+        },
+        "Zyra": {
+          "play": 174237,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.03,
+          "tier": 3,
+          "rank": 23
+        }
+      }
+    },
+    "diamond_plus": {
+      "top": {
+        "Aatrox": {
+          "play": 52890,
+          "win_rate": 0.5,
+          "pick_rate": 0.07,
+          "ban_rate": 0.07,
+          "tier": 1,
+          "rank": 5
+        },
+        "Akali": {
+          "play": 19482,
+          "win_rate": 0.49,
+          "pick_rate": 0.02,
+          "ban_rate": 0.16,
+          "tier": 3,
+          "rank": 42
+        },
+        "Ambessa": {
+          "play": 46595,
+          "win_rate": 0.49,
+          "pick_rate": 0.06,
+          "ban_rate": 0.07,
+          "tier": 2,
+          "rank": 29
+        },
+        "Anivia": {
+          "play": 8603,
+          "win_rate": 0.53,
+          "pick_rate": 0.01,
+          "ban_rate": 0.03,
+          "tier": 2,
+          "rank": 27
+        },
+        "Aurora": {
+          "play": 5193,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 54
+        },
+        "Camille": {
+          "play": 20912,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.15,
+          "tier": 2,
+          "rank": 25
+        },
+        "Cassiopeia": {
+          "play": 6157,
+          "win_rate": 0.52,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 43
+        },
+        "Cho'Gath": {
+          "play": 18678,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.0,
+          "tier": 3,
+          "rank": 40
+        },
+        "Darius": {
+          "play": 45890,
+          "win_rate": 0.5,
+          "pick_rate": 0.06,
+          "ban_rate": 0.11,
+          "tier": 2,
+          "rank": 12
+        },
+        "Dr. Mundo": {
+          "play": 40976,
+          "win_rate": 0.5,
+          "pick_rate": 0.05,
+          "ban_rate": 0.03,
+          "tier": 2,
+          "rank": 21
+        },
+        "Fiora": {
+          "play": 32317,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.06,
+          "tier": 1,
+          "rank": 7
+        },
+        "Gangplank": {
+          "play": 43209,
+          "win_rate": 0.51,
+          "pick_rate": 0.05,
+          "ban_rate": 0.07,
+          "tier": 1,
+          "rank": 2
+        },
+        "Garen": {
+          "play": 43617,
+          "win_rate": 0.5,
+          "pick_rate": 0.06,
+          "ban_rate": 0.04,
+          "tier": 2,
+          "rank": 10
+        },
+        "Gnar": {
+          "play": 35702,
+          "win_rate": 0.49,
+          "pick_rate": 0.05,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 38
+        },
+        "Gragas": {
+          "play": 20426,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 35
+        },
+        "Gwen": {
+          "play": 15545,
+          "win_rate": 0.49,
+          "pick_rate": 0.02,
+          "ban_rate": 0.03,
+          "tier": 4,
+          "rank": 47
+        },
+        "Heimerdinger": {
+          "play": 8710,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 48
+        },
+        "Illaoi": {
+          "play": 17092,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.03,
+          "tier": 3,
+          "rank": 39
+        },
+        "Irelia": {
+          "play": 32221,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.12,
+          "tier": 2,
+          "rank": 16
+        },
+        "Jax": {
+          "play": 44773,
+          "win_rate": 0.5,
+          "pick_rate": 0.06,
+          "ban_rate": 0.12,
+          "tier": 2,
+          "rank": 14
+        },
+        "Jayce": {
+          "play": 51698,
+          "win_rate": 0.48,
+          "pick_rate": 0.07,
+          "ban_rate": 0.09,
+          "tier": 3,
+          "rank": 37
+        },
+        "K'Sante": {
+          "play": 35623,
+          "win_rate": 0.48,
+          "pick_rate": 0.04,
+          "ban_rate": 0.03,
+          "tier": 4,
+          "rank": 46
+        },
+        "Kayle": {
+          "play": 15840,
+          "win_rate": 0.51,
+          "pick_rate": 0.02,
+          "ban_rate": 0.02,
+          "tier": 2,
+          "rank": 30
+        },
+        "Kennen": {
+          "play": 10911,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 50
+        },
+        "Kled": {
+          "play": 15516,
+          "win_rate": 0.52,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 28
+        },
+        "Locke": {
+          "play": 9506,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.72,
+          "tier": 2,
+          "rank": 31
+        },
+        "Malphite": {
+          "play": 49575,
+          "win_rate": 0.5,
+          "pick_rate": 0.06,
+          "ban_rate": 0.16,
+          "tier": 1,
+          "rank": 4
+        },
+        "Master Yi": {
+          "play": 4311,
+          "win_rate": 0.48,
+          "pick_rate": 0.01,
+          "ban_rate": 0.09,
+          "tier": 5,
+          "rank": 60
+        },
+        "Wukong": {
+          "play": 7077,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 49
+        },
+        "Mordekaiser": {
+          "play": 66829,
+          "win_rate": 0.52,
+          "pick_rate": 0.08,
+          "ban_rate": 0.09,
+          "tier": 0,
+          "rank": 1
+        },
+        "Nasus": {
+          "play": 18979,
+          "win_rate": 0.49,
+          "pick_rate": 0.02,
+          "ban_rate": 0.08,
+          "tier": 4,
+          "rank": 44
+        },
+        "Olaf": {
+          "play": 26678,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.04,
+          "tier": 2,
+          "rank": 11
+        },
+        "Ornn": {
+          "play": 29702,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.0,
+          "tier": 2,
+          "rank": 15
+        },
+        "Pantheon": {
+          "play": 20952,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 32
+        },
+        "Poppy": {
+          "play": 10042,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.07,
+          "tier": 3,
+          "rank": 36
+        },
+        "Quinn": {
+          "play": 7130,
+          "win_rate": 0.53,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 22
+        },
+        "Renekton": {
+          "play": 46432,
+          "win_rate": 0.49,
+          "pick_rate": 0.06,
+          "ban_rate": 0.05,
+          "tier": 2,
+          "rank": 26
+        },
+        "Riven": {
+          "play": 26154,
+          "win_rate": 0.52,
+          "pick_rate": 0.03,
+          "ban_rate": 0.05,
+          "tier": 1,
+          "rank": 3
+        },
+        "Rumble": {
+          "play": 13861,
+          "win_rate": 0.48,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 53
+        },
+        "Ryze": {
+          "play": 5954,
+          "win_rate": 0.48,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 58
+        },
+        "Sett": {
+          "play": 33578,
+          "win_rate": 0.5,
+          "pick_rate": 0.04,
+          "ban_rate": 0.02,
+          "tier": 2,
+          "rank": 23
+        },
+        "Shen": {
+          "play": 30375,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 8
+        },
+        "Singed": {
+          "play": 23296,
+          "win_rate": 0.52,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 1,
+          "rank": 6
+        },
+        "Sion": {
+          "play": 29191,
+          "win_rate": 0.49,
+          "pick_rate": 0.04,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 41
+        },
+        "Swain": {
+          "play": 6770,
+          "win_rate": 0.48,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 57
+        },
+        "Tahm Kench": {
+          "play": 10459,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 51
+        },
+        "Teemo": {
+          "play": 23317,
+          "win_rate": 0.52,
+          "pick_rate": 0.03,
+          "ban_rate": 0.04,
+          "tier": 2,
+          "rank": 13
+        },
+        "Trundle": {
+          "play": 9141,
+          "win_rate": 0.48,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 5,
+          "rank": 55
+        },
+        "Tryndamere": {
+          "play": 24253,
+          "win_rate": 0.52,
+          "pick_rate": 0.03,
+          "ban_rate": 0.03,
+          "tier": 2,
+          "rank": 9
+        },
+        "Udyr": {
+          "play": 4604,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 56
+        },
+        "Urgot": {
+          "play": 20331,
+          "win_rate": 0.52,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 17
+        },
+        "Varus": {
+          "play": 6637,
+          "win_rate": 0.48,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 59
+        },
+        "Vayne": {
+          "play": 31125,
+          "win_rate": 0.5,
+          "pick_rate": 0.04,
+          "ban_rate": 0.12,
+          "tier": 2,
+          "rank": 24
+        },
+        "Vladimir": {
+          "play": 11887,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.07,
+          "tier": 4,
+          "rank": 45
+        },
+        "Volibear": {
+          "play": 16657,
+          "win_rate": 0.48,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 52
+        },
+        "Warwick": {
+          "play": 11497,
+          "win_rate": 0.53,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 19
+        },
+        "Yasuo": {
+          "play": 26313,
+          "win_rate": 0.49,
+          "pick_rate": 0.03,
+          "ban_rate": 0.16,
+          "tier": 3,
+          "rank": 34
+        },
+        "Yone": {
+          "play": 53056,
+          "win_rate": 0.49,
+          "pick_rate": 0.07,
+          "ban_rate": 0.05,
+          "tier": 2,
+          "rank": 18
+        },
+        "Yorick": {
+          "play": 23977,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.05,
+          "tier": 3,
+          "rank": 33
+        },
+        "Zaahen": {
+          "play": 28160,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 20
+        }
+      },
+      "jungle": {
+        "Aatrox": {
+          "play": 13021,
+          "win_rate": 0.52,
+          "pick_rate": 0.02,
+          "ban_rate": 0.07,
+          "tier": 2,
+          "rank": 22
+        },
+        "Ambessa": {
+          "play": 13774,
+          "win_rate": 0.49,
+          "pick_rate": 0.02,
+          "ban_rate": 0.07,
+          "tier": 4,
+          "rank": 47
+        },
+        "Amumu": {
+          "play": 10070,
+          "win_rate": 0.48,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 4,
+          "rank": 56
+        },
+        "Bel'Veth": {
+          "play": 20130,
+          "win_rate": 0.53,
+          "pick_rate": 0.03,
+          "ban_rate": 0.05,
+          "tier": 1,
+          "rank": 1
+        },
+        "Briar": {
+          "play": 30749,
+          "win_rate": 0.5,
+          "pick_rate": 0.04,
+          "ban_rate": 0.05,
+          "tier": 2,
+          "rank": 29
+        },
+        "Darius": {
+          "play": 4876,
+          "win_rate": 0.53,
+          "pick_rate": 0.01,
+          "ban_rate": 0.1,
+          "tier": 2,
+          "rank": 21
+        },
+        "Diana": {
+          "play": 26473,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.03,
+          "tier": 3,
+          "rank": 34
+        },
+        "Dr. Mundo": {
+          "play": 4956,
+          "win_rate": 0.48,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 5,
+          "rank": 61
+        },
+        "Ekko": {
+          "play": 28656,
+          "win_rate": 0.5,
+          "pick_rate": 0.04,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 25
+        },
+        "Elise": {
+          "play": 15699,
+          "win_rate": 0.51,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 32
+        },
+        "Evelynn": {
+          "play": 16821,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 35
+        },
+        "Fiddlesticks": {
+          "play": 14121,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 41
+        },
+        "Fizz": {
+          "play": 4840,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.03,
+          "tier": 4,
+          "rank": 57
+        },
+        "Gragas": {
+          "play": 5296,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 53
+        },
+        "Graves": {
+          "play": 88544,
+          "win_rate": 0.5,
+          "pick_rate": 0.11,
+          "ban_rate": 0.13,
+          "tier": 1,
+          "rank": 3
+        },
+        "Gwen": {
+          "play": 4872,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 51
+        },
+        "Hecarim": {
+          "play": 42334,
+          "win_rate": 0.51,
+          "pick_rate": 0.05,
+          "ban_rate": 0.05,
+          "tier": 1,
+          "rank": 14
+        },
+        "Ivern": {
+          "play": 9487,
+          "win_rate": 0.52,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 2,
+          "rank": 30
+        },
+        "Jarvan IV": {
+          "play": 58231,
+          "win_rate": 0.5,
+          "pick_rate": 0.07,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 18
+        },
+        "Jax": {
+          "play": 11516,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.12,
+          "tier": 3,
+          "rank": 43
+        },
+        "Jayce": {
+          "play": 17781,
+          "win_rate": 0.46,
+          "pick_rate": 0.02,
+          "ban_rate": 0.09,
+          "tier": 5,
+          "rank": 60
+        },
+        "Karthus": {
+          "play": 10546,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 48
+        },
+        "Kayn": {
+          "play": 47836,
+          "win_rate": 0.51,
+          "pick_rate": 0.06,
+          "ban_rate": 0.04,
+          "tier": 1,
+          "rank": 12
+        },
+        "Kha'Zix": {
+          "play": 45343,
+          "win_rate": 0.5,
+          "pick_rate": 0.06,
+          "ban_rate": 0.04,
+          "tier": 2,
+          "rank": 16
+        },
+        "Kindred": {
+          "play": 23157,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.02,
+          "tier": 2,
+          "rank": 15
+        },
+        "Lee Sin": {
+          "play": 117290,
+          "win_rate": 0.49,
+          "pick_rate": 0.15,
+          "ban_rate": 0.16,
+          "tier": 1,
+          "rank": 6
+        },
+        "Lillia": {
+          "play": 17507,
+          "win_rate": 0.51,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 28
+        },
+        "Locke": {
+          "play": 19116,
+          "win_rate": 0.46,
+          "pick_rate": 0.02,
+          "ban_rate": 0.74,
+          "tier": 4,
+          "rank": 52
+        },
+        "Malphite": {
+          "play": 4757,
+          "win_rate": 0.47,
+          "pick_rate": 0.01,
+          "ban_rate": 0.13,
+          "tier": 5,
+          "rank": 62
+        },
+        "Master Yi": {
+          "play": 40671,
+          "win_rate": 0.51,
+          "pick_rate": 0.05,
+          "ban_rate": 0.11,
+          "tier": 1,
+          "rank": 11
+        },
+        "Wukong": {
+          "play": 44432,
+          "win_rate": 0.51,
+          "pick_rate": 0.06,
+          "ban_rate": 0.02,
+          "tier": 1,
+          "rank": 7
+        },
+        "Naafiri": {
+          "play": 54300,
+          "win_rate": 0.5,
+          "pick_rate": 0.07,
+          "ban_rate": 0.27,
+          "tier": 1,
+          "rank": 5
+        },
+        "Nasus": {
+          "play": 24922,
+          "win_rate": 0.52,
+          "pick_rate": 0.03,
+          "ban_rate": 0.08,
+          "tier": 1,
+          "rank": 4
+        },
+        "Nidalee": {
+          "play": 26008,
+          "win_rate": 0.52,
+          "pick_rate": 0.03,
+          "ban_rate": 0.02,
+          "tier": 1,
+          "rank": 10
+        },
+        "Nocturne": {
+          "play": 52321,
+          "win_rate": 0.51,
+          "pick_rate": 0.07,
+          "ban_rate": 0.1,
+          "tier": 1,
+          "rank": 8
+        },
+        "Nunu & Willump": {
+          "play": 15960,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 39
+        },
+        "Olaf": {
+          "play": 4497,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.03,
+          "tier": 4,
+          "rank": 50
+        },
+        "Pantheon": {
+          "play": 8157,
+          "win_rate": 0.48,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 5,
+          "rank": 59
+        },
+        "Poppy": {
+          "play": 5846,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.06,
+          "tier": 4,
+          "rank": 54
+        },
+        "Qiyana": {
+          "play": 32904,
+          "win_rate": 0.48,
+          "pick_rate": 0.04,
+          "ban_rate": 0.03,
+          "tier": 3,
+          "rank": 44
+        },
+        "Quinn": {
+          "play": 10364,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 42
+        },
+        "Rammus": {
+          "play": 10502,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 40
+        },
+        "Rek'Sai": {
+          "play": 15437,
+          "win_rate": 0.52,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 23
+        },
+        "Rengar": {
+          "play": 33059,
+          "win_rate": 0.5,
+          "pick_rate": 0.04,
+          "ban_rate": 0.1,
+          "tier": 2,
+          "rank": 27
+        },
+        "Sejuani": {
+          "play": 11578,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 3,
+          "rank": 46
+        },
+        "Shaco": {
+          "play": 32376,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.12,
+          "tier": 1,
+          "rank": 9
+        },
+        "Shyvana": {
+          "play": 24604,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.02,
+          "tier": 2,
+          "rank": 17
+        },
+        "Skarner": {
+          "play": 10545,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 3,
+          "rank": 45
+        },
+        "Sylas": {
+          "play": 68868,
+          "win_rate": 0.5,
+          "pick_rate": 0.09,
+          "ban_rate": 0.21,
+          "tier": 1,
+          "rank": 2
+        },
+        "Taliyah": {
+          "play": 7583,
+          "win_rate": 0.52,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 2,
+          "rank": 24
+        },
+        "Talon": {
+          "play": 42510,
+          "win_rate": 0.51,
+          "pick_rate": 0.05,
+          "ban_rate": 0.1,
+          "tier": 1,
+          "rank": 13
+        },
+        "Udyr": {
+          "play": 17052,
+          "win_rate": 0.52,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 20
+        },
+        "Vi": {
+          "play": 43239,
+          "win_rate": 0.5,
+          "pick_rate": 0.05,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 26
+        },
+        "Viego": {
+          "play": 76951,
+          "win_rate": 0.49,
+          "pick_rate": 0.1,
+          "ban_rate": 0.06,
+          "tier": 2,
+          "rank": 19
+        },
+        "Volibear": {
+          "play": 5399,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 55
+        },
+        "Warwick": {
+          "play": 17772,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 33
+        },
+        "Xin Zhao": {
+          "play": 33151,
+          "win_rate": 0.49,
+          "pick_rate": 0.04,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 36
+        },
+        "Zaahen": {
+          "play": 4294,
+          "win_rate": 0.52,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 38
+        },
+        "Zac": {
+          "play": 17802,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 37
+        },
+        "Zed": {
+          "play": 15946,
+          "win_rate": 0.47,
+          "pick_rate": 0.02,
+          "ban_rate": 0.18,
+          "tier": 5,
+          "rank": 58
+        },
+        "Zyra": {
+          "play": 7661,
+          "win_rate": 0.52,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 31
+        }
+      },
+      "mid": {
+        "Ahri": {
+          "play": 73938,
+          "win_rate": 0.51,
+          "pick_rate": 0.09,
+          "ban_rate": 0.03,
+          "tier": 1,
+          "rank": 2
+        },
+        "Akali": {
+          "play": 46998,
+          "win_rate": 0.5,
+          "pick_rate": 0.06,
+          "ban_rate": 0.16,
+          "tier": 2,
+          "rank": 12
+        },
+        "Akshan": {
+          "play": 25084,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.03,
+          "tier": 3,
+          "rank": 24
+        },
+        "Anivia": {
+          "play": 20880,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.03,
+          "tier": 3,
+          "rank": 32
+        },
+        "Annie": {
+          "play": 15727,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 30
+        },
+        "Aurelion Sol": {
+          "play": 11044,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 3,
+          "rank": 34
+        },
+        "Aurora": {
+          "play": 20178,
+          "win_rate": 0.49,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 36
+        },
+        "Azir": {
+          "play": 14122,
+          "win_rate": 0.46,
+          "pick_rate": 0.02,
+          "ban_rate": 0.0,
+          "tier": 5,
+          "rank": 56
+        },
+        "Brand": {
+          "play": 4513,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 5,
+          "rank": 55
+        },
+        "Cassiopeia": {
+          "play": 14532,
+          "win_rate": 0.49,
+          "pick_rate": 0.02,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 41
+        },
+        "Cho'Gath": {
+          "play": 5067,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 4,
+          "rank": 44
+        },
+        "Diana": {
+          "play": 28580,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.03,
+          "tier": 2,
+          "rank": 15
+        },
+        "Ekko": {
+          "play": 24672,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 20
+        },
+        "Fizz": {
+          "play": 35016,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.04,
+          "tier": 2,
+          "rank": 13
+        },
+        "Galio": {
+          "play": 42372,
+          "win_rate": 0.51,
+          "pick_rate": 0.05,
+          "ban_rate": 0.02,
+          "tier": 2,
+          "rank": 11
+        },
+        "Garen": {
+          "play": 4414,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.03,
+          "tier": 4,
+          "rank": 45
+        },
+        "Hwei": {
+          "play": 35368,
+          "win_rate": 0.5,
+          "pick_rate": 0.04,
+          "ban_rate": 0.03,
+          "tier": 2,
+          "rank": 16
+        },
+        "Irelia": {
+          "play": 19480,
+          "win_rate": 0.49,
+          "pick_rate": 0.02,
+          "ban_rate": 0.12,
+          "tier": 3,
+          "rank": 38
+        },
+        "Jayce": {
+          "play": 9406,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.09,
+          "tier": 4,
+          "rank": 48
+        },
+        "Kassadin": {
+          "play": 27026,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.03,
+          "tier": 3,
+          "rank": 29
+        },
+        "Katarina": {
+          "play": 56867,
+          "win_rate": 0.51,
+          "pick_rate": 0.07,
+          "ban_rate": 0.11,
+          "tier": 1,
+          "rank": 3
+        },
+        "Kayle": {
+          "play": 4514,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 49
+        },
+        "LeBlanc": {
+          "play": 30716,
+          "win_rate": 0.5,
+          "pick_rate": 0.04,
+          "ban_rate": 0.13,
+          "tier": 3,
+          "rank": 23
+        },
+        "Lissandra": {
+          "play": 38013,
+          "win_rate": 0.5,
+          "pick_rate": 0.05,
+          "ban_rate": 0.03,
+          "tier": 2,
+          "rank": 17
+        },
+        "Locke": {
+          "play": 59403,
+          "win_rate": 0.53,
+          "pick_rate": 0.07,
+          "ban_rate": 0.76,
+          "tier": 0,
+          "rank": 1
+        },
+        "Lux": {
+          "play": 27201,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 22
+        },
+        "Malphite": {
+          "play": 5482,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.14,
+          "tier": 4,
+          "rank": 51
+        },
+        "Malzahar": {
+          "play": 36528,
+          "win_rate": 0.5,
+          "pick_rate": 0.05,
+          "ban_rate": 0.06,
+          "tier": 3,
+          "rank": 26
+        },
+        "Mel": {
+          "play": 16155,
+          "win_rate": 0.45,
+          "pick_rate": 0.02,
+          "ban_rate": 0.3,
+          "tier": 5,
+          "rank": 57
+        },
+        "Naafiri": {
+          "play": 14501,
+          "win_rate": 0.51,
+          "pick_rate": 0.02,
+          "ban_rate": 0.27,
+          "tier": 3,
+          "rank": 25
+        },
+        "Orianna": {
+          "play": 26430,
+          "win_rate": 0.47,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 50
+        },
+        "Pantheon": {
+          "play": 6973,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 40
+        },
+        "Qiyana": {
+          "play": 20693,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.03,
+          "tier": 3,
+          "rank": 28
+        },
+        "Riven": {
+          "play": 11248,
+          "win_rate": 0.53,
+          "pick_rate": 0.01,
+          "ban_rate": 0.05,
+          "tier": 2,
+          "rank": 10
+        },
+        "Ryze": {
+          "play": 25944,
+          "win_rate": 0.47,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 47
+        },
+        "Sion": {
+          "play": 6468,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 52
+        },
+        "Smolder": {
+          "play": 4693,
+          "win_rate": 0.45,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 5,
+          "rank": 58
+        },
+        "Swain": {
+          "play": 6968,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 35
+        },
+        "Sylas": {
+          "play": 75517,
+          "win_rate": 0.5,
+          "pick_rate": 0.09,
+          "ban_rate": 0.21,
+          "tier": 1,
+          "rank": 4
+        },
+        "Syndra": {
+          "play": 67907,
+          "win_rate": 0.51,
+          "pick_rate": 0.08,
+          "ban_rate": 0.09,
+          "tier": 1,
+          "rank": 6
+        },
+        "Taliyah": {
+          "play": 13207,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.0,
+          "tier": 3,
+          "rank": 37
+        },
+        "Talon": {
+          "play": 17233,
+          "win_rate": 0.51,
+          "pick_rate": 0.02,
+          "ban_rate": 0.1,
+          "tier": 3,
+          "rank": 18
+        },
+        "Tristana": {
+          "play": 7470,
+          "win_rate": 0.48,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 5,
+          "rank": 53
+        },
+        "Twisted Fate": {
+          "play": 44355,
+          "win_rate": 0.51,
+          "pick_rate": 0.06,
+          "ban_rate": 0.01,
+          "tier": 1,
+          "rank": 7
+        },
+        "Veigar": {
+          "play": 19714,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 33
+        },
+        "Vel'Koz": {
+          "play": 7477,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 39
+        },
+        "Vex": {
+          "play": 18586,
+          "win_rate": 0.51,
+          "pick_rate": 0.02,
+          "ban_rate": 0.03,
+          "tier": 3,
+          "rank": 19
+        },
+        "Viktor": {
+          "play": 72977,
+          "win_rate": 0.51,
+          "pick_rate": 0.09,
+          "ban_rate": 0.09,
+          "tier": 1,
+          "rank": 5
+        },
+        "Vladimir": {
+          "play": 32823,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.07,
+          "tier": 2,
+          "rank": 14
+        },
+        "Xerath": {
+          "play": 33443,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.16,
+          "tier": 2,
+          "rank": 9
+        },
+        "Yasuo": {
+          "play": 60088,
+          "win_rate": 0.48,
+          "pick_rate": 0.07,
+          "ban_rate": 0.16,
+          "tier": 3,
+          "rank": 27
+        },
+        "Yone": {
+          "play": 48507,
+          "win_rate": 0.48,
+          "pick_rate": 0.06,
+          "ban_rate": 0.05,
+          "tier": 3,
+          "rank": 31
+        },
+        "Zed": {
+          "play": 58319,
+          "win_rate": 0.5,
+          "pick_rate": 0.07,
+          "ban_rate": 0.19,
+          "tier": 1,
+          "rank": 8
+        },
+        "Ziggs": {
+          "play": 5135,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.05,
+          "tier": 5,
+          "rank": 54
+        },
+        "Zoe": {
+          "play": 23161,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.05,
+          "tier": 3,
+          "rank": 21
+        }
+      },
+      "adc": {
+        "Aphelios": {
+          "play": 35697,
+          "win_rate": 0.49,
+          "pick_rate": 0.04,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 35
+        },
+        "Ashe": {
+          "play": 50182,
+          "win_rate": 0.51,
+          "pick_rate": 0.06,
+          "ban_rate": 0.02,
+          "tier": 1,
+          "rank": 10
+        },
+        "Aurelion Sol": {
+          "play": 6271,
+          "win_rate": 0.53,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 3,
+          "rank": 32
+        },
+        "Brand": {
+          "play": 10183,
+          "win_rate": 0.53,
+          "pick_rate": 0.01,
+          "ban_rate": 0.03,
+          "tier": 3,
+          "rank": 30
+        },
+        "Caitlyn": {
+          "play": 96089,
+          "win_rate": 0.49,
+          "pick_rate": 0.12,
+          "ban_rate": 0.15,
+          "tier": 1,
+          "rank": 9
+        },
+        "Corki": {
+          "play": 16890,
+          "win_rate": 0.51,
+          "pick_rate": 0.02,
+          "ban_rate": 0.0,
+          "tier": 4,
+          "rank": 37
+        },
+        "Draven": {
+          "play": 29177,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.13,
+          "tier": 2,
+          "rank": 21
+        },
+        "Ezreal": {
+          "play": 115142,
+          "win_rate": 0.47,
+          "pick_rate": 0.14,
+          "ban_rate": 0.06,
+          "tier": 3,
+          "rank": 27
+        },
+        "Hwei": {
+          "play": 20421,
+          "win_rate": 0.52,
+          "pick_rate": 0.03,
+          "ban_rate": 0.03,
+          "tier": 2,
+          "rank": 14
+        },
+        "Jhin": {
+          "play": 107237,
+          "win_rate": 0.5,
+          "pick_rate": 0.13,
+          "ban_rate": 0.01,
+          "tier": 1,
+          "rank": 4
+        },
+        "Jinx": {
+          "play": 66922,
+          "win_rate": 0.51,
+          "pick_rate": 0.08,
+          "ban_rate": 0.01,
+          "tier": 1,
+          "rank": 1
+        },
+        "Kai'Sa": {
+          "play": 102343,
+          "win_rate": 0.49,
+          "pick_rate": 0.13,
+          "ban_rate": 0.01,
+          "tier": 1,
+          "rank": 7
+        },
+        "Kalista": {
+          "play": 14436,
+          "win_rate": 0.51,
+          "pick_rate": 0.02,
+          "ban_rate": 0.0,
+          "tier": 4,
+          "rank": 39
+        },
+        "Karthus": {
+          "play": 8078,
+          "win_rate": 0.54,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 13
+        },
+        "Katarina": {
+          "play": 6565,
+          "win_rate": 0.52,
+          "pick_rate": 0.01,
+          "ban_rate": 0.1,
+          "tier": 4,
+          "rank": 38
+        },
+        "Kog'Maw": {
+          "play": 14169,
+          "win_rate": 0.52,
+          "pick_rate": 0.02,
+          "ban_rate": 0.0,
+          "tier": 2,
+          "rank": 24
+        },
+        "Lucian": {
+          "play": 63387,
+          "win_rate": 0.5,
+          "pick_rate": 0.08,
+          "ban_rate": 0.02,
+          "tier": 2,
+          "rank": 12
+        },
+        "Lux": {
+          "play": 14970,
+          "win_rate": 0.52,
+          "pick_rate": 0.02,
+          "ban_rate": 0.02,
+          "tier": 2,
+          "rank": 22
+        },
+        "Mel": {
+          "play": 43588,
+          "win_rate": 0.46,
+          "pick_rate": 0.05,
+          "ban_rate": 0.31,
+          "tier": 5,
+          "rank": 42
+        },
+        "Miss Fortune": {
+          "play": 61811,
+          "win_rate": 0.5,
+          "pick_rate": 0.08,
+          "ban_rate": 0.0,
+          "tier": 2,
+          "rank": 18
+        },
+        "Nilah": {
+          "play": 8999,
+          "win_rate": 0.53,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 33
+        },
+        "Samira": {
+          "play": 29317,
+          "win_rate": 0.5,
+          "pick_rate": 0.04,
+          "ban_rate": 0.04,
+          "tier": 3,
+          "rank": 36
+        },
+        "Senna": {
+          "play": 33080,
+          "win_rate": 0.52,
+          "pick_rate": 0.04,
+          "ban_rate": 0.1,
+          "tier": 1,
+          "rank": 3
+        },
+        "Seraphine": {
+          "play": 37222,
+          "win_rate": 0.52,
+          "pick_rate": 0.05,
+          "ban_rate": 0.14,
+          "tier": 1,
+          "rank": 5
+        },
+        "Sivir": {
+          "play": 37447,
+          "win_rate": 0.5,
+          "pick_rate": 0.05,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 28
+        },
+        "Smolder": {
+          "play": 28179,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 25
+        },
+        "Swain": {
+          "play": 12363,
+          "win_rate": 0.52,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 34
+        },
+        "Syndra": {
+          "play": 37448,
+          "win_rate": 0.5,
+          "pick_rate": 0.05,
+          "ban_rate": 0.09,
+          "tier": 2,
+          "rank": 19
+        },
+        "Tristana": {
+          "play": 51815,
+          "win_rate": 0.51,
+          "pick_rate": 0.06,
+          "ban_rate": 0.03,
+          "tier": 1,
+          "rank": 2
+        },
+        "Twitch": {
+          "play": 33396,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.04,
+          "tier": 2,
+          "rank": 23
+        },
+        "Varus": {
+          "play": 15932,
+          "win_rate": 0.47,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 44
+        },
+        "Vayne": {
+          "play": 31255,
+          "win_rate": 0.5,
+          "pick_rate": 0.04,
+          "ban_rate": 0.12,
+          "tier": 3,
+          "rank": 26
+        },
+        "Veigar": {
+          "play": 13693,
+          "win_rate": 0.53,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 17
+        },
+        "Vel'Koz": {
+          "play": 12264,
+          "win_rate": 0.52,
+          "pick_rate": 0.02,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 31
+        },
+        "Viktor": {
+          "play": 32254,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.09,
+          "tier": 1,
+          "rank": 8
+        },
+        "Vladimir": {
+          "play": 10153,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.07,
+          "tier": 4,
+          "rank": 40
+        },
+        "Xayah": {
+          "play": 25853,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.0,
+          "tier": 2,
+          "rank": 20
+        },
+        "Xerath": {
+          "play": 39587,
+          "win_rate": 0.51,
+          "pick_rate": 0.05,
+          "ban_rate": 0.16,
+          "tier": 1,
+          "rank": 11
+        },
+        "Yasuo": {
+          "play": 14009,
+          "win_rate": 0.52,
+          "pick_rate": 0.02,
+          "ban_rate": 0.15,
+          "tier": 3,
+          "rank": 29
+        },
+        "Yunara": {
+          "play": 61966,
+          "win_rate": 0.5,
+          "pick_rate": 0.08,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 16
+        },
+        "Zeri": {
+          "play": 29361,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.0,
+          "tier": 2,
+          "rank": 15
+        },
+        "Ziggs": {
+          "play": 60944,
+          "win_rate": 0.51,
+          "pick_rate": 0.08,
+          "ban_rate": 0.05,
+          "tier": 1,
+          "rank": 6
+        }
+      },
+      "support": {
+        "Alistar": {
+          "play": 35084,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.02,
+          "tier": 2,
+          "rank": 18
+        },
+        "Amumu": {
+          "play": 4402,
+          "win_rate": 0.52,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 3,
+          "rank": 32
+        },
+        "Bard": {
+          "play": 59198,
+          "win_rate": 0.5,
+          "pick_rate": 0.07,
+          "ban_rate": 0.05,
+          "tier": 2,
+          "rank": 15
+        },
+        "Blitzcrank": {
+          "play": 43469,
+          "win_rate": 0.51,
+          "pick_rate": 0.05,
+          "ban_rate": 0.09,
+          "tier": 2,
+          "rank": 10
+        },
+        "Brand": {
+          "play": 12845,
+          "win_rate": 0.48,
+          "pick_rate": 0.02,
+          "ban_rate": 0.03,
+          "tier": 4,
+          "rank": 41
+        },
+        "Braum": {
+          "play": 31881,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.06,
+          "tier": 2,
+          "rank": 14
+        },
+        "Camille": {
+          "play": 75743,
+          "win_rate": 0.49,
+          "pick_rate": 0.1,
+          "ban_rate": 0.15,
+          "tier": 2,
+          "rank": 16
+        },
+        "Elise": {
+          "play": 9157,
+          "win_rate": 0.52,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 25
+        },
+        "Fiddlesticks": {
+          "play": 4523,
+          "win_rate": 0.52,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 34
+        },
+        "Galio": {
+          "play": 8721,
+          "win_rate": 0.52,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 28
+        },
+        "Janna": {
+          "play": 35048,
+          "win_rate": 0.52,
+          "pick_rate": 0.04,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 11
+        },
+        "Karma": {
+          "play": 60705,
+          "win_rate": 0.49,
+          "pick_rate": 0.08,
+          "ban_rate": 0.04,
+          "tier": 2,
+          "rank": 19
+        },
+        "LeBlanc": {
+          "play": 6031,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.12,
+          "tier": 4,
+          "rank": 44
+        },
+        "Leona": {
+          "play": 58317,
+          "win_rate": 0.52,
+          "pick_rate": 0.07,
+          "ban_rate": 0.05,
+          "tier": 1,
+          "rank": 2
+        },
+        "Lulu": {
+          "play": 65060,
+          "win_rate": 0.5,
+          "pick_rate": 0.08,
+          "ban_rate": 0.06,
+          "tier": 2,
+          "rank": 13
+        },
+        "Lux": {
+          "play": 34965,
+          "win_rate": 0.48,
+          "pick_rate": 0.04,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 31
+        },
+        "Maokai": {
+          "play": 11947,
+          "win_rate": 0.51,
+          "pick_rate": 0.02,
+          "ban_rate": 0.0,
+          "tier": 3,
+          "rank": 30
+        },
+        "Mel": {
+          "play": 9946,
+          "win_rate": 0.42,
+          "pick_rate": 0.01,
+          "ban_rate": 0.29,
+          "tier": 5,
+          "rank": 48
+        },
+        "Milio": {
+          "play": 42995,
+          "win_rate": 0.5,
+          "pick_rate": 0.05,
+          "ban_rate": 0.03,
+          "tier": 2,
+          "rank": 22
+        },
+        "Morgana": {
+          "play": 24769,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.1,
+          "tier": 3,
+          "rank": 26
+        },
+        "Nami": {
+          "play": 74876,
+          "win_rate": 0.5,
+          "pick_rate": 0.09,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 9
+        },
+        "Nautilus": {
+          "play": 82487,
+          "win_rate": 0.5,
+          "pick_rate": 0.1,
+          "ban_rate": 0.12,
+          "tier": 1,
+          "rank": 6
+        },
+        "Neeko": {
+          "play": 11831,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 39
+        },
+        "Pantheon": {
+          "play": 32815,
+          "win_rate": 0.5,
+          "pick_rate": 0.04,
+          "ban_rate": 0.02,
+          "tier": 2,
+          "rank": 23
+        },
+        "Poppy": {
+          "play": 25058,
+          "win_rate": 0.53,
+          "pick_rate": 0.03,
+          "ban_rate": 0.07,
+          "tier": 1,
+          "rank": 5
+        },
+        "Pyke": {
+          "play": 61456,
+          "win_rate": 0.5,
+          "pick_rate": 0.08,
+          "ban_rate": 0.32,
+          "tier": 1,
+          "rank": 8
+        },
+        "Rakan": {
+          "play": 29540,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.0,
+          "tier": 2,
+          "rank": 20
+        },
+        "Rell": {
+          "play": 37321,
+          "win_rate": 0.53,
+          "pick_rate": 0.05,
+          "ban_rate": 0.01,
+          "tier": 1,
+          "rank": 3
+        },
+        "Renata Glasc": {
+          "play": 7148,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 4,
+          "rank": 42
+        },
+        "Senna": {
+          "play": 54181,
+          "win_rate": 0.51,
+          "pick_rate": 0.07,
+          "ban_rate": 0.1,
+          "tier": 1,
+          "rank": 4
+        },
+        "Seraphine": {
+          "play": 77062,
+          "win_rate": 0.5,
+          "pick_rate": 0.1,
+          "ban_rate": 0.14,
+          "tier": 1,
+          "rank": 7
+        },
+        "Shaco": {
+          "play": 10153,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.11,
+          "tier": 4,
+          "rank": 40
+        },
+        "Shen": {
+          "play": 15465,
+          "win_rate": 0.49,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 33
+        },
+        "Sona": {
+          "play": 33360,
+          "win_rate": 0.52,
+          "pick_rate": 0.04,
+          "ban_rate": 0.0,
+          "tier": 2,
+          "rank": 12
+        },
+        "Soraka": {
+          "play": 35954,
+          "win_rate": 0.5,
+          "pick_rate": 0.05,
+          "ban_rate": 0.02,
+          "tier": 2,
+          "rank": 21
+        },
+        "Swain": {
+          "play": 15923,
+          "win_rate": 0.47,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 43
+        },
+        "Tahm Kench": {
+          "play": 15764,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 29
+        },
+        "Taric": {
+          "play": 10332,
+          "win_rate": 0.52,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 2,
+          "rank": 24
+        },
+        "Thresh": {
+          "play": 95485,
+          "win_rate": 0.52,
+          "pick_rate": 0.12,
+          "ban_rate": 0.08,
+          "tier": 1,
+          "rank": 1
+        },
+        "Vel'Koz": {
+          "play": 23017,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 27
+        },
+        "Xerath": {
+          "play": 16857,
+          "win_rate": 0.48,
+          "pick_rate": 0.02,
+          "ban_rate": 0.16,
+          "tier": 4,
+          "rank": 36
+        },
+        "Yuumi": {
+          "play": 35720,
+          "win_rate": 0.46,
+          "pick_rate": 0.05,
+          "ban_rate": 0.06,
+          "tier": 4,
+          "rank": 38
+        },
+        "Zilean": {
+          "play": 26483,
+          "win_rate": 0.52,
+          "pick_rate": 0.03,
+          "ban_rate": 0.02,
+          "tier": 2,
+          "rank": 17
+        },
+        "Zoe": {
+          "play": 6579,
+          "win_rate": 0.47,
+          "pick_rate": 0.01,
+          "ban_rate": 0.04,
+          "tier": 5,
+          "rank": 47
+        },
+        "Zyra": {
+          "play": 13816,
+          "win_rate": 0.49,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 37
+        }
+      }
+    },
+    "all": {
+      "top": {
+        "Aatrox": {
+          "play": 425382,
+          "win_rate": 0.5,
+          "pick_rate": 0.05,
+          "ban_rate": 0.07,
+          "tier": 2,
+          "rank": 16
+        },
+        "Akali": {
+          "play": 177537,
+          "win_rate": 0.49,
+          "pick_rate": 0.02,
+          "ban_rate": 0.14,
+          "tier": 4,
+          "rank": 36
+        },
+        "Ambessa": {
+          "play": 266138,
+          "win_rate": 0.48,
+          "pick_rate": 0.03,
+          "ban_rate": 0.03,
+          "tier": 4,
+          "rank": 39
+        },
+        "Anivia": {
+          "play": 41201,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 5,
+          "rank": 50
+        },
+        "Camille": {
+          "play": 139248,
+          "win_rate": 0.48,
+          "pick_rate": 0.02,
+          "ban_rate": 0.05,
+          "tier": 5,
+          "rank": 46
+        },
+        "Cho'Gath": {
+          "play": 228824,
+          "win_rate": 0.49,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 34
+        },
+        "Darius": {
+          "play": 637803,
+          "win_rate": 0.49,
+          "pick_rate": 0.08,
+          "ban_rate": 0.15,
+          "tier": 2,
+          "rank": 13
+        },
+        "Dr. Mundo": {
+          "play": 434975,
+          "win_rate": 0.51,
+          "pick_rate": 0.05,
+          "ban_rate": 0.05,
+          "tier": 1,
+          "rank": 7
+        },
+        "Fiora": {
+          "play": 248135,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.03,
+          "tier": 3,
+          "rank": 29
+        },
+        "Gangplank": {
+          "play": 344067,
+          "win_rate": 0.5,
+          "pick_rate": 0.04,
+          "ban_rate": 0.04,
+          "tier": 2,
+          "rank": 17
+        },
+        "Garen": {
+          "play": 676603,
+          "win_rate": 0.51,
+          "pick_rate": 0.08,
+          "ban_rate": 0.07,
+          "tier": 1,
+          "rank": 3
+        },
+        "Gnar": {
+          "play": 258643,
+          "win_rate": 0.48,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 37
+        },
+        "Gragas": {
+          "play": 129831,
+          "win_rate": 0.48,
+          "pick_rate": 0.02,
+          "ban_rate": 0.0,
+          "tier": 5,
+          "rank": 48
+        },
+        "Gwen": {
+          "play": 149332,
+          "win_rate": 0.48,
+          "pick_rate": 0.02,
+          "ban_rate": 0.02,
+          "tier": 5,
+          "rank": 47
+        },
+        "Heimerdinger": {
+          "play": 180302,
+          "win_rate": 0.51,
+          "pick_rate": 0.02,
+          "ban_rate": 0.05,
+          "tier": 3,
+          "rank": 26
+        },
+        "Illaoi": {
+          "play": 305704,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.09,
+          "tier": 2,
+          "rank": 9
+        },
+        "Irelia": {
+          "play": 282006,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.1,
+          "tier": 2,
+          "rank": 21
+        },
+        "Jax": {
+          "play": 446435,
+          "win_rate": 0.5,
+          "pick_rate": 0.05,
+          "ban_rate": 0.08,
+          "tier": 2,
+          "rank": 11
+        },
+        "Jayce": {
+          "play": 285241,
+          "win_rate": 0.47,
+          "pick_rate": 0.03,
+          "ban_rate": 0.03,
+          "tier": 5,
+          "rank": 42
+        },
+        "K'Sante": {
+          "play": 213071,
+          "win_rate": 0.46,
+          "pick_rate": 0.03,
+          "ban_rate": 0.02,
+          "tier": 5,
+          "rank": 53
+        },
+        "Kayle": {
+          "play": 198784,
+          "win_rate": 0.51,
+          "pick_rate": 0.02,
+          "ban_rate": 0.02,
+          "tier": 2,
+          "rank": 20
+        },
+        "Kennen": {
+          "play": 96075,
+          "win_rate": 0.48,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 51
+        },
+        "Kled": {
+          "play": 117697,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 32
+        },
+        "Locke": {
+          "play": 104275,
+          "win_rate": 0.46,
+          "pick_rate": 0.01,
+          "ban_rate": 0.61,
+          "tier": 5,
+          "rank": 49
+        },
+        "Malphite": {
+          "play": 537528,
+          "win_rate": 0.51,
+          "pick_rate": 0.07,
+          "ban_rate": 0.14,
+          "tier": 1,
+          "rank": 5
+        },
+        "Malzahar": {
+          "play": 57042,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.15,
+          "tier": 5,
+          "rank": 45
+        },
+        "Master Yi": {
+          "play": 65566,
+          "win_rate": 0.47,
+          "pick_rate": 0.01,
+          "ban_rate": 0.18,
+          "tier": 5,
+          "rank": 56
+        },
+        "Wukong": {
+          "play": 62669,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 40
+        },
+        "Mordekaiser": {
+          "play": 1023365,
+          "win_rate": 0.54,
+          "pick_rate": 0.13,
+          "ban_rate": 0.18,
+          "tier": 0,
+          "rank": 1
+        },
+        "Nasus": {
+          "play": 316575,
+          "win_rate": 0.5,
+          "pick_rate": 0.04,
+          "ban_rate": 0.09,
+          "tier": 2,
+          "rank": 14
+        },
+        "Olaf": {
+          "play": 224025,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.03,
+          "tier": 3,
+          "rank": 25
+        },
+        "Ornn": {
+          "play": 212768,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.0,
+          "tier": 2,
+          "rank": 18
+        },
+        "Pantheon": {
+          "play": 199293,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 33
+        },
+        "Poppy": {
+          "play": 74639,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.03,
+          "tier": 5,
+          "rank": 43
+        },
+        "Quinn": {
+          "play": 72128,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 44
+        },
+        "Renekton": {
+          "play": 406823,
+          "win_rate": 0.5,
+          "pick_rate": 0.05,
+          "ban_rate": 0.03,
+          "tier": 2,
+          "rank": 15
+        },
+        "Riven": {
+          "play": 195363,
+          "win_rate": 0.49,
+          "pick_rate": 0.02,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 41
+        },
+        "Rumble": {
+          "play": 107051,
+          "win_rate": 0.47,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 55
+        },
+        "Sett": {
+          "play": 577905,
+          "win_rate": 0.51,
+          "pick_rate": 0.07,
+          "ban_rate": 0.04,
+          "tier": 1,
+          "rank": 4
+        },
+        "Shen": {
+          "play": 245225,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 22
+        },
+        "Singed": {
+          "play": 193876,
+          "win_rate": 0.52,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 10
+        },
+        "Sion": {
+          "play": 251797,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 24
+        },
+        "Swain": {
+          "play": 69598,
+          "win_rate": 0.48,
+          "pick_rate": 0.01,
+          "ban_rate": 0.04,
+          "tier": 5,
+          "rank": 54
+        },
+        "Tahm Kench": {
+          "play": 191085,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.04,
+          "tier": 3,
+          "rank": 28
+        },
+        "Teemo": {
+          "play": 566558,
+          "win_rate": 0.52,
+          "pick_rate": 0.07,
+          "ban_rate": 0.16,
+          "tier": 1,
+          "rank": 2
+        },
+        "Trundle": {
+          "play": 170961,
+          "win_rate": 0.49,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 38
+        },
+        "Tryndamere": {
+          "play": 327654,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.04,
+          "tier": 2,
+          "rank": 12
+        },
+        "Urgot": {
+          "play": 220095,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 19
+        },
+        "Varus": {
+          "play": 55054,
+          "win_rate": 0.47,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 57
+        },
+        "Vayne": {
+          "play": 273722,
+          "win_rate": 0.48,
+          "pick_rate": 0.03,
+          "ban_rate": 0.1,
+          "tier": 3,
+          "rank": 35
+        },
+        "Vladimir": {
+          "play": 73295,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.04,
+          "tier": 5,
+          "rank": 52
+        },
+        "Volibear": {
+          "play": 267903,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 27
+        },
+        "Warwick": {
+          "play": 123378,
+          "win_rate": 0.52,
+          "pick_rate": 0.02,
+          "ban_rate": 0.06,
+          "tier": 3,
+          "rank": 23
+        },
+        "Yasuo": {
+          "play": 295131,
+          "win_rate": 0.48,
+          "pick_rate": 0.04,
+          "ban_rate": 0.17,
+          "tier": 3,
+          "rank": 31
+        },
+        "Yone": {
+          "play": 629517,
+          "win_rate": 0.5,
+          "pick_rate": 0.08,
+          "ban_rate": 0.09,
+          "tier": 1,
+          "rank": 8
+        },
+        "Yorick": {
+          "play": 414865,
+          "win_rate": 0.51,
+          "pick_rate": 0.05,
+          "ban_rate": 0.12,
+          "tier": 1,
+          "rank": 6
+        },
+        "Zaahen": {
+          "play": 213573,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 30
+        }
+      },
+      "jungle": {
+        "Aatrox": {
+          "play": 72951,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.06,
+          "tier": 4,
+          "rank": 31
+        },
+        "Ambessa": {
+          "play": 77368,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.03,
+          "tier": 5,
+          "rank": 51
+        },
+        "Amumu": {
+          "play": 285837,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 15
+        },
+        "Bel'Veth": {
+          "play": 135714,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 33
+        },
+        "Briar": {
+          "play": 512201,
+          "win_rate": 0.52,
+          "pick_rate": 0.06,
+          "ban_rate": 0.12,
+          "tier": 1,
+          "rank": 2
+        },
+        "Cho'Gath": {
+          "play": 45451,
+          "win_rate": 0.52,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 42
+        },
+        "Darius": {
+          "play": 59067,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.15,
+          "tier": 4,
+          "rank": 36
+        },
+        "Diana": {
+          "play": 302185,
+          "win_rate": 0.49,
+          "pick_rate": 0.04,
+          "ban_rate": 0.05,
+          "tier": 4,
+          "rank": 25
+        },
+        "Dr. Mundo": {
+          "play": 75024,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.05,
+          "tier": 4,
+          "rank": 38
+        },
+        "Ekko": {
+          "play": 251442,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 23
+        },
+        "Elise": {
+          "play": 95561,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 46
+        },
+        "Evelynn": {
+          "play": 174337,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 29
+        },
+        "Fiddlesticks": {
+          "play": 149692,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 34
+        },
+        "Fizz": {
+          "play": 43873,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.09,
+          "tier": 5,
+          "rank": 48
+        },
+        "Gragas": {
+          "play": 42515,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 5,
+          "rank": 61
+        },
+        "Graves": {
+          "play": 672696,
+          "win_rate": 0.5,
+          "pick_rate": 0.08,
+          "ban_rate": 0.06,
+          "tier": 2,
+          "rank": 12
+        },
+        "Gwen": {
+          "play": 41845,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 5,
+          "rank": 59
+        },
+        "Hecarim": {
+          "play": 252178,
+          "win_rate": 0.48,
+          "pick_rate": 0.03,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 39
+        },
+        "Ivern": {
+          "play": 58318,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 5,
+          "rank": 49
+        },
+        "Jarvan IV": {
+          "play": 388796,
+          "win_rate": 0.5,
+          "pick_rate": 0.05,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 18
+        },
+        "Jax": {
+          "play": 286638,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.08,
+          "tier": 3,
+          "rank": 20
+        },
+        "Jayce": {
+          "play": 95590,
+          "win_rate": 0.48,
+          "pick_rate": 0.01,
+          "ban_rate": 0.03,
+          "tier": 5,
+          "rank": 60
+        },
+        "Karthus": {
+          "play": 91780,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 5,
+          "rank": 55
+        },
+        "Kayn": {
+          "play": 760179,
+          "win_rate": 0.51,
+          "pick_rate": 0.09,
+          "ban_rate": 0.06,
+          "tier": 1,
+          "rank": 5
+        },
+        "Kha'Zix": {
+          "play": 324082,
+          "win_rate": 0.49,
+          "pick_rate": 0.04,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 28
+        },
+        "Kindred": {
+          "play": 203614,
+          "win_rate": 0.49,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 43
+        },
+        "Lee Sin": {
+          "play": 885470,
+          "win_rate": 0.48,
+          "pick_rate": 0.11,
+          "ban_rate": 0.12,
+          "tier": 3,
+          "rank": 21
+        },
+        "Lillia": {
+          "play": 216744,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 22
+        },
+        "Locke": {
+          "play": 222420,
+          "win_rate": 0.44,
+          "pick_rate": 0.03,
+          "ban_rate": 0.62,
+          "tier": 5,
+          "rank": 58
+        },
+        "Malphite": {
+          "play": 108748,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.14,
+          "tier": 4,
+          "rank": 47
+        },
+        "Master Yi": {
+          "play": 736078,
+          "win_rate": 0.5,
+          "pick_rate": 0.09,
+          "ban_rate": 0.18,
+          "tier": 2,
+          "rank": 9
+        },
+        "Wukong": {
+          "play": 409373,
+          "win_rate": 0.52,
+          "pick_rate": 0.05,
+          "ban_rate": 0.02,
+          "tier": 1,
+          "rank": 6
+        },
+        "Naafiri": {
+          "play": 480694,
+          "win_rate": 0.51,
+          "pick_rate": 0.06,
+          "ban_rate": 0.24,
+          "tier": 2,
+          "rank": 11
+        },
+        "Nasus": {
+          "play": 351461,
+          "win_rate": 0.52,
+          "pick_rate": 0.04,
+          "ban_rate": 0.09,
+          "tier": 2,
+          "rank": 8
+        },
+        "Nidalee": {
+          "play": 135316,
+          "win_rate": 0.48,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 52
+        },
+        "Nocturne": {
+          "play": 744476,
+          "win_rate": 0.52,
+          "pick_rate": 0.09,
+          "ban_rate": 0.15,
+          "tier": 1,
+          "rank": 1
+        },
+        "Nunu & Willump": {
+          "play": 166332,
+          "win_rate": 0.49,
+          "pick_rate": 0.02,
+          "ban_rate": 0.0,
+          "tier": 4,
+          "rank": 40
+        },
+        "Pantheon": {
+          "play": 92370,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 5,
+          "rank": 54
+        },
+        "Poppy": {
+          "play": 52166,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.03,
+          "tier": 5,
+          "rank": 53
+        },
+        "Qiyana": {
+          "play": 152408,
+          "win_rate": 0.45,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 63
+        },
+        "Quinn": {
+          "play": 111074,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 41
+        },
+        "Rammus": {
+          "play": 188219,
+          "win_rate": 0.53,
+          "pick_rate": 0.02,
+          "ban_rate": 0.05,
+          "tier": 3,
+          "rank": 13
+        },
+        "Rek'Sai": {
+          "play": 68233,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 5,
+          "rank": 50
+        },
+        "Rengar": {
+          "play": 242911,
+          "win_rate": 0.46,
+          "pick_rate": 0.03,
+          "ban_rate": 0.03,
+          "tier": 5,
+          "rank": 56
+        },
+        "Sejuani": {
+          "play": 156457,
+          "win_rate": 0.51,
+          "pick_rate": 0.02,
+          "ban_rate": 0.0,
+          "tier": 4,
+          "rank": 24
+        },
+        "Shaco": {
+          "play": 460082,
+          "win_rate": 0.5,
+          "pick_rate": 0.06,
+          "ban_rate": 0.25,
+          "tier": 3,
+          "rank": 17
+        },
+        "Shyvana": {
+          "play": 361568,
+          "win_rate": 0.53,
+          "pick_rate": 0.04,
+          "ban_rate": 0.03,
+          "tier": 1,
+          "rank": 4
+        },
+        "Skarner": {
+          "play": 73295,
+          "win_rate": 0.47,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 5,
+          "rank": 62
+        },
+        "Sylas": {
+          "play": 589235,
+          "win_rate": 0.5,
+          "pick_rate": 0.07,
+          "ban_rate": 0.15,
+          "tier": 3,
+          "rank": 14
+        },
+        "Talon": {
+          "play": 241577,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.03,
+          "tier": 4,
+          "rank": 26
+        },
+        "Teemo": {
+          "play": 87533,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.16,
+          "tier": 4,
+          "rank": 35
+        },
+        "Trundle": {
+          "play": 91136,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 37
+        },
+        "Tryndamere": {
+          "play": 62930,
+          "win_rate": 0.52,
+          "pick_rate": 0.01,
+          "ban_rate": 0.04,
+          "tier": 4,
+          "rank": 30
+        },
+        "Udyr": {
+          "play": 167040,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 27
+        },
+        "Vi": {
+          "play": 452231,
+          "win_rate": 0.5,
+          "pick_rate": 0.06,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 16
+        },
+        "Viego": {
+          "play": 815655,
+          "win_rate": 0.5,
+          "pick_rate": 0.1,
+          "ban_rate": 0.08,
+          "tier": 2,
+          "rank": 7
+        },
+        "Volibear": {
+          "play": 122129,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 32
+        },
+        "Warwick": {
+          "play": 530362,
+          "win_rate": 0.52,
+          "pick_rate": 0.06,
+          "ban_rate": 0.06,
+          "tier": 1,
+          "rank": 3
+        },
+        "Xin Zhao": {
+          "play": 381881,
+          "win_rate": 0.5,
+          "pick_rate": 0.05,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 19
+        },
+        "Zac": {
+          "play": 157784,
+          "win_rate": 0.49,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 44
+        },
+        "Zed": {
+          "play": 148688,
+          "win_rate": 0.47,
+          "pick_rate": 0.02,
+          "ban_rate": 0.17,
+          "tier": 5,
+          "rank": 57
+        },
+        "Zyra": {
+          "play": 48122,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.03,
+          "tier": 4,
+          "rank": 45
+        }
+      },
+      "mid": {
+        "Ahri": {
+          "play": 749581,
+          "win_rate": 0.5,
+          "pick_rate": 0.09,
+          "ban_rate": 0.03,
+          "tier": 2,
+          "rank": 7
+        },
+        "Akali": {
+          "play": 545599,
+          "win_rate": 0.49,
+          "pick_rate": 0.07,
+          "ban_rate": 0.14,
+          "tier": 3,
+          "rank": 22
+        },
+        "Akshan": {
+          "play": 172740,
+          "win_rate": 0.49,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 43
+        },
+        "Anivia": {
+          "play": 154181,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 33
+        },
+        "Annie": {
+          "play": 156787,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 31
+        },
+        "Aurelion Sol": {
+          "play": 129528,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 30
+        },
+        "Aurora": {
+          "play": 163615,
+          "win_rate": 0.49,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 44
+        },
+        "Azir": {
+          "play": 126544,
+          "win_rate": 0.46,
+          "pick_rate": 0.02,
+          "ban_rate": 0.0,
+          "tier": 5,
+          "rank": 54
+        },
+        "Brand": {
+          "play": 98124,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.09,
+          "tier": 4,
+          "rank": 35
+        },
+        "Cassiopeia": {
+          "play": 112669,
+          "win_rate": 0.47,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 50
+        },
+        "Cho'Gath": {
+          "play": 44382,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 46
+        },
+        "Diana": {
+          "play": 364051,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.05,
+          "tier": 2,
+          "rank": 12
+        },
+        "Ekko": {
+          "play": 241515,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 21
+        },
+        "Fizz": {
+          "play": 504535,
+          "win_rate": 0.52,
+          "pick_rate": 0.06,
+          "ban_rate": 0.1,
+          "tier": 1,
+          "rank": 3
+        },
+        "Galio": {
+          "play": 363945,
+          "win_rate": 0.5,
+          "pick_rate": 0.04,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 25
+        },
+        "Heimerdinger": {
+          "play": 50090,
+          "win_rate": 0.53,
+          "pick_rate": 0.01,
+          "ban_rate": 0.05,
+          "tier": 3,
+          "rank": 27
+        },
+        "Hwei": {
+          "play": 272482,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 19
+        },
+        "Irelia": {
+          "play": 234685,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.1,
+          "tier": 3,
+          "rank": 24
+        },
+        "Jayce": {
+          "play": 51264,
+          "win_rate": 0.48,
+          "pick_rate": 0.01,
+          "ban_rate": 0.03,
+          "tier": 5,
+          "rank": 51
+        },
+        "Kassadin": {
+          "play": 174640,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 28
+        },
+        "Katarina": {
+          "play": 499416,
+          "win_rate": 0.5,
+          "pick_rate": 0.06,
+          "ban_rate": 0.07,
+          "tier": 3,
+          "rank": 18
+        },
+        "LeBlanc": {
+          "play": 311442,
+          "win_rate": 0.49,
+          "pick_rate": 0.04,
+          "ban_rate": 0.1,
+          "tier": 4,
+          "rank": 29
+        },
+        "Lissandra": {
+          "play": 291222,
+          "win_rate": 0.5,
+          "pick_rate": 0.04,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 20
+        },
+        "Locke": {
+          "play": 642790,
+          "win_rate": 0.51,
+          "pick_rate": 0.08,
+          "ban_rate": 0.62,
+          "tier": 1,
+          "rank": 2
+        },
+        "Lux": {
+          "play": 392536,
+          "win_rate": 0.51,
+          "pick_rate": 0.05,
+          "ban_rate": 0.12,
+          "tier": 2,
+          "rank": 9
+        },
+        "Malphite": {
+          "play": 79917,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.14,
+          "tier": 4,
+          "rank": 34
+        },
+        "Malzahar": {
+          "play": 616375,
+          "win_rate": 0.52,
+          "pick_rate": 0.08,
+          "ban_rate": 0.15,
+          "tier": 1,
+          "rank": 1
+        },
+        "Mel": {
+          "play": 323400,
+          "win_rate": 0.46,
+          "pick_rate": 0.04,
+          "ban_rate": 0.37,
+          "tier": 4,
+          "rank": 45
+        },
+        "Morgana": {
+          "play": 56380,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.21,
+          "tier": 4,
+          "rank": 42
+        },
+        "Naafiri": {
+          "play": 266461,
+          "win_rate": 0.52,
+          "pick_rate": 0.03,
+          "ban_rate": 0.24,
+          "tier": 2,
+          "rank": 6
+        },
+        "Orianna": {
+          "play": 204289,
+          "win_rate": 0.46,
+          "pick_rate": 0.02,
+          "ban_rate": 0.0,
+          "tier": 5,
+          "rank": 49
+        },
+        "Pantheon": {
+          "play": 97610,
+          "win_rate": 0.52,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 26
+        },
+        "Qiyana": {
+          "play": 129155,
+          "win_rate": 0.47,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 48
+        },
+        "Riven": {
+          "play": 66980,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 37
+        },
+        "Ryze": {
+          "play": 193715,
+          "win_rate": 0.47,
+          "pick_rate": 0.02,
+          "ban_rate": 0.0,
+          "tier": 5,
+          "rank": 47
+        },
+        "Sion": {
+          "play": 52070,
+          "win_rate": 0.52,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 36
+        },
+        "Smolder": {
+          "play": 52239,
+          "win_rate": 0.47,
+          "pick_rate": 0.01,
+          "ban_rate": 0.03,
+          "tier": 5,
+          "rank": 55
+        },
+        "Swain": {
+          "play": 71087,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.04,
+          "tier": 4,
+          "rank": 32
+        },
+        "Sylas": {
+          "play": 698293,
+          "win_rate": 0.5,
+          "pick_rate": 0.09,
+          "ban_rate": 0.15,
+          "tier": 2,
+          "rank": 11
+        },
+        "Syndra": {
+          "play": 490936,
+          "win_rate": 0.51,
+          "pick_rate": 0.06,
+          "ban_rate": 0.04,
+          "tier": 2,
+          "rank": 13
+        },
+        "Taliyah": {
+          "play": 75819,
+          "win_rate": 0.47,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 5,
+          "rank": 52
+        },
+        "Talon": {
+          "play": 157056,
+          "win_rate": 0.49,
+          "pick_rate": 0.02,
+          "ban_rate": 0.03,
+          "tier": 4,
+          "rank": 38
+        },
+        "Twisted Fate": {
+          "play": 292046,
+          "win_rate": 0.5,
+          "pick_rate": 0.04,
+          "ban_rate": 0.0,
+          "tier": 3,
+          "rank": 23
+        },
+        "Veigar": {
+          "play": 471011,
+          "win_rate": 0.52,
+          "pick_rate": 0.06,
+          "ban_rate": 0.03,
+          "tier": 1,
+          "rank": 5
+        },
+        "Vel'Koz": {
+          "play": 75788,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 40
+        },
+        "Vex": {
+          "play": 297518,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.04,
+          "tier": 3,
+          "rank": 16
+        },
+        "Viktor": {
+          "play": 528790,
+          "win_rate": 0.51,
+          "pick_rate": 0.06,
+          "ban_rate": 0.06,
+          "tier": 2,
+          "rank": 8
+        },
+        "Vladimir": {
+          "play": 270728,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.04,
+          "tier": 3,
+          "rank": 15
+        },
+        "Xerath": {
+          "play": 331691,
+          "win_rate": 0.52,
+          "pick_rate": 0.04,
+          "ban_rate": 0.17,
+          "tier": 1,
+          "rank": 4
+        },
+        "Yasuo": {
+          "play": 862187,
+          "win_rate": 0.49,
+          "pick_rate": 0.11,
+          "ban_rate": 0.17,
+          "tier": 2,
+          "rank": 14
+        },
+        "Yone": {
+          "play": 678373,
+          "win_rate": 0.5,
+          "pick_rate": 0.08,
+          "ban_rate": 0.09,
+          "tier": 2,
+          "rank": 10
+        },
+        "Zed": {
+          "play": 566355,
+          "win_rate": 0.49,
+          "pick_rate": 0.07,
+          "ban_rate": 0.17,
+          "tier": 3,
+          "rank": 17
+        },
+        "Ziggs": {
+          "play": 82882,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.04,
+          "tier": 4,
+          "rank": 41
+        },
+        "Zoe": {
+          "play": 176652,
+          "win_rate": 0.49,
+          "pick_rate": 0.02,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 39
+        }
+      },
+      "adc": {
+        "Aphelios": {
+          "play": 290265,
+          "win_rate": 0.5,
+          "pick_rate": 0.04,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 29
+        },
+        "Ashe": {
+          "play": 786429,
+          "win_rate": 0.5,
+          "pick_rate": 0.1,
+          "ban_rate": 0.04,
+          "tier": 2,
+          "rank": 11
+        },
+        "Brand": {
+          "play": 102171,
+          "win_rate": 0.53,
+          "pick_rate": 0.01,
+          "ban_rate": 0.09,
+          "tier": 3,
+          "rank": 14
+        },
+        "Caitlyn": {
+          "play": 1594047,
+          "win_rate": 0.49,
+          "pick_rate": 0.19,
+          "ban_rate": 0.24,
+          "tier": 1,
+          "rank": 4
+        },
+        "Corki": {
+          "play": 95321,
+          "win_rate": 0.49,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 5,
+          "rank": 35
+        },
+        "Draven": {
+          "play": 256665,
+          "win_rate": 0.49,
+          "pick_rate": 0.03,
+          "ban_rate": 0.08,
+          "tier": 4,
+          "rank": 33
+        },
+        "Ezreal": {
+          "play": 1055489,
+          "win_rate": 0.47,
+          "pick_rate": 0.13,
+          "ban_rate": 0.05,
+          "tier": 4,
+          "rank": 27
+        },
+        "Hwei": {
+          "play": 95421,
+          "win_rate": 0.53,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 21
+        },
+        "Jhin": {
+          "play": 1183424,
+          "win_rate": 0.5,
+          "pick_rate": 0.14,
+          "ban_rate": 0.03,
+          "tier": 2,
+          "rank": 8
+        },
+        "Jinx": {
+          "play": 897602,
+          "win_rate": 0.51,
+          "pick_rate": 0.11,
+          "ban_rate": 0.03,
+          "tier": 1,
+          "rank": 3
+        },
+        "Kai'Sa": {
+          "play": 895365,
+          "win_rate": 0.49,
+          "pick_rate": 0.11,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 18
+        },
+        "Kalista": {
+          "play": 108769,
+          "win_rate": 0.48,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 5,
+          "rank": 36
+        },
+        "Kog'Maw": {
+          "play": 126148,
+          "win_rate": 0.52,
+          "pick_rate": 0.02,
+          "ban_rate": 0.0,
+          "tier": 4,
+          "rank": 23
+        },
+        "Lucian": {
+          "play": 516144,
+          "win_rate": 0.49,
+          "pick_rate": 0.06,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 26
+        },
+        "Mel": {
+          "play": 391131,
+          "win_rate": 0.47,
+          "pick_rate": 0.05,
+          "ban_rate": 0.37,
+          "tier": 4,
+          "rank": 34
+        },
+        "Miss Fortune": {
+          "play": 1407975,
+          "win_rate": 0.51,
+          "pick_rate": 0.17,
+          "ban_rate": 0.05,
+          "tier": 1,
+          "rank": 1
+        },
+        "Nilah": {
+          "play": 93968,
+          "win_rate": 0.53,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 20
+        },
+        "Samira": {
+          "play": 430014,
+          "win_rate": 0.5,
+          "pick_rate": 0.05,
+          "ban_rate": 0.09,
+          "tier": 3,
+          "rank": 15
+        },
+        "Senna": {
+          "play": 318095,
+          "win_rate": 0.52,
+          "pick_rate": 0.04,
+          "ban_rate": 0.08,
+          "tier": 2,
+          "rank": 6
+        },
+        "Seraphine": {
+          "play": 249856,
+          "win_rate": 0.53,
+          "pick_rate": 0.03,
+          "ban_rate": 0.16,
+          "tier": 1,
+          "rank": 2
+        },
+        "Sivir": {
+          "play": 288290,
+          "win_rate": 0.5,
+          "pick_rate": 0.04,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 24
+        },
+        "Smolder": {
+          "play": 406624,
+          "win_rate": 0.52,
+          "pick_rate": 0.05,
+          "ban_rate": 0.03,
+          "tier": 2,
+          "rank": 9
+        },
+        "Swain": {
+          "play": 98755,
+          "win_rate": 0.53,
+          "pick_rate": 0.01,
+          "ban_rate": 0.04,
+          "tier": 3,
+          "rank": 16
+        },
+        "Syndra": {
+          "play": 139382,
+          "win_rate": 0.51,
+          "pick_rate": 0.02,
+          "ban_rate": 0.04,
+          "tier": 4,
+          "rank": 31
+        },
+        "Tristana": {
+          "play": 627162,
+          "win_rate": 0.5,
+          "pick_rate": 0.08,
+          "ban_rate": 0.04,
+          "tier": 2,
+          "rank": 13
+        },
+        "Twitch": {
+          "play": 391974,
+          "win_rate": 0.51,
+          "pick_rate": 0.05,
+          "ban_rate": 0.07,
+          "tier": 2,
+          "rank": 12
+        },
+        "Varus": {
+          "play": 212399,
+          "win_rate": 0.46,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 5,
+          "rank": 37
+        },
+        "Vayne": {
+          "play": 430680,
+          "win_rate": 0.5,
+          "pick_rate": 0.05,
+          "ban_rate": 0.1,
+          "tier": 3,
+          "rank": 17
+        },
+        "Veigar": {
+          "play": 138613,
+          "win_rate": 0.54,
+          "pick_rate": 0.02,
+          "ban_rate": 0.03,
+          "tier": 2,
+          "rank": 7
+        },
+        "Vel'Koz": {
+          "play": 59245,
+          "win_rate": 0.52,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 32
+        },
+        "Xayah": {
+          "play": 265462,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.0,
+          "tier": 3,
+          "rank": 22
+        },
+        "Xerath": {
+          "play": 236530,
+          "win_rate": 0.52,
+          "pick_rate": 0.03,
+          "ban_rate": 0.17,
+          "tier": 2,
+          "rank": 10
+        },
+        "Yasuo": {
+          "play": 111884,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.17,
+          "tier": 4,
+          "rank": 25
+        },
+        "Yunara": {
+          "play": 516304,
+          "win_rate": 0.49,
+          "pick_rate": 0.06,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 28
+        },
+        "Zeri": {
+          "play": 179532,
+          "win_rate": 0.51,
+          "pick_rate": 0.02,
+          "ban_rate": 0.0,
+          "tier": 4,
+          "rank": 30
+        },
+        "Ziggs": {
+          "play": 451329,
+          "win_rate": 0.52,
+          "pick_rate": 0.06,
+          "ban_rate": 0.04,
+          "tier": 1,
+          "rank": 5
+        }
+      },
+      "support": {
+        "Alistar": {
+          "play": 237630,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 32
+        },
+        "Amumu": {
+          "play": 47920,
+          "win_rate": 0.52,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 38
+        },
+        "Ashe": {
+          "play": 97908,
+          "win_rate": 0.46,
+          "pick_rate": 0.01,
+          "ban_rate": 0.04,
+          "tier": 5,
+          "rank": 49
+        },
+        "Bard": {
+          "play": 283429,
+          "win_rate": 0.49,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 34
+        },
+        "Blitzcrank": {
+          "play": 470093,
+          "win_rate": 0.5,
+          "pick_rate": 0.06,
+          "ban_rate": 0.13,
+          "tier": 2,
+          "rank": 11
+        },
+        "Brand": {
+          "play": 344713,
+          "win_rate": 0.5,
+          "pick_rate": 0.04,
+          "ban_rate": 0.09,
+          "tier": 2,
+          "rank": 16
+        },
+        "Braum": {
+          "play": 249577,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.03,
+          "tier": 3,
+          "rank": 18
+        },
+        "Camille": {
+          "play": 432587,
+          "win_rate": 0.48,
+          "pick_rate": 0.05,
+          "ban_rate": 0.05,
+          "tier": 3,
+          "rank": 33
+        },
+        "Galio": {
+          "play": 101291,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 35
+        },
+        "Hwei": {
+          "play": 54173,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 4,
+          "rank": 41
+        },
+        "Janna": {
+          "play": 163023,
+          "win_rate": 0.51,
+          "pick_rate": 0.02,
+          "ban_rate": 0.0,
+          "tier": 3,
+          "rank": 25
+        },
+        "Karma": {
+          "play": 360777,
+          "win_rate": 0.49,
+          "pick_rate": 0.04,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 29
+        },
+        "LeBlanc": {
+          "play": 51285,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.1,
+          "tier": 4,
+          "rank": 44
+        },
+        "Leona": {
+          "play": 678405,
+          "win_rate": 0.52,
+          "pick_rate": 0.08,
+          "ban_rate": 0.09,
+          "tier": 1,
+          "rank": 2
+        },
+        "Lulu": {
+          "play": 457552,
+          "win_rate": 0.5,
+          "pick_rate": 0.06,
+          "ban_rate": 0.04,
+          "tier": 3,
+          "rank": 21
+        },
+        "Lux": {
+          "play": 1032981,
+          "win_rate": 0.5,
+          "pick_rate": 0.13,
+          "ban_rate": 0.12,
+          "tier": 1,
+          "rank": 4
+        },
+        "Malphite": {
+          "play": 100751,
+          "win_rate": 0.48,
+          "pick_rate": 0.01,
+          "ban_rate": 0.14,
+          "tier": 5,
+          "rank": 45
+        },
+        "Maokai": {
+          "play": 148985,
+          "win_rate": 0.51,
+          "pick_rate": 0.02,
+          "ban_rate": 0.0,
+          "tier": 3,
+          "rank": 27
+        },
+        "Mel": {
+          "play": 295194,
+          "win_rate": 0.44,
+          "pick_rate": 0.04,
+          "ban_rate": 0.37,
+          "tier": 5,
+          "rank": 46
+        },
+        "Milio": {
+          "play": 329600,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.02,
+          "tier": 2,
+          "rank": 9
+        },
+        "Morgana": {
+          "play": 604990,
+          "win_rate": 0.51,
+          "pick_rate": 0.07,
+          "ban_rate": 0.21,
+          "tier": 1,
+          "rank": 5
+        },
+        "Nami": {
+          "play": 502025,
+          "win_rate": 0.51,
+          "pick_rate": 0.06,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 7
+        },
+        "Nautilus": {
+          "play": 824868,
+          "win_rate": 0.5,
+          "pick_rate": 0.1,
+          "ban_rate": 0.13,
+          "tier": 2,
+          "rank": 6
+        },
+        "Neeko": {
+          "play": 177139,
+          "win_rate": 0.48,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 4,
+          "rank": 43
+        },
+        "Pantheon": {
+          "play": 374121,
+          "win_rate": 0.5,
+          "pick_rate": 0.05,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 26
+        },
+        "Poppy": {
+          "play": 198776,
+          "win_rate": 0.52,
+          "pick_rate": 0.02,
+          "ban_rate": 0.03,
+          "tier": 2,
+          "rank": 12
+        },
+        "Pyke": {
+          "play": 565647,
+          "win_rate": 0.49,
+          "pick_rate": 0.07,
+          "ban_rate": 0.18,
+          "tier": 3,
+          "rank": 22
+        },
+        "Rakan": {
+          "play": 194236,
+          "win_rate": 0.5,
+          "pick_rate": 0.02,
+          "ban_rate": 0.0,
+          "tier": 3,
+          "rank": 30
+        },
+        "Rell": {
+          "play": 237213,
+          "win_rate": 0.52,
+          "pick_rate": 0.03,
+          "ban_rate": 0.01,
+          "tier": 2,
+          "rank": 13
+        },
+        "Renata Glasc": {
+          "play": 59456,
+          "win_rate": 0.5,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 4,
+          "rank": 42
+        },
+        "Senna": {
+          "play": 516062,
+          "win_rate": 0.51,
+          "pick_rate": 0.06,
+          "ban_rate": 0.08,
+          "tier": 2,
+          "rank": 8
+        },
+        "Seraphine": {
+          "play": 1089920,
+          "win_rate": 0.51,
+          "pick_rate": 0.13,
+          "ban_rate": 0.16,
+          "tier": 1,
+          "rank": 1
+        },
+        "Shaco": {
+          "play": 120181,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.25,
+          "tier": 3,
+          "rank": 31
+        },
+        "Shen": {
+          "play": 120277,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 37
+        },
+        "Sona": {
+          "play": 214370,
+          "win_rate": 0.52,
+          "pick_rate": 0.03,
+          "ban_rate": 0.0,
+          "tier": 2,
+          "rank": 15
+        },
+        "Soraka": {
+          "play": 304525,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.02,
+          "tier": 2,
+          "rank": 14
+        },
+        "Swain": {
+          "play": 365443,
+          "win_rate": 0.49,
+          "pick_rate": 0.04,
+          "ban_rate": 0.04,
+          "tier": 3,
+          "rank": 28
+        },
+        "Tahm Kench": {
+          "play": 282773,
+          "win_rate": 0.5,
+          "pick_rate": 0.03,
+          "ban_rate": 0.04,
+          "tier": 3,
+          "rank": 23
+        },
+        "Taric": {
+          "play": 91373,
+          "win_rate": 0.53,
+          "pick_rate": 0.01,
+          "ban_rate": 0.0,
+          "tier": 3,
+          "rank": 20
+        },
+        "Teemo": {
+          "play": 86924,
+          "win_rate": 0.51,
+          "pick_rate": 0.01,
+          "ban_rate": 0.16,
+          "tier": 3,
+          "rank": 36
+        },
+        "Thresh": {
+          "play": 812707,
+          "win_rate": 0.51,
+          "pick_rate": 0.1,
+          "ban_rate": 0.05,
+          "tier": 1,
+          "rank": 3
+        },
+        "Veigar": {
+          "play": 63806,
+          "win_rate": 0.48,
+          "pick_rate": 0.01,
+          "ban_rate": 0.03,
+          "tier": 5,
+          "rank": 47
+        },
+        "Vel'Koz": {
+          "play": 288998,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.02,
+          "tier": 3,
+          "rank": 19
+        },
+        "Xerath": {
+          "play": 314280,
+          "win_rate": 0.51,
+          "pick_rate": 0.04,
+          "ban_rate": 0.17,
+          "tier": 2,
+          "rank": 10
+        },
+        "Yuumi": {
+          "play": 354855,
+          "win_rate": 0.47,
+          "pick_rate": 0.04,
+          "ban_rate": 0.03,
+          "tier": 4,
+          "rank": 40
+        },
+        "Zilean": {
+          "play": 182397,
+          "win_rate": 0.51,
+          "pick_rate": 0.02,
+          "ban_rate": 0.01,
+          "tier": 3,
+          "rank": 24
+        },
+        "Zoe": {
+          "play": 49937,
+          "win_rate": 0.48,
+          "pick_rate": 0.01,
+          "ban_rate": 0.02,
+          "tier": 5,
+          "rank": 48
+        },
+        "Zyra": {
+          "play": 277124,
+          "win_rate": 0.51,
+          "pick_rate": 0.03,
+          "ban_rate": 0.03,
+          "tier": 2,
+          "rank": 17
+        }
+      }
+    }
+  }
+}
