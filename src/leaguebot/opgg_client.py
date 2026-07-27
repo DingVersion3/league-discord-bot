@@ -11,6 +11,7 @@
 #               play data -> shown only when include_off_meta=True
 #   - excluded: zero games played -> never shown, regardless of toggle
 import json
+import re
 from pathlib import Path
 
 from mcp import ClientSession
@@ -40,6 +41,19 @@ def _load_tierlist_cache() -> dict:
         )
     with open(path) as f:
         return json.load(f)
+
+def _resolve_champion(name: str) -> str:
+    # Maps loose user input ("dr mundo", "Dr. Mundo") to OP.GG's expected
+    # format (uppercased Riot champion ID, e.g. "DRMUNDO").
+    with open(DATA_DIR / "champions.json") as f:
+        champions = json.load(f)["champions"]
+
+    normalized = re.sub(r"[^a-z]", "", name.lower())
+    for champ_id, display_name in champions.items():
+        if re.sub(r"[^a-z]", "", display_name.lower()) == normalized:
+            return champ_id.upper()
+
+    raise OpggError(f"Unknown champion: {name}")
 
 
 def get_lane_tier_list(position: str, bracket: str = DEFAULT_BRACKET, include_off_meta: bool = False) -> list[dict]:
@@ -102,8 +116,8 @@ async def get_lane_matchup(
     raw_text = await _call_tool(
         "lol_get_lane_matchup_guide",
         arguments={
-            "my_champion": my_champion.upper(),
-            "opponent_champion": opponent_champion.upper(),
+            "my_champion": _resolve_champion(my_champion),
+            "opponent_champion": _resolve_champion(opponent_champion),
             "position": position,
         },
     )

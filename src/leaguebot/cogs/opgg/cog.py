@@ -40,12 +40,14 @@ class OpggCog(commands.Cog):
 
         opgg_position = RIOT_TO_OPGG_POSITION[position.value]
 
+        error_message = None
         try:
-            result = await get_lane_matchup(
-                my_champion, opponent_champion, opgg_position,
-            )
-        except OpggError as e:
-            await interaction.followup.send(f"Couldn't get matchup data: {e.message}")
+            result = await get_lane_matchup(my_champion, opponent_champion, opgg_position)
+        except* OpggError as eg:
+            error_message = "; ".join(e.message for e in eg.exceptions)
+
+        if error_message:
+            await interaction.followup.send(f"Couldn't get matchup data: {error_message}")
             return
 
         embed = discord.Embed(
