@@ -30,7 +30,7 @@ A League of Legends companion bot for Discord — post-game recaps, weekly leade
 - **`/help`** - Lists every ScuttleBuddy command, grouped by category
 - **`/trivia`** — League trivia questions with a small Honeyfruit reward for correct answers
 - **`/status`** — Check ScuttleBuddy's uptime and how many users are registered, server-wide and across all servers
-- **`/matchup [my_champion] [opponent_champion] [position]`** — Get lane matchup guidance between two champions (tips, lane advantage, top counters), powered by OP.GG
+- **`/matchup [my_champion] [opponent_champion] [position]`** — Get lane matchup guidance between two champions (tips, lane advantage, and your best and worst matchups), powered by OP.GG
 - **`/tierlist [position]`** — Show the current lane tier list ranked by tier and win rate, powered by OP.GG
 - **`/syncnow`** — Manually trigger the weekly data sync + post (admin only)
 
