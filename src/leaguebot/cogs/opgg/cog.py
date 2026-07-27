@@ -25,12 +25,9 @@ class OpggCog(commands.Cog):
         my_champion="Your champion",
         opponent_champion="The enemy champion",
         position="Which lane this matchup is in",
-        bracket="Rank bracket for counter classification (default: Gold+)",
-        include_off_meta="Also show off-meta counters (default: off)",
     )
     @app_commands.choices(
         position=[app_commands.Choice(**c) for c in POSITION_CHOICES],
-        bracket=BRACKET_CHOICES,
     )
     async def matchup(
         self,
@@ -38,18 +35,14 @@ class OpggCog(commands.Cog):
         my_champion: str,
         opponent_champion: str,
         position: app_commands.Choice[str],
-        bracket: app_commands.Choice[str] = None,
-        include_off_meta: bool = False,
     ):
         await interaction.response.defer()
 
         opgg_position = RIOT_TO_OPGG_POSITION[position.value]
-        bracket_value = bracket.value if bracket else "gold_plus"
 
         try:
             result = await get_lane_matchup(
                 my_champion, opponent_champion, opgg_position,
-                bracket=bracket_value, include_off_meta=include_off_meta,
             )
         except OpggError as e:
             await interaction.followup.send(f"Couldn't get matchup data: {e.message}")
@@ -66,16 +59,27 @@ class OpggCog(commands.Cog):
         if result["play_style"]:
             embed.add_field(name="Recommended Style", value=result["play_style"].title(), inline=True)
 
-        if result["top_counters"]:
+        if result["weak_against"]:
             lines = [
-                f"{'⭐' if c['is_meta'] else '🔍'} {c['champion']} — {c['play']:,} games"
-                + (f", {c['win_rate']*100:.0f}% WR" if c["win_rate"] is not None else "")
-                for c in result["top_counters"]
+                f"{c['champion']} — {c['win_rate']*100:.0f}% ({c['play']:,} games)"
+                for c in result["weak_against"]
             ]
-            label = "Champions That Counter " + my_champion.title()
-            embed.add_field(name=label, value="\n".join(lines), inline=False)
-            if include_off_meta:
-                embed.set_footer(text="⭐ meta pick   🔍 off-meta pick")
+            embed.add_field(
+                name=f"{my_champion.title()} Is Weak Against",
+                value="\n".join(lines),
+                inline=True,
+            )
+
+        if result["strong_against"]:
+            lines = [
+                f"{c['champion']} — {c['win_rate']*100:.0f}% ({c['play']:,} games)"
+                for c in result["strong_against"]
+            ]
+            embed.add_field(
+                name=f"{my_champion.title()} Is Strong Against",
+                value="\n".join(lines),
+                inline=True,
+            )
 
         await interaction.followup.send(embed=embed)
 

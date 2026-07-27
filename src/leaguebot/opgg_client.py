@@ -96,11 +96,9 @@ async def get_lane_matchup(
     my_champion: str,
     opponent_champion: str,
     position: str,
-    bracket: str = DEFAULT_BRACKET,
-    include_off_meta: bool = False,
 ) -> dict:
     # Tip/lane-advantage/play-style come from a live call (not cached).
-    # Counter classification (meta vs. off-meta) uses the local tier list cache.
+    # Counters are split into weak/strong matchups by win rate.
     raw_text = await _call_tool(
         "lol_get_lane_matchup_guide",
         arguments={
@@ -116,37 +114,28 @@ async def get_lane_matchup(
         raise OpggError("Couldn't parse matchup response.") from e
 
     data = parsed.get("data", {})
-    counters = data.get("summary", {}).get("positions", [{}])[0].get("counters", [])
+    counters = data.get("counters", [])
 
-    try:
-        tier_list = get_lane_tier_list(position, bracket=bracket, include_off_meta=True)
-        pick_rate_by_champion = {e["champion"]: e["pick_rate"] for e in tier_list}
-    except OpggError:
-        pick_rate_by_champion = {}
-
-    classified = []
+    # OP.GG's `win` field counts MY champion's wins in that matchup, so
+    # win/play is my win rate: under 50% means I lose the lane, over means I win it.
+    rated = []
     for c in counters:
-        champion_name = c["champion_name"]
         games = c.get("play", 0)
         if games <= 0:
             continue
+        rated.append({
+            "champion": c["champion_name"],
+            "play": games,
+            "win_rate": c["win"] / games,
+        })
 
-        pick_rate = pick_rate_by_champion.get(champion_name, 0)
-        is_meta = pick_rate > META_PICK_RATE_THRESHOLD
-
-        if is_meta or include_off_meta:
-            classified.append({
-                "champion": champion_name,
-                "play": games,
-                "win_rate": c["win"] / games if games else None,
-                "is_meta": is_meta,
-            })
-
-    classified.sort(key=lambda c: c["play"], reverse=True)
+    weak_against = sorted([c for c in rated if c["win_rate"] < 0.5], key=lambda c: c["win_rate"])[:5]
+    strong_against = sorted([c for c in rated if c["win_rate"] >= 0.5], key=lambda c: c["win_rate"], reverse=True)[:5]
 
     return {
         "tip": data.get("opponent_champion_tip"),
         "lane_advantage": data.get("lane_advantage_champion"),
         "play_style": data.get("recommended_play_style"),
-        "top_counters": classified[:5],
+        "weak_against": weak_against,
+        "strong_against": strong_against,
     }
