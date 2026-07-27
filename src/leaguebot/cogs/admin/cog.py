@@ -111,14 +111,39 @@ class AdminCog(commands.Cog):
         if winner is None:
             return
 
+        previous_holder = [m for m in role.members if m.id != winner.id]
+        retained = any(m.id == winner.id for m in role.members)
+
         try:
-            for member in role.members:
-                if member.id != winner.id:
-                    await member.remove_roles(role)
+            for member in previous_holder:
+                await member.remove_roles(role)
             if role not in winner.roles:
                 await winner.add_roles(role)
         except discord.Forbidden:
             print(f"[ADMIN] missing permission to manage roles in {guild.name}")
+            return
+
+        balance = top_holder["balance"]
+
+        if retained:
+            message = f"👑 {winner.mention} is still the **Kashdaji Queen** with {balance:,} Honeyfruit."
+        elif previous_holder:
+            dethroned = ", ".join(m.mention for m in previous_holder)
+            message = (
+                f"👑 {winner.mention} has claimed the **Kashdaji Queen** title from "
+                f"{dethroned} with {balance:,} Honeyfruit!"
+            )
+        else:
+            message= (
+                f"👑 {winner.mention} has claimed the **Kashdaji Queen** title "
+                f"with {balance:,} Honeyfruit!"
+            )
+
+        channel_id = await get_leaderboard_channel(guild.id)
+        if channel_id:
+            channel = guild.get_channel(channel_id)
+            if channel:
+                await channel.send(message)
 
 
 async def setup(bot: commands.Bot):
