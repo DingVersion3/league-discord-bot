@@ -61,7 +61,7 @@ def _resolve_champion(name: str) -> str:
         if re.sub(r"[^a-z0-9]", "", display_name.lower()) == normalized:
             # Convert the display name to UPPER_SNAKE_CASE: strip punctuation,
             # then join words with underscores. "Dr. Mundo" -> "DR_MUNDO"
-            words = re.sub(r"[^a-zA-Z\s]", "", display_name).split()
+            words = re.sub(r"[^a-zA-Z0-9\s]", "", display_name).split()
             return "_".join(words).upper()
 
     raise OpggError(f"Unknown champion: {name}")
