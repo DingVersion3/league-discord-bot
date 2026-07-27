@@ -79,7 +79,7 @@ async def get_champion_recommendations(discord_id: int, position: str, champion_
     opgg_position = RIOT_TO_OPGG_POSITION.get(position)
     if opgg_position:
         try:
-            tier_list = await get_lane_tier_list(opgg_position)
+            tier_list = get_lane_tier_list(opgg_position)
             meta_by_champion = {entry["champion"]: entry["win_rate"] for entry in tier_list}
         except OpggError:
             pass  # degrade gracefully — blend just uses personal data alone
