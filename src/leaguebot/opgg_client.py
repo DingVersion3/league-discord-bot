@@ -17,6 +17,8 @@ from pathlib import Path
 from mcp import ClientSession
 from mcp.client.streamable_http import streamable_http_client
 
+from leaguebot.constants import CHAMPION_ALIASES
+
 OPGG_MCP_URL = "https://mcp-api.op.gg/mcp"
 DATA_DIR = Path(__file__).parents[2] / "data"
 
@@ -49,8 +51,14 @@ def _resolve_champion(name: str) -> str:
         champions = json.load(f)["champions"]
 
     normalized = re.sub(r"[^a-z]", "", name.lower())
+
+    # aliases resolve to a display name, then goes through normal matching
+    target = CHAMPION_ALIASES.get(normalized)
+    if target:
+        normalized = re.sub(r"[^a-z0-9]", "", target.lower())
+
     for champ_id, display_name in champions.items():
-        if re.sub(r"[^a-z]", "", display_name.lower()) == normalized:
+        if re.sub(r"[^a-z0-9]", "", display_name.lower()) == normalized:
             # Convert the display name to UPPER_SNAKE_CASE: strip punctuation,
             # then join words with underscores. "Dr. Mundo" -> "DR_MUNDO"
             words = re.sub(r"[^a-zA-Z\s]", "", display_name).split()
