@@ -59,6 +59,8 @@ class OpggCog(commands.Cog):
         if result["play_style"]:
             embed.add_field(name="Recommended Style", value=result["play_style"].title(), inline=True)
 
+        embed.add_field(name="\u200b", value="\u200b", inline=True)
+
         if result["weak_against"]:
             lines = [
                 f"{c['champion']} — {c['win_rate']*100:.0f}% ({c['play']:,} games)"
