@@ -44,14 +44,17 @@ def _load_tierlist_cache() -> dict:
 
 def _resolve_champion(name: str) -> str:
     # Maps loose user input ("dr mundo", "Dr. Mundo") to OP.GG's expected
-    # format (uppercased Riot champion ID, e.g. "DRMUNDO").
+    # UPPER_SNAKE_CASE format (e.g. "DR_MUNDO").
     with open(DATA_DIR / "champions.json") as f:
         champions = json.load(f)["champions"]
 
     normalized = re.sub(r"[^a-z]", "", name.lower())
     for champ_id, display_name in champions.items():
         if re.sub(r"[^a-z]", "", display_name.lower()) == normalized:
-            return champ_id.upper()
+            # Convert the display name to UPPER_SNAKE_CASE: strip punctuation,
+            # then join words with underscores. "Dr. Mundo" -> "DR_MUNDO"
+            words = re.sub(r"[^a-zA-Z\s]", "", display_name).split()
+            return "_".join(words).upper()
 
     raise OpggError(f"Unknown champion: {name}")
 
@@ -89,21 +92,20 @@ def get_lane_tier_list(position: str, bracket: str = DEFAULT_BRACKET, include_of
 
 async def _call_tool(tool_name: str, arguments: dict) -> str:
     # Live MCP call -- only used for lane matchup guidance, which isn't cached.
-    async with streamable_http_client(OPGG_MCP_URL) as (read_stream, write_stream, _):
-        async with ClientSession(read_stream, write_stream) as session:
-            await session.initialize()
-
-            try:
+    try:
+        async with streamable_http_client(OPGG_MCP_URL) as (read_stream, write_stream, _):
+            async with ClientSession(read_stream, write_stream) as session:
+                await session.initialize()
                 result = await session.call_tool(tool_name, arguments=arguments)
-            except Exception as e:
-                raise OpggError(f"OP.GG request failed: {e}") from e
 
-            if result.isError:
-                raise OpggError(f"OP.GG returned an error: {result.content}")
-            if not result.content:
-                raise OpggError("OP.GG returned no content.")
+                if result.isError:
+                    raise OpggError(f"OP.GG returned an error: {result.content}")
+                if not result.content:
+                    raise OpggError("OP.GG returned no content.")
 
-            return result.content[0].text
+                return result.content[0].text
+    except BaseException as e:
+        raise OpggError(_unwrap(e)) from e
 
 
 async def get_lane_matchup(
@@ -113,6 +115,10 @@ async def get_lane_matchup(
 ) -> dict:
     # Tip/lane-advantage/play-style come from a live call (not cached).
     # Counters are split into weak/strong matchups by win rate.
+    my_resolved = _resolve_champion(my_champion)
+    opponent_resolved = _resolve_champion(opponent_champion)
+    print(f"[DEBUG] sending champions: {my_resolved} vs {opponent_resolved}")
+
     raw_text = await _call_tool(
         "lol_get_lane_matchup_guide",
         arguments={
