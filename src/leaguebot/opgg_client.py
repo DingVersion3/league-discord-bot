@@ -50,7 +50,7 @@ def _resolve_champion(name: str) -> str:
     with open(DATA_DIR / "champions.json") as f:
         champions = json.load(f)["champions"]
 
-    normalized = re.sub(r"[^a-z]", "", name.lower())
+    normalized = re.sub(r"[^a-z0-9]", "", name.lower())
 
     # aliases resolve to a display name, then goes through normal matching
     target = CHAMPION_ALIASES.get(normalized)
