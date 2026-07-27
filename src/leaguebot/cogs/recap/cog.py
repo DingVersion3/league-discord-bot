@@ -88,9 +88,10 @@ class RecapCog(commands.Cog):
 
         lines = []
         for i, r in enumerate(recommendations[:10]):
-            parts = [f"**{i+1}.** {r['champion']} — {r['score']*100:.0f}%"]
+            parts = [f"**{i+1}.** {r['champion']} — score {r['score']*100:.0f}"]
             if r["personal_games"] > 0:
-                parts.append(f"(you: {r['personal_win_rate']*100:.0f}% in {r['personal_games']} games)")
+                game_word = "game" if r["personal_games"] == 1 else "games"
+                parts.append(f"(you: {r['personal_win_rate']*100:.0f}% in {r['personal_games']} {game_word})")
             if r["meta_win_rate"] is not None:
                 parts.append(f"(meta: {r['meta_win_rate']*100:.0f}%)")
             lines.append(" ".join(parts))
