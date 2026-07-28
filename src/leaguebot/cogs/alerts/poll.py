@@ -4,9 +4,9 @@
 
 import time
 
-from leaguebot.db import get_all_registered_users, get_streak, set_last_match_id, get_leaderboard_channel,get_rank as db_get_rank, save_rank, get_recent_matches, get_open_bet
+from leaguebot.db import get_all_registered_users, get_streak, set_last_match_id, get_leaderboard_channel,get_rank as db_get_rank, save_rank, get_recent_matches, get_open_bet, save_match
 from leaguebot.riot_api import get_match_ids, get_match, get_rank as riot_get_rank, RiotAPIError
-from leaguebot.constants import INTERVAL, MIN_GAME_DURATION_SECONDS, SECONDS_PER_WEEK
+from leaguebot.constants import MIN_GAME_DURATION_SECONDS, SECONDS_PER_WEEK
 from leaguebot.cogs.betting import betting as betting_logic
 from . import alerts
 from . import milestones
@@ -54,10 +54,48 @@ async def check_for_new_results(bot) -> None:
         participant = next(p for p in match["info"]["participants"] if p["puuid"] == puuid)
         won = participant["win"]
 
+        # Save the match immediately so stats stay current between weekly syncs.
+        # sync.py will re-encounter this match later, but save_match's
+        # ON CONFLICT DO NOTHING makes that a no-op.
+        played_at = match["info"]["gameStartTimestamp"] // 1000  # ms -> s
+        enemy = next(
+            (p for p in match["info"]["participants"]
+             if p["teamId"] != participant["teamId"]
+             and p.get("teamPosition") == participant.get("teamPosition")
+             and participant.get("teamPosition")),
+            None,
+        )
+        await save_match(
+            discord_id=discord_id,
+            puuid=puuid,
+            match_id=latest_match_id,
+            champion=participant["championName"],
+            win=won,
+            kills=participant["kills"],
+            deaths=participant["deaths"],
+            assists=participant["assists"],
+            damage=participant["totalDamageDealtToChampions"],
+            played_at=played_at,
+            duration=match["info"]["gameDuration"],
+            cs=participant["totalMinionsKilled"] + participant["neutralMinionsKilled"],
+            gold=participant["goldEarned"],
+            doubleKills=participant["doubleKills"],
+            tripleKills=participant["tripleKills"],
+            quadraKills=participant["quadraKills"],
+            pentaKills=participant["pentaKills"],
+            position=participant.get("teamPosition", ""),
+            enemy_champion=enemy["championName"] if enemy else None,
+            team_id=participant["teamId"],
+            team_damage=sum(
+                p["totalDamageDealtToChampions"] for p in match["info"]["participants"]
+                if p["teamId"] == participant["teamId"]
+            ),
+        )
+
         # check for a round-number milestone (games/wins/losses tracked)
         all_matches = await get_recent_matches(discord_id, 0)  # 0 = all-time
-        total_games = len(all_matches) + 1 # +1 for the game just detected
-        total_wins = sum(1 for m in all_matches if m["win"]) + (1 if won else 0)
+        total_games = len(all_matches) # +1 for the game just detected
+        total_wins = sum(1 for m in all_matches if m["win"])
         total_losses = total_games - total_wins
         milestone_msg = milestones.get_milestone_message(total_games, total_wins, total_losses)
         if milestone_msg:
@@ -88,7 +126,7 @@ async def check_for_new_results(bot) -> None:
 
         # check for a stat spike vs. their own recent average
         since = int(time.time()) - SECONDS_PER_WEEK
-        previous_matches = await get_recent_matches(discord_id, since)
+        previous_matches = [m for m in await get_recent_matches(discord_id, since) if m["match_id"] != latest_match_id]
         new_match_row = {
             "cs": participant["totalMinionsKilled"] + participant["neutralMinionsKilled"],
             "duration": match["info"]["gameDuration"],
