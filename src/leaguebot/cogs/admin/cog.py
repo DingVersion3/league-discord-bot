@@ -1,7 +1,8 @@
 # Admin only commands and there functions
 # /setleaderboardchannel: pick where the weekly leaderboard auto-posts.
-# /syncnow: manually trigger the weekly sync + leaderboard post
-# Weekly task: syncs fresh data and auto-posts the leaderboard on schedule.
+# /syncnow: manually trigger a sync + leaderboard post
+# Daily task: syncs fresh match/rank data.
+# Weekly task: auto-posts the leaderboard and assigns the Kashdaji Queen role.
 import datetime
 
 import discord
@@ -12,20 +13,27 @@ from leaguebot.db import set_leaderboard_channel, get_leaderboard_channel
 from leaguebot.cogs.leaderboard.sync import sync_all_users
 from leaguebot.cogs.leaderboard.board import build_leaderboard_embed, get_top_honeyfruit_holder
 from leaguebot.cogs.memestats.stats import build_meme_stats_embed
-
 from . import patchwatch
 
 ROLE_NAME = "Kashdaji Queen"
+
+LEADERBOARD_STATS = (
+    "win_rate", "kda", "wins", "rank",
+    "double_kills", "triple_kills", "quadra_kills", "penta_kills",
+    "honeyfruit",
+)
 
 
 class AdminCog(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.weekly_sync.start()
+        self.daily_sync.start()
+        self.weekly_leaderboard.start()
         self.patch_check.start()
 
     def cog_unload(self):
-        self.weekly_sync.cancel()
+        self.daily_sync.cancel()
+        self.weekly_leaderboard.cancel()
         self.patch_check.cancel()
 
     @tasks.loop(hours=3)
@@ -36,13 +44,47 @@ class AdminCog(commands.Cog):
     async def before_patch_check(self):
         await self.bot.wait_until_ready()
 
+    @tasks.loop(time=datetime.time(hour=6, minute=0))  # daily at 06:00 UTC
+    async def daily_sync(self):
+        await sync_all_users()
+
+    @daily_sync.before_loop
+    async def before_daily_sync(self):
+        await self.bot.wait_until_ready()
+
+    @tasks.loop(time=datetime.time(hour=12, minute=0))  # runs daily at 12:00 UTC, checks day inside
+    async def weekly_leaderboard(self):
+        if datetime.datetime.now(datetime.timezone.utc).weekday() != 0:  # 0 = Monday
+            return
+
+        # Sync first so the post reflects the freshest possible data, even
+        # though the daily sync and live poll saving already cover most of it.
+        await sync_all_users()
+
+        for guild in self.bot.guilds:
+            channel_id = await get_leaderboard_channel(guild.id)
+            if channel_id:
+                channel = guild.get_channel(channel_id)
+                if channel:
+                    for stat in LEADERBOARD_STATS:
+                        embed = await build_leaderboard_embed(guild, stat)
+                        await channel.send(embed=embed)
+                    meme_embed = await build_meme_stats_embed(guild)
+                    await channel.send(embed=meme_embed)
+
+            await self.assign_kashdaji_queen(guild)
+
+    @weekly_leaderboard.before_loop
+    async def before_weekly_leaderboard(self):
+        await self.bot.wait_until_ready()
+
     @app_commands.command(name="setleaderboardchannel", description="Set the channel for weekly leaderboard posts")
     @app_commands.checks.has_permissions(manage_guild=True)
     async def setleaderboardchannel(self, interaction: discord.Interaction, channel: discord.TextChannel):
         await set_leaderboard_channel(interaction.guild_id, channel.id)
         await interaction.response.send_message(f"Weekly leaderboard will post to {channel.mention}.")
 
-    @app_commands.command(name="syncnow", description="Manually trigger the weekly sync + leaderboard post (admin only)")
+    @app_commands.command(name="syncnow", description="Manually trigger a sync + leaderboard post (admin only)")
     @app_commands.checks.has_permissions(manage_guild=True)
     async def syncnow(self, interaction: discord.Interaction):
         await interaction.response.defer(ephemeral=True)
@@ -56,7 +98,7 @@ class AdminCog(commands.Cog):
         if channel_id:
             channel = interaction.guild.get_channel(channel_id)
             if channel:
-                for stat in ("win_rate", "kda", "wins", "rank", "double_kills", "triple_kills", "quadra_kills", "penta_kills", "honeyfruit"):
+                for stat in LEADERBOARD_STATS:
                     embed = await build_leaderboard_embed(interaction.guild, stat)
                     await channel.send(embed=embed)
                 meme_embed = await build_meme_stats_embed(interaction.guild)
@@ -69,30 +111,6 @@ class AdminCog(commands.Cog):
         status += f"\nPosted to leaderboard channel: {'yes' if posted else 'no (not set, or channel missing)'}"
 
         await interaction.followup.send(status)
-
-    @tasks.loop(time=datetime.time(hour=12, minute=0))  # runs daily at 12:00 UTC, checks day inside
-    async def weekly_sync(self):
-        if datetime.datetime.utcnow().weekday() != 0:  # 0 = Monday
-            return
-
-        await sync_all_users()
-
-        for guild in self.bot.guilds:
-            channel_id = await get_leaderboard_channel(guild.id)
-            if channel_id:
-                channel = guild.get_channel(channel_id)
-                if channel:
-                    for stat in ("win_rate", "kda", "wins", "rank", "double_kills", "triple_kills", "quadra_kills", "penta_kills", "honeyfruit"):
-                        embed = await build_leaderboard_embed(guild, stat)
-                        await channel.send(embed=embed)
-                    meme_embed = await build_meme_stats_embed(guild)
-                    await channel.send(embed=meme_embed)
-
-            await self.assign_kashdaji_queen(guild)
-
-    @weekly_sync.before_loop
-    async def before_weekly_sync(self):
-        await self.bot.wait_until_ready()
 
     async def assign_kashdaji_queen(self, guild: discord.Guild) -> None:
         top_holder = await get_top_honeyfruit_holder(guild.id)
@@ -134,7 +152,7 @@ class AdminCog(commands.Cog):
                 f"{dethroned} with {balance:,} Honeyfruit!"
             )
         else:
-            message= (
+            message = (
                 f"👑 {winner.mention} has claimed the **Kashdaji Queen** title "
                 f"with {balance:,} Honeyfruit!"
             )
