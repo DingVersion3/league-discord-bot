@@ -4,6 +4,7 @@ from discord.ext import commands, tasks
 
 from . import alerts, poll
 from leaguebot.db import get_streak
+from leaguebot.constants import INTERVAL
 
 
 class AlertsCog(commands.Cog):
@@ -16,7 +17,7 @@ class AlertsCog(commands.Cog):
     def cog_unload(self):
         self.poll_loop.cancel()
 
-    @tasks.loop(seconds=poll.INTERVAL)
+    @tasks.loop(seconds=INTERVAL)
     async def poll_loop(self):
         await poll.check_for_new_results(self.bot)
 
