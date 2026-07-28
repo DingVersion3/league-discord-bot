@@ -105,6 +105,7 @@ class AdminCog(commands.Cog):
                 await channel.send(embed=meme_embed)
                 posted = True
 
+        await self.assign_kashdaji_queen(interaction.guild)
         status = f"Synced {len(summary)} user(s), {total_added} new match(es) added."
         if errors:
             status += f"\n{len(errors)} error(s): {errors}"
