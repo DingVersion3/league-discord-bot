@@ -660,3 +660,13 @@ async def set_bot_state(key: str, value: str) -> None:
             (key, value),
         )
         await db.commit()
+
+async def get_existing_match_ids(discord_id: int) -> set[str]:
+    # Returns every match_id already stored for this user, so sync can skip
+    # re-fetching matches it already has.
+    async with _connect() as db:
+        async with db.execute(
+            "SELECT match_id FROM matches WHERE discord_id = ?", (discord_id,)
+        ) as cursor:
+            rows = await cursor.fetchall()
+            return {row[0] for row in rows}

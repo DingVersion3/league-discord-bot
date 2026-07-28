@@ -3,7 +3,7 @@
 import asyncio
 import time
 
-from leaguebot.db import get_all_registered_users, save_match, save_rank
+from leaguebot.db import get_all_registered_users, save_match, save_rank, get_existing_match_ids
 from leaguebot.riot_api import get_match_ids, get_match, get_rank, RiotAPIError
 from leaguebot.constants import SECONDS_PER_WEEK, MATCHES_TO_CHECK, MIN_GAME_DURATION_SECONDS
 
@@ -32,7 +32,12 @@ async def _sync_all_users() -> dict:
         try:
             match_ids = await get_match_ids(puuid, regional_route=user["regional_route"], count=MATCHES_TO_CHECK)
             print(f"[SYNC]   got {len(match_ids)} match ids")
-            for match_id in match_ids:
+
+            known_ids = await get_existing_match_ids(discord_id)
+            new_ids = [mid for mid in match_ids if mid not in known_ids]
+            print(f"[SYNC]   {len(new_ids)} new, {len(match_ids) - len(new_ids)} already stored")
+
+            for match_id in new_ids:
                 print(f"[SYNC]   fetching match {match_id}")
                 match = await get_match(match_id, regional_route=user["regional_route"])
                 print(f"[SYNC]   fetched match {match_id}")

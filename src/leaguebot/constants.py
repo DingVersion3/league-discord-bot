@@ -21,7 +21,7 @@ SECONDS_PER_WEEK = 7 * 24 * 60 * 60
 SECONDS_PER_DAY = 24 * 60 * 60
 
 # --- Sync / polling ---
-MATCHES_TO_CHECK = 15       # how many recent match IDs to pull per user, per sync
+MATCHES_TO_CHECK = 100       # Riot's match-v5 caps count at 100
 INTERVAL = 90                # alerts poll loop interval, in seconds
 MIN_GAME_DURATION_SECONDS = 15 * 60  # below this, treat as a remake/early ff
 MIN_GAMES_FOR_PERSONAL_WEIGHT = 3
