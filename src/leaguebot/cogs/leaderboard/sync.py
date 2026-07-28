@@ -83,6 +83,7 @@ async def _sync_all_users() -> dict:
                     team_damage=team_damage,
                 )
                 print(f"[SYNC]   saved match {match_id}")
+                await asyncio.sleep(0.1)
 
             rank = await get_rank(puuid, platform_route=user["platform_route"])
             if rank:
