@@ -97,6 +97,12 @@ def get_lane_tier_list(position: str, bracket: str = DEFAULT_BRACKET, include_of
     filtered.sort(key=lambda e: e["rank"] if e["rank"] is not None else 9999)
     return filtered
 
+def _unwrap(exc: BaseException) -> str:
+    # Digs the real message out of however many ExceptionGroup layers deep it is.
+    while isinstance(exc, BaseExceptionGroup) and exc.exceptions:
+        exc = exc.exceptions[0]
+    return str(exc)
+
 
 async def _call_tool(tool_name: str, arguments: dict) -> str:
     # Live MCP call -- only used for lane matchup guidance, which isn't cached.
