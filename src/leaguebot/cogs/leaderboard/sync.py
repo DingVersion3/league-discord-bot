@@ -14,6 +14,11 @@ async def sync_all_users() -> dict:
     async with _SYNC_LOCK:
         return await _sync_all_users()
 
+def sync_in_progress() -> bool:
+    # Lets the alerts poll loop skip its tick while a sync is running, so the
+    # two don't compete for the same Riot API rate limit budget.
+    return _SYNC_LOCK.locked()
+
 
 async def _sync_all_users() -> dict:
     # Returns a summary dict: {discord_id: {"matches_added": int, "error": str | None}}

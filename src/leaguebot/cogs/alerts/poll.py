@@ -8,11 +8,15 @@ from leaguebot.db import get_all_registered_users, get_streak, set_last_match_id
 from leaguebot.riot_api import get_match_ids, get_match, get_rank as riot_get_rank, RiotAPIError
 from leaguebot.constants import MIN_GAME_DURATION_SECONDS, SECONDS_PER_WEEK
 from leaguebot.cogs.betting import betting as betting_logic
+from leaguebot.cogs.leaderboard.sync import sync_in_progress
 from . import alerts
 from . import milestones
 
 
 async def check_for_new_results(bot) -> None:
+    if sync_in_progress():
+        print("[ALERTS] skipping tick, sync in progress")
+        return
     users = await get_all_registered_users()
 
     for user in users:
