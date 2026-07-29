@@ -2,6 +2,7 @@
 from urllib.parse import quote
 
 import aiohttp
+import asyncio
 
 from leaguebot.constants import REQUEST_TIMEOUT, API_KEY
 
@@ -14,28 +15,38 @@ class RiotAPIError(Exception):
         super().__init__(f"Riot API error {status}: {message}")
 
 
-async def _get(session: aiohttp.ClientSession, url: str) -> dict | list:
+async def _get(session: aiohttp.ClientSession, url: str, max_retries: int = 3) -> dict | list:
     if not API_KEY:
         raise RiotAPIError(None, "Riot API is unavailable.")
 
     headers = {"X-Riot-Token": API_KEY}
-    try:
-        async with session.get(url, headers=headers) as resp:
-            if resp.status in (401, 403):
-                raise RiotAPIError(
-                    resp.status,
-                    "API key rejected — dev keys expire every 24h, regenerate at "
-                    "https://developer.riotgames.com and update .env",
-                )
-            if resp.status == 404:
-                raise RiotAPIError(404, "Riot account or match not found.")
-            if resp.status == 429:
-                raise RiotAPIError(429, "Riot API rate limit reached; try again later.")
-            if resp.status != 200:
-                raise RiotAPIError(resp.status, "Riot API request failed; try again later.")
-            return await resp.json()
-    except (aiohttp.ClientError, TimeoutError, ValueError) as error:
-        raise RiotAPIError(None, "Riot API request failed; try again later.") from error
+
+    for attempt in range(max_retries + 1):
+        try:
+            async with session.get(url, headers=headers) as resp:
+                if resp.status in (401, 403):
+                    raise RiotAPIError(
+                        resp.status,
+                        "API key rejected — dev keys expire every 24h, regenerate at "
+                        "https://developer.riotgames.com and update .env",
+                    )
+                if resp.status == 404:
+                    raise RiotAPIError(404, "Riot account or match not found.")
+                if resp.status == 429:
+                    if attempt >= max_retries:
+                        raise RiotAPIError(429, "Riot API rate limit reached; try again later.")
+                    # Riot tells us exactly how long to wait.
+                    retry_after = int(resp.headers.get("Retry-After", 10))
+                    print(f"[RIOT] rate limited, waiting {retry_after}s (attempt {attempt + 1}/{max_retries})")
+                    await asyncio.sleep(retry_after)
+                    continue
+                if resp.status != 200:
+                    raise RiotAPIError(resp.status, "Riot API request failed; try again later.")
+                return await resp.json()
+        except (aiohttp.ClientError, TimeoutError, ValueError) as error:
+            raise RiotAPIError(None, "Riot API request failed; try again later.") from error
+
+    raise RiotAPIError(429, "Riot API rate limit reached; try again later.")
 
 
 async def get_puuid(game_name: str, tag_line: str, regional_route: str = "americas") -> str:
