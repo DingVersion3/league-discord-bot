@@ -88,6 +88,7 @@ async def check_for_new_results(bot) -> None:
             quadraKills=participant["quadraKills"],
             pentaKills=participant["pentaKills"],
             position=participant.get("teamPosition", ""),
+            vision_score=participant["visionScore"],
             enemy_champion=enemy["championName"] if enemy else None,
             team_id=participant["teamId"],
             team_damage=sum(

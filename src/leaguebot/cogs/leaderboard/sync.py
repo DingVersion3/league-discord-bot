@@ -83,6 +83,7 @@ async def _sync_all_users() -> dict:
                     quadraKills=participant["quadraKills"],
                     pentaKills=participant["pentaKills"],
                     position=participant["teamPosition"],
+                    vision_score=participant["visionScore"],
                     enemy_champion=enemy_champion,
                     team_id=team_id,
                     team_damage=team_damage,

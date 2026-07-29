@@ -17,15 +17,12 @@ from pathlib import Path
 from mcp import ClientSession
 from mcp.client.streamable_http import streamable_http_client
 
-from leaguebot.constants import CHAMPION_ALIASES
+from leaguebot.constants import CHAMPION_ALIASES, VALID_BRACKETS, DEFAULT_BRACKET
 
 OPGG_MCP_URL = "https://mcp-api.op.gg/mcp"
 DATA_DIR = Path(__file__).parents[2] / "data"
 
 META_PICK_RATE_THRESHOLD = 0.02  # 2%, accounts for OP.GG's whole-percent rounding in the cached data
-
-DEFAULT_BRACKET = "gold_plus"
-VALID_BRACKETS = {"gold_plus", "diamond_plus", "all"}
 
 
 class OpggError(Exception):
@@ -44,6 +41,12 @@ def _load_tierlist_cache() -> dict:
     with open(path) as f:
         return json.load(f)
 
+def to_opgg_champion_format(display_name: str) -> str:
+    # OP.GG expects UPPER_SNAKE_CASE with punctuation stripped:
+    # "Dr. Mundo" -> "DR_MUNDO", "Kai'Sa" -> "KAISA", "Jarvan IV" -> "JARVAN_IV"
+    words = re.sub(r"[^a-zA-Z0-9\s]", "", display_name).split()
+    return "_".join(words).upper()
+
 def _resolve_champion(name: str) -> str:
     # Maps loose user input ("dr mundo", "Dr. Mundo") to OP.GG's expected
     # UPPER_SNAKE_CASE format (e.g. "DR_MUNDO").
@@ -59,10 +62,7 @@ def _resolve_champion(name: str) -> str:
 
     for champ_id, display_name in champions.items():
         if re.sub(r"[^a-z0-9]", "", display_name.lower()) == normalized:
-            # Convert the display name to UPPER_SNAKE_CASE: strip punctuation,
-            # then join words with underscores. "Dr. Mundo" -> "DR_MUNDO"
-            words = re.sub(r"[^a-zA-Z0-9\s]", "", display_name).split()
-            return "_".join(words).upper()
+            return to_opgg_champion_format(display_name)
 
     raise OpggError(f"Unknown champion: {name}")
 

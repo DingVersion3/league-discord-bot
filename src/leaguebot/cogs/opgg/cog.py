@@ -11,6 +11,7 @@ from leaguebot.cogs.leaderboard.board import get_server_champion_stats
 
 BRACKET_CHOICES = [
     app_commands.Choice(name="Gold+", value="gold_plus"),
+    app_commands.Choice(name="Emerald+", value="emerald_plus"),
     app_commands.Choice(name="Diamond+", value="diamond_plus"),
     app_commands.Choice(name="All Ranks", value="all"),
 ]

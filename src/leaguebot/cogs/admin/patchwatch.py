@@ -3,6 +3,7 @@ import aiohttp
 from leaguebot.db import get_bot_state, set_bot_state, get_leaderboard_channel
 
 PATCH_STATE_KEY = "last_known_patch_version"
+PATCH_VERSION_OFFSET = 10
 
 
 async def _fetch_latest_version() -> str:
@@ -14,7 +15,8 @@ async def _fetch_latest_version() -> str:
 
 def _build_patch_url(version: str) -> str:
     major, minor, *_ = version.split(".")
-    return f"https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-{major}-{minor}-notes/"
+    real_major = int(major) + PATCH_VERSION_OFFSET
+    return f"https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-{real_major}-{minor}-notes/"
 
 
 async def check_for_new_patch(bot) -> None:

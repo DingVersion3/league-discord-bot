@@ -6,7 +6,10 @@ import discord
 
 from collections import defaultdict
 from leaguebot.db import get_recent_matches, get_rank, get_registered_users_in_guild, get_registered_user, get_duo_matches, get_all_wallets 
-from leaguebot.constants import SECONDS_PER_WEEK, TIER_ORDER, DIVISION_ORDER, MIN_GAMES_FOR_PERSONAL_WEIGHT, RIOT_TO_OPGG_POSITION
+from leaguebot.constants import (
+    SECONDS_PER_WEEK, TIER_ORDER, DIVISION_ORDER, MIN_GAMES_FOR_PERSONAL_WEIGHT, RIOT_TO_OPGG_POSITION,
+    PERFORMANCE_THRESHOLDS, PERFORMANCE_WEIGHTS, ASSIST_WEIGHT,TIER_TO_BRACKET, DEFAULT_PERFORMANCE_BRACKET,
+)
 from leaguebot.opgg_client import get_lane_tier_list, OpggError
 
 
@@ -42,6 +45,68 @@ async def _weekly_stats_for_user(discord_id: int) -> dict | None:
         "quadra_kills": total_quadraKills,
         "penta_kills": total_pentaKills,
     }
+
+def _scale_to_score(value: float, bad: float, good: float) -> float:
+    # Maps a raw stat onto 0-100: at or below `bad` scores 0, at or above
+    # `good` scores 100, linear in between. Returns 50 (neutral) if the
+    # thresholds haven't been filled in yet.
+    if good == bad:
+        return 50.0
+    return max(0.0, min(100.0, (value - bad) / (good - bad) * 100))
+
+def _match_stats(match: dict) -> dict:
+    # Converts a stored match row into the per-minute / ratio stats the
+    # performance thresholds are written against.
+    minutes = max(match["duration"] / 60, 1)
+    position = match.get("position", "")
+
+    kills, deaths, assists = match["kills"], match["deaths"], match["assists"]
+    if position == "UTILITY":
+        kda = (kills + assists) / max(deaths, 1)
+    else:
+        kda = (kills + assists * ASSIST_WEIGHT) / max(deaths, 1)
+
+    team_damage = match.get("team_damage", 0)
+
+    return {
+        "kda": kda,
+        "cs_per_min": match["cs"] / minutes,
+        "damage_share": match["damage"] / team_damage if team_damage > 0 else 0.0,
+        "gold_per_min": match["gold"] / minutes,
+        "vision_per_min": match.get("vision_score", 0) / minutes,
+    }
+
+
+def score_match(match: dict, bracket: str) -> float | None:
+    # Scores a single match 0-100 against the thresholds for its role and the
+    # player's rank bracket. Returns None if the role has no thresholds set.
+    position = match.get("position", "")
+    thresholds = PERFORMANCE_THRESHOLDS.get(bracket, {}).get(position)
+    weights = PERFORMANCE_WEIGHTS.get(position)
+
+    if not thresholds or not weights:
+        return None
+
+    stats = _match_stats(match)
+
+    total = 0.0
+    for stat, weight in weights.items():
+        cutoffs = thresholds.get(stat)
+        if not cutoffs:
+            continue
+        total += _scale_to_score(stats[stat], cutoffs["bad"], cutoffs["good"]) * weight
+
+    return total
+
+
+async def get_performance_bracket(discord_id: int) -> str:
+    # Picks which threshold set to score a player against, based on their
+    # current rank. Falls back to the default bracket if unranked.
+    rank = await get_rank(discord_id)
+    if not rank or not rank.get("tier"):
+        return DEFAULT_PERFORMANCE_BRACKET
+    return TIER_TO_BRACKET.get(rank["tier"].upper(), DEFAULT_PERFORMANCE_BRACKET)
+
 # finds the champion you lost to the most for the lane you played
 async def get_nemesis(discord_id: int, since_timestamp: int) -> dict | None:
     matches = await get_recent_matches(discord_id, since_timestamp)
@@ -56,6 +121,7 @@ async def get_nemesis(discord_id: int, since_timestamp: int) -> dict | None:
 
 async def get_champion_recommendations(discord_id: int, position: str, champion_filter: list[str] | None = None) -> list[dict]:
     matches = await get_recent_matches(discord_id, 0)  # 0 = all-time, since match data isn't purged
+    bracket = await get_performance_bracket(discord_id)
 
     position_matches = [m for m in matches if m["position"] == position]
     if champion_filter:
@@ -69,9 +135,11 @@ async def get_champion_recommendations(discord_id: int, position: str, champion_
     personal_stats = {}
     for champion, champ_matches in by_champion.items():
         wins = sum(m["win"] for m in champ_matches)
+        scores = [s for s in (score_match(m, bracket) for m in champ_matches) if s is not None]
         personal_stats[champion] = {
             "win_rate": wins / len(champ_matches),
             "games": len(champ_matches),
+            "performance": sum(scores) / len(scores) if scores else None,
         }
 
     # pull current meta tier list for this lane, fold in as a fallback/blend signal
@@ -79,7 +147,7 @@ async def get_champion_recommendations(discord_id: int, position: str, champion_
     opgg_position = RIOT_TO_OPGG_POSITION.get(position)
     if opgg_position:
         try:
-            tier_list = get_lane_tier_list(opgg_position)
+            tier_list = get_lane_tier_list(opgg_position, bracket=bracket)
             meta_by_champion = {entry["champion"]: entry["win_rate"] for entry in tier_list}
         except OpggError:
             pass  # degrade gracefully — blend just uses personal data alone
@@ -94,22 +162,28 @@ async def get_champion_recommendations(discord_id: int, position: str, champion_
         personal = personal_stats.get(champion)
         meta_win_rate = meta_by_champion.get(champion)
 
+        personal_performance = personal["performance"] if personal else None
         personal_win_rate = personal["win_rate"] if personal else None
         personal_games = personal["games"] if personal else 0
 
-        if personal_win_rate is not None and meta_win_rate is not None:
+        # Meta win rate is 0-1; performance is 0-100. Put meta on the same
+        # scale so the blend is meaningful.
+        meta_score = meta_win_rate * 100 if meta_win_rate is not None else None
+
+        if personal_performance is not None and meta_score is not None:
             confidence = min(personal_games / MIN_GAMES_FOR_PERSONAL_WEIGHT, 1.0)
-            score = (personal_win_rate * confidence) + (meta_win_rate * (1 - confidence))
-        elif personal_win_rate is not None:
-            score = personal_win_rate
-        elif meta_win_rate is not None:
-            score = meta_win_rate
+            score = (personal_performance * confidence) + (meta_score * (1 - confidence))
+        elif personal_performance is not None:
+            score = personal_performance
+        elif meta_score is not None:
+            score = meta_score
         else:
             continue
 
         results.append({
             "champion": champion,
             "score": score,
+            "performance": personal_performance,
             "personal_win_rate": personal_win_rate,
             "personal_games": personal_games,
             "meta_win_rate": meta_win_rate,

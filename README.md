@@ -16,7 +16,7 @@ A League of Legends companion bot for Discord — post-game recaps, weekly leade
 - **`/nemesis [user1]`** - Shows you the champion you lost to the most in the lane you played the most
 - **`/teamcomp [players] [team_a] [team_b] [randomize_runes]`** - Generates a random position/champion assignment for a group of players Can define who is on each team or let it randomize it.(amount of users is optional but 2 is the minimum)
 - **`/duo [user1] [user2]`** — Win rate/KDA for user games played together
-- **`/whoshouldiplay [position] [optional champion list]`** — Recommends champions for a position, blending your personal win rate with current meta strength from OP.GG. Works even with no personal data, falling back to pure meta rankings. Optionally filter to a specific list of champions.
+- **`/whoshouldiplay [position] [champions]`** — Recommends champions for a position, scoring your actual performance (KDA, CS/min, damage share, gold, vision) against rank-appropriate benchmarks and blending with current meta strength
 - **`/openbet`** — Open betting on your own next game (Honeyfruit, a fake in-server currency)
 - **`/bet [player] [prediction] [amount]`** — Wager Honeyfruit on whether a player's open bet will resolve as a win or loss
 - **`/honeyfruit [user]`** — Check your (or someone else's) Honeyfruit balance
@@ -30,9 +30,11 @@ A League of Legends companion bot for Discord — post-game recaps, weekly leade
 - **`/help`** - Lists every ScuttleBuddy command, grouped by category
 - **`/trivia`** — League trivia questions with a small Honeyfruit reward for correct answers
 - **`/status`** — Check ScuttleBuddy's uptime and how many users are registered, server-wide and across all servers
-- **`/matchup [my_champion] [opponent_champion] [position]`** — Get lane matchup guidance between two champions (tips, lane advantage, and your best and worst matchups), powered by OP.GG
-- **`/tierlist [position]`** — Show the current lane tier list ranked by tier and win rate, powered by OP.GG
+- **`/matchup [my_champion] [opponent_champion] [position]`** — Lane matchup guidance: tips, lane advantage, and your best and worst matchups. Accepts champion shorthand like "j4" or "mundo". Powered by OP.GG
+- **`/tierlist [position] [bracket] [include_off_meta]`** — Current lane tier list by rank bracket (Gold+, Emerald+, Diamond+, All), with your server's own record on each champion. Powered by OP.GG
 - **`/syncnow`** — Manually trigger the weekly data sync + post (admin only)
+
+- **Data syncs** — Match data saves live as games finish, with a full sync daily and before the weekly leaderboard post
 
 - Every Monday, the bot automatically syncs fresh match/rank data for all registered users and posts the leaderboard (all four stat categories) plus meme stats to the configured channel.
 - ScuttleBuddy will send alerts for win/loss streaks(in intervals of 5) and when you and/or your friends rank up or rank down(from silver to gold, master to grandmaster)
