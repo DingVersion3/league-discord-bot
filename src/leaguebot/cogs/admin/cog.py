@@ -37,7 +37,7 @@ class AdminCog(commands.Cog):
         self.weekly_leaderboard.cancel()
         self.patch_check.cancel()
 
-    @tasks.loop(hours=3)
+    @tasks.loop(hours=24)
     async def patch_check(self):
         await patchwatch.check_for_new_patch(self.bot)
 
