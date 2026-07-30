@@ -5,7 +5,7 @@ import time
 
 from leaguebot.db import get_all_registered_users, save_match, save_rank, get_existing_match_ids
 from leaguebot.riot_api import get_match_ids, get_match, get_rank, RiotAPIError
-from leaguebot.constants import SECONDS_PER_WEEK, MATCHES_TO_CHECK, MIN_GAME_DURATION_SECONDS
+from leaguebot.constants import SECONDS_PER_WEEK, MATCHES_TO_CHECK, MIN_GAME_DURATION_SECONDS, TRACKED_GAME_MODES
 
 _SYNC_LOCK = asyncio.Lock()
 
@@ -49,6 +49,9 @@ async def _sync_all_users() -> dict:
                 played_at = match["info"]["gameStartTimestamp"] // 1000  # ms -> s
                 if played_at < cutoff:
                     continue  # older than a week, skip
+
+                if match["info"]["gameMode"] not in TRACKED_GAME_MODES:
+                    continue  # rotating/unsupported mode, don't track
 
                 if match["info"]["gameDuration"] < MIN_GAME_DURATION_SECONDS:
                     continue #remakes and early ffs

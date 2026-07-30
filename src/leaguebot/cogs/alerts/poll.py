@@ -6,7 +6,7 @@ import time
 
 from leaguebot.db import get_all_registered_users, get_streak, set_last_match_id, get_leaderboard_channel,get_rank as db_get_rank, save_rank, get_recent_matches, get_open_bet, save_match
 from leaguebot.riot_api import get_match_ids, get_match, get_rank as riot_get_rank, RiotAPIError
-from leaguebot.constants import MIN_GAME_DURATION_SECONDS, SECONDS_PER_WEEK
+from leaguebot.constants import MIN_GAME_DURATION_SECONDS, SECONDS_PER_WEEK, TRACKED_GAME_MODES
 from leaguebot.cogs.betting import betting as betting_logic
 from leaguebot.cogs.leaderboard.sync import sync_in_progress
 from . import alerts
@@ -50,6 +50,10 @@ async def check_for_new_results(bot) -> None:
         except RiotAPIError as e:
             print(f"[ALERTS] failed to fetch match details for {discord_id}: {e.message}")
             continue
+
+        if match["info"]["gameMode"] not in TRACKED_GAME_MODES:
+            await set_last_match_id(discord_id, latest_match_id)
+            continue  # rotating/unsupported mode, don't track
 
         if match["info"]["gameDuration"] < MIN_GAME_DURATION_SECONDS:
             await set_last_match_id(discord_id, latest_match_id)

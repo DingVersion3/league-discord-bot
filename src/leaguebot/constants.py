@@ -25,6 +25,7 @@ MATCHES_TO_CHECK = 100       # Riot's match-v5 caps count at 100
 INTERVAL = 90                # alerts poll loop interval, in seconds
 MIN_GAME_DURATION_SECONDS = 15 * 60  # below this, treat as a remake/early ff
 MIN_GAMES_FOR_PERSONAL_WEIGHT = 3
+TRACKED_GAME_MODES = ("CLASSIC", "ARAM") # Skip other modes to avoid data we don't want or data riot accidentally leaks out. 
 
 # --- Alerts thresholds ---
 STREAK_THRESHOLD = 5
