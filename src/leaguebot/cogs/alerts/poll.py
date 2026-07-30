@@ -7,7 +7,7 @@ import time
 from leaguebot.helpers import log
 from leaguebot.db import get_all_registered_users, get_streak, set_last_match_id, get_leaderboard_channel,get_rank as db_get_rank, save_rank, get_recent_matches, get_open_bet, save_match
 from leaguebot.riot_api import get_match_ids, get_match, get_rank as riot_get_rank, RiotAPIError
-from leaguebot.constants import MIN_GAME_DURATION_SECONDS, SECONDS_PER_WEEK, TRACKED_GAME_MODES
+from leaguebot.constants import MIN_GAME_DURATION_SECONDS, SECONDS_PER_WEEK, TRACKED_GAME_MODES, SECONDS_PER_HOUR
 from leaguebot.cogs.betting import betting as betting_logic
 from leaguebot.cogs.leaderboard.sync import sync_in_progress
 from . import alerts
@@ -134,23 +134,26 @@ async def check_for_new_results(bot) -> None:
             if rank_msg:
                 await post_alert(bot, discord_id, rank_msg)
 
-        # check for a stat spike vs. their own recent average
-        since = int(time.time()) - SECONDS_PER_WEEK
-        previous_matches = [m for m in await get_recent_matches(discord_id, since) if m["match_id"] != latest_match_id]
-        new_match_row = {
-            "cs": participant["totalMinionsKilled"] + participant["neutralMinionsKilled"],
-            "duration": match["info"]["gameDuration"],
-            "damage": participant["totalDamageDealtToChampions"],
-            "team_damage": sum(
-                p["totalDamageDealtToChampions"] for p in match["info"]["participants"]
-                if p["teamId"] == participant["teamId"]
-            ),
-            "position": participant["teamPosition"],
-            "game_mode": match["info"]["gameMode"],
-        }
-        spike_msg = alerts.get_spike_message(new_match_row, previous_matches)
-        if spike_msg:
-            await post_alert(bot, discord_id, spike_msg)
+        # Skip stat spikes on stale games. Poll pauses during syncs, so
+        # last_match_id can go stale and a match can be "newly detected"
+        # hours after it was played.
+        if int(time.time()) - played_at <= SECONDS_PER_HOUR:
+            since = int(time.time()) - SECONDS_PER_WEEK
+            previous_matches = await get_recent_matches(discord_id, since)
+            new_match_row = {
+                "cs": participant["totalMinionsKilled"] + participant["neutralMinionsKilled"],
+                "duration": match["info"]["gameDuration"],
+                "damage": participant["totalDamageDealtToChampions"],
+                "team_damage": sum(
+                    p["totalDamageDealtToChampions"] for p in match["info"]["participants"]
+                    if p["teamId"] == participant["teamId"]
+                ),
+                "position": participant["teamPosition"],
+                "game_mode": match["info"]["gameMode"],
+            }
+            spike_msg = alerts.get_spike_message(new_match_row, previous_matches)
+            if spike_msg:
+                await post_alert(bot, discord_id, spike_msg)
 
         # resolve any open bets on this player's game, across every guild they're in
         # (bets are guild-scoped, so a player could have a separate open bet per server)

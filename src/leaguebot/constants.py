@@ -19,6 +19,7 @@ load_dotenv()
 # --- Time windows ---
 SECONDS_PER_WEEK = 7 * 24 * 60 * 60
 SECONDS_PER_DAY = 24 * 60 * 60
+SECONDS_PER_HOUR = 60 * 60
 
 # --- Sync / polling ---
 MATCHES_TO_CHECK = 100       # Riot's match-v5 caps count at 100
