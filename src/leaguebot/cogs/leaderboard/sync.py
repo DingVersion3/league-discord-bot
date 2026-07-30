@@ -1,9 +1,12 @@
-#Pulls fresh match history and current rank for every registered user, storing results in the DB. 
-# This is what both the weekly scheduled task and (eventually) a manual admin trigger call into.
+#Pulls fresh match history and current rank for every registered user, storing results in the DB.
+# Runs on a daily schedule, before the weekly leaderboard post, and via /syncnow.
 import asyncio
 import time
 
-from leaguebot.db import get_all_registered_users, save_match, save_rank, get_existing_match_ids
+from leaguebot.db import (
+    get_all_registered_users, save_match, save_rank, get_existing_match_ids,
+    get_last_match_id, set_last_match_id,
+)
 from leaguebot.riot_api import get_match_ids, get_match, get_rank, RiotAPIError
 from leaguebot.constants import SECONDS_PER_WEEK, MATCHES_TO_CHECK, MIN_GAME_DURATION_SECONDS, TRACKED_GAME_MODES
 from leaguebot.helpers import log
@@ -37,16 +40,16 @@ async def _sync_all_users() -> dict:
 
         try:
             match_ids = await get_match_ids(puuid, regional_route=user["regional_route"], count=MATCHES_TO_CHECK)
-            log(f"[SYNC]   got {len(match_ids)} match ids")
+            log(f"[SYNC] got {len(match_ids)} match ids")
 
             known_ids = await get_existing_match_ids(discord_id)
             new_ids = [mid for mid in match_ids if mid not in known_ids]
-            log(f"[SYNC]   {len(new_ids)} new, {len(match_ids) - len(new_ids)} already stored")
+            log(f"[SYNC] {len(new_ids)} new, {len(match_ids) - len(new_ids)} already stored")
 
             for match_id in new_ids:
-                log(f"[SYNC]   fetching match {match_id}")
+                log(f"[SYNC] fetching match {match_id}")
                 match = await get_match(match_id, regional_route=user["regional_route"])
-                log(f"[SYNC]   fetched match {match_id}")
+                log(f"[SYNC] fetched match {match_id}")
                 played_at = match["info"]["gameStartTimestamp"] // 1000  # ms -> s
                 if played_at < cutoff:
                     continue  # older than a week, skip
@@ -67,7 +70,7 @@ async def _sync_all_users() -> dict:
                 )
                 enemy_champion = enemy["championName"] if enemy else None
                 team_damage = sum(p["totalDamageDealtToChampions"] for p in match["info"]["participants"] if p["teamId"] == participant["teamId"])
-                log(f"[SYNC]   saving match {match_id}")
+                log(f"[SYNC] saving match {match_id}")
                 added += await save_match(
                     discord_id=discord_id,
                     puuid=puuid,
@@ -92,8 +95,18 @@ async def _sync_all_users() -> dict:
                     team_id=team_id,
                     team_damage=team_damage,
                 )
-                log(f"[SYNC]   saved match {match_id}")
+                log(f"[SYNC] saved match {match_id}")
                 await asyncio.sleep(1.4)
+
+            # Point last_match_id at the newest match Riot reported, so poll
+            # doesn't rediscover these and fire alerts for games that are
+            # already hours old. match_ids[0] is newest -- covers matches sync
+            # deliberately skipped (mode, duration, age) too.
+            if match_ids:
+                newest_id = match_ids[0]
+                if await get_last_match_id(discord_id) != newest_id:
+                    await set_last_match_id(discord_id, newest_id)
+                    log(f"[SYNC] advanced last_match_id to {newest_id}")
 
             rank = await get_rank(puuid, platform_route=user["platform_route"])
             if rank:

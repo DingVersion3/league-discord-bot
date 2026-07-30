@@ -401,6 +401,15 @@ async def set_last_match_id(discord_id: int, match_id: str) -> None:
             (discord_id, match_id),
         )
         await db.commit()
+
+async def get_last_match_id(discord_id: int) -> str | None:
+    async with _connect() as db:
+        db.row_factory = aiosqlite.Row
+        async with db.execute(
+            "SELECT last_match_id FROM streaks WHERE discord_id = ?", (discord_id,)
+        ) as cursor:
+            row = await cursor.fetchone()
+            return row["last_match_id"] if row else None
     
 async def get_wallet(discord_id: int, guild_id: int) -> int:
     async with _connect() as db:
