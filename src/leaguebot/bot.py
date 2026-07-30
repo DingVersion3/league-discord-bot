@@ -6,7 +6,9 @@ import time
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
+
 from leaguebot.db import init_db, migrate_legacy_wallets
+from leaguebot.helpers import log
 
 load_dotenv()
 
@@ -23,7 +25,7 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 @bot.event
 async def on_ready():
-    print(f"Logged in as {bot.user} (id: {bot.user.id})")
+    log(f"Logged in as {bot.user} (id: {bot.user.id})")
 
     if not hasattr(bot, "start_time"):
         bot.start_time = time.time()
@@ -37,16 +39,16 @@ async def on_ready():
     await migrate_legacy_wallets(guild_member_ids)
 
     synced = await bot.tree.sync()
-    print(f"Synced {len(synced)} command(s) globally (may take up to an hour to appear)")
+    log(f"Synced {len(synced)} command(s) globally (may take up to an hour to appear)")
     # only uncomment this out for debugging
     # global_cmds = await bot.tree.fetch_commands()
-    # print(f"Global: {[c.name for c in global_cmds]}")
+    # log(f"Global: {[c.name for c in global_cmds]}")
 
 
 @bot.tree.error
 async def on_app_command_error(interaction: discord.Interaction, error: discord.app_commands.AppCommandError):
     import traceback
-    print(f"[COMMAND ERROR] /{interaction.command.name if interaction.command else 'unknown'}: {error}")
+    log(f"[COMMAND ERROR] /{interaction.command.name if interaction.command else 'unknown'}: {error}")
     traceback.print_exception(type(error), error, error.__traceback__)
 
     if interaction.response.is_done():

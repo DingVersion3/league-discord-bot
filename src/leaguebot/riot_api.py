@@ -5,6 +5,7 @@ import aiohttp
 import asyncio
 
 from leaguebot.constants import REQUEST_TIMEOUT, API_KEY
+from leaguebot.helpers import log
 
 
 class RiotAPIError(Exception):
@@ -37,7 +38,7 @@ async def _get(session: aiohttp.ClientSession, url: str, max_retries: int = 3) -
                         raise RiotAPIError(429, "Riot API rate limit reached; try again later.")
                     # Riot tells us exactly how long to wait.
                     retry_after = int(resp.headers.get("Retry-After", 10))
-                    print(f"[RIOT] rate limited, waiting {retry_after}s (attempt {attempt + 1}/{max_retries})")
+                    log(f"[RIOT] rate limited, waiting {retry_after}s (attempt {attempt + 1}/{max_retries})")
                     await asyncio.sleep(retry_after)
                     continue
                 if resp.status != 200:

@@ -18,6 +18,7 @@ from mcp import ClientSession
 from mcp.client.streamable_http import streamable_http_client
 
 from leaguebot.constants import CHAMPION_ALIASES, VALID_BRACKETS, DEFAULT_BRACKET
+from leaguebot.helpers import log
 
 OPGG_MCP_URL = "https://mcp-api.op.gg/mcp"
 DATA_DIR = Path(__file__).parents[2] / "data"
@@ -131,7 +132,7 @@ async def get_lane_matchup(
     # Counters are split into weak/strong matchups by win rate.
     my_resolved = _resolve_champion(my_champion)
     opponent_resolved = _resolve_champion(opponent_champion)
-    print(f"[DEBUG] sending champions: {my_resolved} vs {opponent_resolved}")
+    log(f"[DEBUG] sending champions: {my_resolved} vs {opponent_resolved}")
 
     raw_text = await _call_tool(
         "lol_get_lane_matchup_guide",

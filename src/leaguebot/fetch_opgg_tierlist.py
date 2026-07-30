@@ -23,6 +23,7 @@ from mcp.client.streamable_http import streamable_http_client
 
 from leaguebot.opgg_client import to_opgg_champion_format
 from leaguebot.constants import BRACKETS, POSITIONS, OPGG_POSITION_RESPONSE_NAMES
+from leaguebot.helpers import log
 
 OPGG_MCP_URL = "https://mcp-api.op.gg/mcp"
 DATA_DIR = Path(__file__).parents[2] / "data"
@@ -90,7 +91,7 @@ async def _fetch_one(session: ClientSession, champion: str, position: str, tier:
 
 async def main() -> None:
     champion_names = _load_champion_names()
-    print(f"Fetching {len(champion_names)} champions x {len(POSITIONS)} lanes x {len(BRACKETS)} brackets...")
+    log(f"Fetching {len(champion_names)} champions x {len(POSITIONS)} lanes x {len(BRACKETS)} brackets...")
 
     results = {"generated_at": int(time.time()), "brackets": {}}
     total_calls = 0
@@ -112,11 +113,11 @@ async def main() -> None:
                             total_hits += 1
                         await asyncio.sleep(REQUEST_DELAY_SECONDS)
 
-                    print(f"  [{tier}] {position}: {len(results['brackets'][tier][position])} champions found")
+                    log(f"  [{tier}] {position}: {len(results['brackets'][tier][position])} champions found")
 
                 with open(DATA_DIR / "opgg_tierlist.json", "w") as f:
                     json.dump(results, f, indent=2)
-                print(f"  [{tier}] saved progress")
+                log(f"  [{tier}] saved progress")
 
     # Playrate-weighted role averages, so popular champions count more than
     # rarely-played ones when establishing what's "normal" for a role.
@@ -136,8 +137,8 @@ async def main() -> None:
     with open(DATA_DIR / "opgg_tierlist.json", "w") as f:
         json.dump(results, f, indent=2)
 
-    print(f"\nDone. {total_hits}/{total_calls} calls returned usable data.")
-    print(f"Saved to {DATA_DIR / 'opgg_tierlist.json'}")
+    log(f"\nDone. {total_hits}/{total_calls} calls returned usable data.")
+    log(f"Saved to {DATA_DIR / 'opgg_tierlist.json'}")
 
 
 if __name__ == "__main__":

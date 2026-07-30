@@ -4,6 +4,7 @@
 
 import time
 
+from leaguebot.helpers import log
 from leaguebot.db import get_all_registered_users, get_streak, set_last_match_id, get_leaderboard_channel,get_rank as db_get_rank, save_rank, get_recent_matches, get_open_bet, save_match
 from leaguebot.riot_api import get_match_ids, get_match, get_rank as riot_get_rank, RiotAPIError
 from leaguebot.constants import MIN_GAME_DURATION_SECONDS, SECONDS_PER_WEEK, TRACKED_GAME_MODES
@@ -15,7 +16,7 @@ from . import milestones
 
 async def check_for_new_results(bot) -> None:
     if sync_in_progress():
-        print("[ALERTS] skipping tick, sync in progress")
+        log("[ALERTS] skipping tick, sync in progress")
         return
     users = await get_all_registered_users()
 
@@ -28,7 +29,7 @@ async def check_for_new_results(bot) -> None:
         try:
             match_ids = await get_match_ids(puuid, regional_route=regional_route, count=1)
         except RiotAPIError as e:
-            print(f"[ALERTS] failed to fetch latest match for {discord_id}: {e.message}")
+            log(f"[ALERTS] failed to fetch latest match for {discord_id}: {e.message}")
             continue
 
         if not match_ids:
@@ -48,7 +49,7 @@ async def check_for_new_results(bot) -> None:
         try:
             match = await get_match(latest_match_id, regional_route=regional_route)
         except RiotAPIError as e:
-            print(f"[ALERTS] failed to fetch match details for {discord_id}: {e.message}")
+            log(f"[ALERTS] failed to fetch match details for {discord_id}: {e.message}")
             continue
 
         if match["info"]["gameMode"] not in TRACKED_GAME_MODES:
@@ -119,7 +120,7 @@ async def check_for_new_results(bot) -> None:
         try:
             new_rank = await riot_get_rank(puuid, platform_route=platform_route)
         except RiotAPIError as e:
-            print(f"[ALERTS] failed to fetch rank for {discord_id}: {e.message}")
+            log(f"[ALERTS] failed to fetch rank for {discord_id}: {e.message}")
             continue
 
         if new_rank:

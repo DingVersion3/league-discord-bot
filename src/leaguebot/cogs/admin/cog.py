@@ -9,6 +9,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands, tasks
 
+from leaguebot.helpers import log
 from leaguebot.db import set_leaderboard_channel, get_leaderboard_channel
 from leaguebot.cogs.leaderboard.sync import sync_all_users
 from leaguebot.cogs.leaderboard.board import build_leaderboard_embed, get_top_honeyfruit_holder
@@ -123,7 +124,7 @@ class AdminCog(commands.Cog):
             try:
                 role = await guild.create_role(name=ROLE_NAME, color=discord.Color.gold())
             except discord.Forbidden:
-                print(f"[ADMIN] missing permission to create role in {guild.name}")
+                log(f"[ADMIN] missing permission to create role in {guild.name}")
                 return
 
         winner = guild.get_member(top_holder["discord_id"])
@@ -139,7 +140,7 @@ class AdminCog(commands.Cog):
             if role not in winner.roles:
                 await winner.add_roles(role)
         except discord.Forbidden:
-            print(f"[ADMIN] missing permission to manage roles in {guild.name}")
+            log(f"[ADMIN] missing permission to manage roles in {guild.name}")
             return
 
         balance = top_holder["balance"]

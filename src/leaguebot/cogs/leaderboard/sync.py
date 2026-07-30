@@ -6,6 +6,7 @@ import time
 from leaguebot.db import get_all_registered_users, save_match, save_rank, get_existing_match_ids
 from leaguebot.riot_api import get_match_ids, get_match, get_rank, RiotAPIError
 from leaguebot.constants import SECONDS_PER_WEEK, MATCHES_TO_CHECK, MIN_GAME_DURATION_SECONDS, TRACKED_GAME_MODES
+from leaguebot.helpers import log
 
 _SYNC_LOCK = asyncio.Lock()
 
@@ -23,7 +24,7 @@ def sync_in_progress() -> bool:
 async def _sync_all_users() -> dict:
     # Returns a summary dict: {discord_id: {"matches_added": int, "error": str | None}}
     users = await get_all_registered_users()
-    print(f"[SYNC] starting the syn for {len(users)} user(s)")
+    log(f"[SYNC] starting the syn for {len(users)} user(s)")
     now = int(time.time())
     cutoff = now - SECONDS_PER_WEEK
     summary = {}
@@ -32,20 +33,20 @@ async def _sync_all_users() -> dict:
         discord_id = user["discord_id"]
         puuid = user["puuid"]
         added = 0
-        print(f"[SYNC] Processing discord_id={discord_id}")
+        log(f"[SYNC] Processing discord_id={discord_id}")
 
         try:
             match_ids = await get_match_ids(puuid, regional_route=user["regional_route"], count=MATCHES_TO_CHECK)
-            print(f"[SYNC]   got {len(match_ids)} match ids")
+            log(f"[SYNC]   got {len(match_ids)} match ids")
 
             known_ids = await get_existing_match_ids(discord_id)
             new_ids = [mid for mid in match_ids if mid not in known_ids]
-            print(f"[SYNC]   {len(new_ids)} new, {len(match_ids) - len(new_ids)} already stored")
+            log(f"[SYNC]   {len(new_ids)} new, {len(match_ids) - len(new_ids)} already stored")
 
             for match_id in new_ids:
-                print(f"[SYNC]   fetching match {match_id}")
+                log(f"[SYNC]   fetching match {match_id}")
                 match = await get_match(match_id, regional_route=user["regional_route"])
-                print(f"[SYNC]   fetched match {match_id}")
+                log(f"[SYNC]   fetched match {match_id}")
                 played_at = match["info"]["gameStartTimestamp"] // 1000  # ms -> s
                 if played_at < cutoff:
                     continue  # older than a week, skip
@@ -66,7 +67,7 @@ async def _sync_all_users() -> dict:
                 )
                 enemy_champion = enemy["championName"] if enemy else None
                 team_damage = sum(p["totalDamageDealtToChampions"] for p in match["info"]["participants"] if p["teamId"] == participant["teamId"])
-                print(f"[SYNC]   saving match {match_id}")
+                log(f"[SYNC]   saving match {match_id}")
                 added += await save_match(
                     discord_id=discord_id,
                     puuid=puuid,
@@ -91,7 +92,7 @@ async def _sync_all_users() -> dict:
                     team_id=team_id,
                     team_damage=team_damage,
                 )
-                print(f"[SYNC]   saved match {match_id}")
+                log(f"[SYNC]   saved match {match_id}")
                 await asyncio.sleep(1.4)
 
             rank = await get_rank(puuid, platform_route=user["platform_route"])
