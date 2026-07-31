@@ -19,7 +19,7 @@ and pulls meta/matchup data from OP.GG.
 
 It runs on a VPS under PM2, backed by SQLite, and is deployed via `git pull`.
 
-**Scale it was built for:** roughly 6 registered users across 2 Discord servers.
+**Scale it was built for:** Small scale across a small amount of Discord servers.
 Several decisions below only make sense at that scale and would need revisiting
 if it grew.
 
@@ -288,9 +288,9 @@ alerts by match age.
 ## 7. Game Mode Filtering
 
 Riot announced certain rotating modes wouldn't be available through the API, but
-one (`KIWI_JADE` — an internal codename, apparently leaking) came through
+one (`KIWI_JADE` — an internal codename, leaking) came through
 anyway. This related to ARAM Mayhem Classic and since they stated this information wasn't meant 
-to be public vix their X/Twitter account(https://x.com/RiotGamesDevRel) we filter only on `CLASSIC` and `ARAM` only.
+to be public via their X/Twitter account(https://x.com/RiotGamesDevRel) we filter only on `CLASSIC` and `ARAM` only.
 
 **Decision: whitelist, not blacklist.**
 
@@ -320,7 +320,7 @@ HTTP endpoint speaking JSON-RPC 2.0, so a Python client can use it directly via
 the official `mcp` SDK.
 
 This solved a real problem: matchup and meta data isn't available from Riot's
-API, and scraping OP.GG's website would be fragile and ToS-risky. To have commands
+API, and scraping any website would be fragile and ToS-risky. To have commands
 like `whoshouldiplay` or `tierlist` with real data attached to them required something
 with a huge amount of data available for me to use instead of creating the data on my
 own with the limited users I have.
@@ -628,7 +628,7 @@ Three separate task loops in `admin/cog.py`:
 |---|---|---|
 | `daily_sync` | 06:00 UTC daily | `sync_all_users()` only |
 | `weekly_leaderboard` | Mondays 12:00 UTC | Sync, then post embeds + meme stats + Kashdaji Queen |
-| `patch_check` | Every 3 hours | Check Data Dragon for a new patch |
+| `patch_check` | Every 24 hours | Check Data Dragon for a new patch |
 
 **Why sync and the leaderboard post were split:** they were bundled on the same
 weekly schedule for no real reason. Data should be fresh daily; the leaderboard
@@ -645,7 +645,7 @@ overlapping runs regardless.
 
 ## 14. Patch Alerts
 
-Polls Data Dragon's `versions.json` every 3 hours, compares against
+Polls Data Dragon's `versions.json` every 24 hours, compares against
 `bot_state["last_known_patch_version"]`, and posts a link when it changes.
 
 First run baselines silently rather than announcing a patch that may have been
@@ -711,7 +711,8 @@ Four different formats exist for the same five roles:
 | OP.GG response | `MID` |
 
 Consolidated into one master `POSITIONS` list in `constants.py`, with everything
-else derived from it. One place to edit, at the cost of some indirection.
+else derived from it. One place to edit, at the cost of some indirection. Can we as a
+community just use one format?
 
 ---
 
@@ -796,16 +797,15 @@ Things that are wrong or incomplete, and why they're being lived with:
 | OP.GG tier ranking ≠ website | The MCP tool's `rank` doesn't match op.gg's site. Cause unknown; likely a different internal bracket. |
 | `matches` grows unbounded | No pruning. Fine at this scale. |
 | Poll misses multi-game sessions | Only checks `count=1`. Sync catches the rest. |
-| Late alerts after long syncs | Poll pauses during sync, so `last_match_id` goes stale. |
+| Poll pauses during sync, so `last_match_id` could go stale, safe guards are in place but you never know. |
 | Meta/off-meta threshold | 2% flags normal picks as off-meta. Rank-based would be better. |
 
 ---
 
 ## 18. Deployment
 
-- **VPS** under PM2, process name `league-bot`
-- **`run_bot.sh`** activates the venv and runs `python -u -m leaguebot.bot` in a
-  `while true` loop (redundant with PM2's own restart handling, but harmless)
+- **VPS** under PM2
+- **`run_bot.sh`** activates the venv and runs `python -u -m leaguebot.bot`
 - **Deploy:** `git pull` on the VPS, then `pm2 restart league-bot --update-env`
 
 **`--update-env` matters** — PM2 caches environment variables from the original
@@ -813,8 +813,7 @@ Things that are wrong or incomplete, and why they're being lived with:
 
 ### Website
 
-`scuttlebuddy.lol` — static HTML served by Nginx, HTTPS via Let's Encrypt, DNS
-A records at Namecheap pointing to the VPS.
+`scuttlebuddy.lol` — static HTML served by Nginx, DNS A records at Namecheap pointing to the VPS.
 
 Exists because **Riot requires one for production API key approval**. A Discord
 invite link alone doesn't satisfy it — they want a page documenting what the bot
@@ -875,9 +874,7 @@ Immediate open items:
    `tests/whoshouldiplay_test.py` to inspect scoring against real matches.
 3. **Patch URL offset** — verify it still produces working links after the next
    patch.
-4. **Late alerts** — decide whether to have sync update `last_match_id` or
-   filter alerts by match age.
-5. **Sync delay** — 1.3s still hits the rate limit. Try 2.0s.
+5. **Sync delay** — 1.4s still hits the rate limit. Try 2.0s.
 
 After each patch:
 
