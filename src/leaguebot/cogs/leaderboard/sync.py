@@ -52,7 +52,13 @@ async def _sync_all_users() -> dict:
                 log(f"[SYNC] fetched match {match_id}")
                 played_at = match["info"]["gameStartTimestamp"] // 1000  # ms -> s
                 if played_at < cutoff:
-                    continue  # older than a week, skip
+                    # Riot returns match IDs newest-first, so everything left in
+                    # the list is older than this one. Stop instead of fetching
+                    # them all just to discard them -- they're never saved, so
+                    # get_existing_match_ids never learns about them and they get
+                    # re-fetched on every single sync.
+                    log(f"[SYNC] hit week cutoff at {match_id}, stopping")
+                    break
 
                 if match["info"]["gameMode"] not in TRACKED_GAME_MODES:
                     continue  # rotating/unsupported mode, don't track
