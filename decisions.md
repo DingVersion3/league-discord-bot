@@ -561,16 +561,16 @@ average. Fires at 25% deviation either direction, minimum 5 prior games.
 non-`CLASSIC` modes (Arena has no lane creeps). Damage share still applies
 everywhere.
 
-**Age gate:** spikes only fire for games played within the last hour
-(`SECONDS_PER_HOUR`). Poll pauses entirely while a sync holds the lock, and a
-long backlog sync can stall it for hours — during which `last_match_id` goes
-stale. When poll resumes it sees an old match as "new" and fires. Observed: a
-spike alert for a 12-hour-old game.
+**Age gate:** milestones, streaks, rank changes, and stat spikes only fire when
+the match is both freshly played (within `SECONDS_PER_HOUR`) and newly saved by
+poll (`save_match` returns True). Poll pauses entirely while a sync holds the
+lock, and a long backlog sync can stall it for hours — during which
+`last_match_id` goes stale. When poll resumes it sees an old match as "new" and
+used to fire alerts for games sync had already stored. Observed: a milestone
+alert ("10 wins logged") for someone who wasn't actively playing.
 
-Streaks, milestones, and bet resolution deliberately have no age gate. A streak
-is still a streak whenever it's noticed, milestones are worth announcing late,
-and bets have to resolve or stakes never pay out. Rank changes query Riot live,
-so they reflect current rank regardless of what triggered the check.
+Bet resolution has no age gate — bets have to resolve or stakes never pay out,
+including when sync saved the match before poll noticed it.
 
 ### Milestones
 

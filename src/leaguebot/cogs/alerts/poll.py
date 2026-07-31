@@ -74,7 +74,7 @@ async def check_for_new_results(bot) -> None:
              and participant.get("teamPosition")),
             None,
         )
-        await save_match(
+        was_new = await save_match(
             discord_id=discord_id,
             puuid=puuid,
             match_id=latest_match_id,
@@ -101,43 +101,49 @@ async def check_for_new_results(bot) -> None:
                 if p["teamId"] == participant["teamId"]
             ),
         )
-
-        # check for a round-number milestone (games/wins/losses tracked)
-        all_matches = await get_recent_matches(discord_id, 0)  # 0 = all-time
-        total_games = len(all_matches) # +1 for the game just detected
-        total_wins = sum(1 for m in all_matches if m["win"])
-        total_losses = total_games - total_wins
-        milestone_msg = milestones.get_milestone_message(total_games, total_wins, total_losses)
-        if milestone_msg:
-            await post_alert(bot, discord_id, milestone_msg)
-
         await set_last_match_id(discord_id, latest_match_id)
-        alert_msg = await alerts.process_result(discord_id, won)
-        if alert_msg:
-            await post_alert(bot, discord_id, alert_msg)
 
-        # check for a rank change since a new game has been confirmed
-        try:
-            new_rank = await riot_get_rank(puuid, platform_route=platform_route)
-        except RiotAPIError as e:
-            log(f"[ALERTS] failed to fetch rank for {discord_id}: {e.message}")
-            continue
+        # Only alert on genuinely fresh games. Poll pauses during syncs, so
+        # last_match_id can lag and an already-synced match looks "new".
+        # save_match returns False when sync got there first — skip alerts then.
+        is_fresh = int(time.time()) - played_at <= SECONDS_PER_HOUR
+        if not was_new:
+            log(f"[ALERTS] match {latest_match_id} already stored for {discord_id}, skipping alerts")
+        elif not is_fresh:
+            log(f"[ALERTS] match {latest_match_id} for {discord_id} is stale ({int(time.time()) - played_at}s old), skipping alerts")
 
-        if new_rank:
-            old_rank = await db_get_rank(discord_id)
-            rank_msg = alerts.get_rank_change_message(old_rank, new_rank)
-            await save_rank(
-                discord_id=discord_id, puuid=puuid,
-                tier=new_rank["tier"], rank=new_rank["rank"],
-                league_points=new_rank["league_points"], updated_at=int(time.time())
-            )
-            if rank_msg:
-                await post_alert(bot, discord_id, rank_msg)
+        if was_new and is_fresh:
+            # check for a round-number milestone (games/wins/losses tracked)
+            all_matches = await get_recent_matches(discord_id, 0)  # 0 = all-time
+            total_games = len(all_matches)
+            total_wins = sum(1 for m in all_matches if m["win"])
+            total_losses = total_games - total_wins
+            milestone_msg = milestones.get_milestone_message(total_games, total_wins, total_losses)
+            if milestone_msg:
+                await post_alert(bot, discord_id, milestone_msg)
 
-        # Skip stat spikes on stale games. Poll pauses during syncs, so
-        # last_match_id can go stale and a match can be "newly detected"
-        # hours after it was played.
-        if int(time.time()) - played_at <= SECONDS_PER_HOUR:
+            alert_msg = await alerts.process_result(discord_id, won)
+            if alert_msg:
+                await post_alert(bot, discord_id, alert_msg)
+
+            # check for a rank change since a new game has been confirmed
+            try:
+                new_rank = await riot_get_rank(puuid, platform_route=platform_route)
+            except RiotAPIError as e:
+                log(f"[ALERTS] failed to fetch rank for {discord_id}: {e.message}")
+                new_rank = None
+
+            if new_rank:
+                old_rank = await db_get_rank(discord_id)
+                rank_msg = alerts.get_rank_change_message(old_rank, new_rank)
+                await save_rank(
+                    discord_id=discord_id, puuid=puuid,
+                    tier=new_rank["tier"], rank=new_rank["rank"],
+                    league_points=new_rank["league_points"], updated_at=int(time.time())
+                )
+                if rank_msg:
+                    await post_alert(bot, discord_id, rank_msg)
+
             since = int(time.time()) - SECONDS_PER_WEEK
             previous_matches = await get_recent_matches(discord_id, since)
             new_match_row = {
