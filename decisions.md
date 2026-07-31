@@ -566,8 +566,8 @@ the match is both freshly played (within `SECONDS_PER_HOUR`) and newly saved by
 poll (`save_match` returns True). Poll pauses entirely while a sync holds the
 lock, and a long backlog sync can stall it for hours — during which
 `last_match_id` goes stale. When poll resumes it sees an old match as "new" and
-used to fire alerts for games sync had already stored. Observed: a milestone
-alert ("10 wins logged") for someone who wasn't actively playing.
+used to fire alerts for games sync had already stored. Observed: multiple milestone
+alerts ("10 wins logged") for someone who wasn't actively playing.
 
 Bet resolution has no age gate — bets have to resolve or stakes never pay out,
 including when sync saved the match before poll noticed it.
