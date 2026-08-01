@@ -5,7 +5,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-from leaguebot.db import get_registered_user, get_rank, get_streak, get_wallet, get_all_registered_users, get_registered_users_in_guild
+from leaguebot.db import get_registered_user, get_rank, get_streak, get_wallet, get_all_registered_users, get_registered_users_in_guild, get_all_user_matches
 from leaguebot.cogs.leaderboard.board import _weekly_stats_for_user
 
 CATEGORY_ORDER = [
@@ -75,6 +75,7 @@ class CoreCog(commands.Cog):
         streak = await get_streak(target.id)
         weekly = await _weekly_stats_for_user(target.id)
         balance = await get_wallet(target.id, interaction.guild_id)
+        all_matches = await get_all_user_matches(target.id)
 
         embed = discord.Embed(
             title=f"{target.display_name}'s Profile",
@@ -105,6 +106,15 @@ class CoreCog(commands.Cog):
         else:
             weekly_text = "No games played this week 😡"
         embed.add_field(name="This Week", value=weekly_text, inline=False)
+
+        if all_matches:
+            career_wins = sum(1 for m in all_matches if m["win"])
+            career_wr = career_wins / len(all_matches) * 100
+            embed.add_field(
+                name="Career",
+                value=f"{len(all_matches)} games - {career_wr:.0f}% win rate",
+                inline=False,
+            )
 
         await interaction.followup.send(embed=embed)
 

@@ -275,6 +275,19 @@ async def get_all_recent_matches(since_timestamp: int) -> list[dict]:
         ) as cursor:
             rows = await cursor.fetchall()
             return [dict(row) for row in rows]
+
+async def get_all_user_matches(discord_id: int) -> list[dict]:
+    # All matches for that user to be wired into the users profile.
+    async with _connect() as db:
+        db.row_factory = aiosqlite.Row
+        async with db.execute(
+            """
+            SELECT * FROM matches WHERE discord_id = ?
+            """,
+            (discord_id,),
+        ) as cursor:
+            rows = await cursor.fetchall()
+            return [dict(row) for row in rows]
         
 async def get_duo_matches(discord_id_a: int, discord_id_b: int, since_timestamp: int) -> list[dict]:
     async with _connect() as db:
