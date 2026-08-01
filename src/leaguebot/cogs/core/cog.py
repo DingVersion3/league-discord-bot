@@ -110,9 +110,13 @@ class CoreCog(commands.Cog):
         if all_matches:
             career_wins = sum(1 for m in all_matches if m["win"])
             career_wr = career_wins / len(all_matches) * 100
+            kills = sum(m["kills"] for m in all_matches)
+            deaths = sum(m["deaths"] for m in all_matches)
+            assists = sum(m["assists"] for m in all_matches)
+            career_kda = (kills + assists) / max(deaths, 1)
             embed.add_field(
                 name="Career",
-                value=f"{len(all_matches)} games - {career_wr:.0f}% win rate",
+                value=f"{len(all_matches)} games - {career_wr:.0f}% WR - {career_kda:.2f} KDA",
                 inline=False,
             )
 
