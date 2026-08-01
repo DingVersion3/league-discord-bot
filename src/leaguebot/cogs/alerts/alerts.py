@@ -105,6 +105,11 @@ def get_spike_message(new_match: dict, previous_matches: list[dict]) -> str | No
     avg_damage_share = sum(m["damage"] / max(m["team_damage"], 1) for m in previous_matches if m["team_damage"] > 0) / max(
         len([m for m in previous_matches if m["team_damage"] > 0]), 1
     )
+
+    new_vision_score = new_match["vision_score"] / max(new_match["vision_score"], 1)
+    avg_vision_score = sum(m["vision_score"] / max(m["vision_score"], 1) for m in previous_matches if m["vision_score"] > 0) / max(
+        len([m for m in previous_matches if m["vision_score"] > 0]), 1
+    )
     
     if not is_support and avg_damage_share > 0:
         dmg_delta = (new_damage_share - avg_damage_share) / avg_damage_share
@@ -132,6 +137,13 @@ def get_spike_message(new_match: dict, previous_matches: list[dict]) -> str | No
             spikes.append(f"Damage share spiked — {new_damage_share*100:.0f}% of team damage vs your usual {avg_damage_share*100:.0f}% 💥")
         elif dmg_delta <= -SPIKE_THRESHOLD:
             spikes.append(f"Damage share dropped — {new_damage_share*100:.0f}% of team damage vs your usual {avg_damage_share*100:.0f}% 🫥")
+
+    if is_support and avg_vision_score > 0:
+        vision_delta = (new_vision_score - avg_vision_score) / avg_vision_score
+        if vision_delta >= SPIKE_THRESHOLD:
+            spikes.append(f"Vision score spiked — {new_vision_score*100:.0f}% of team damage vs your usual {avg_vision_score*100:.0f}% 🔍")
+        elif vision_delta <= -SPIKE_THRESHOLD:
+            spikes.append(f"Vision score dropped — {new_vision_score*100:.0f}% of team damage vs your usual {avg_vision_score*100:.0f}% 🫥")
 
     if not spikes:
         return None
