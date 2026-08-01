@@ -19,6 +19,8 @@ async def check_for_new_results(bot) -> None:
         log("[ALERTS] skipping tick, sync in progress")
         return
     users = await get_all_registered_users()
+    log(f"[ALERTS] checking {len(users)} user(s) for new matches")
+    found = 0
 
     for user in users:
         discord_id = user["discord_id"]
@@ -45,6 +47,8 @@ async def check_for_new_results(bot) -> None:
 
         if latest_match_id == last_seen:
             continue  # no new game since last check
+
+        found += 1
 
         try:
             match = await get_match(latest_match_id, regional_route=regional_route)
@@ -157,7 +161,7 @@ async def check_for_new_results(bot) -> None:
                 ),
                 "position": participant["teamPosition"],
                 "game_mode": match["info"]["gameMode"],
-                "vision_score": participant["vision_score"],
+                "vision_score": participant["visionScore"],
             }
             spike_msg = alerts.get_spike_message(new_match_row, previous_matches)
             if spike_msg:
@@ -181,6 +185,7 @@ async def check_for_new_results(bot) -> None:
                 ]
                 summary = f"🎲 Bet resolved — <@{discord_id}> {outcome} their game!\n" + "\n".join(lines)
                 await post_alert(bot, discord_id, summary)
+    log(f"[ALERTS] check complete, {found} new match(es)")
 
 
 async def post_alert(bot, discord_id: int, message: str) -> None:
