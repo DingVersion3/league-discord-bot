@@ -47,7 +47,7 @@ A League of Legends companion bot for Discord — post-game recaps, weekly leade
 
 ## Setup
 
-https://discord.com/oauth2/authorize?client_id=1524695530444427314 is the link to add the bot to your discord server.
+Coming soon...
 
 
 ## Tech stack
