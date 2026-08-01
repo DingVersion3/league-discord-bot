@@ -27,6 +27,9 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 async def on_ready():
     log(f"Logged in as {bot.user} (id: {bot.user.id})")
 
+    for guild in bot.guilds:
+        log(f"  in guild: {guild.name} ({guild.id}) — {guild.member_count} members")
+
     if not hasattr(bot, "start_time"):
         bot.start_time = time.time()
 
