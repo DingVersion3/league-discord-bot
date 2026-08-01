@@ -1,6 +1,6 @@
 import random
 from leaguebot.db import update_streak, get_streak, set_last_alert_streak
-from leaguebot.constants import TIER_ORDER, STREAK_THRESHOLD, MIN_GAMES_FOR_SPIKE, SPIKE_THRESHOLD, HIGH_TIERS
+from leaguebot.constants import TIER_ORDER, STREAK_THRESHOLD, MIN_GAMES_FOR_SPIKE, SPIKE_THRESHOLD, HIGH_TIERS, SUPPORT_CHAMPION_STYLE
 
 LOSS_MESSAGES = [
     "Maybe you should quit while you're ahead...",
@@ -105,9 +105,28 @@ def get_spike_message(new_match: dict, previous_matches: list[dict]) -> str | No
     avg_damage_share = sum(m["damage"] / max(m["team_damage"], 1) for m in previous_matches if m["team_damage"] > 0) / max(
         len([m for m in previous_matches if m["team_damage"] > 0]), 1
     )
+    
+    if not is_support and avg_damage_share > 0:
+        dmg_delta = (new_damage_share - avg_damage_share) / avg_damage_share
+        if dmg_delta >= SPIKE_THRESHOLD:
+            spikes.append(f"Damage share spiked — {new_damage_share*100:.0f}% of team damage vs your usual {avg_damage_share*100:.0f}% 💥")
+        elif dmg_delta <= -SPIKE_THRESHOLD:
+            spikes.append(f"Damage share dropped — {new_damage_share*100:.0f}% of team damage vs your usual {avg_damage_share*100:.0f}% 🫥")
 
+    # Damage share is only meaningful for supports on damage-oriented picks --
+    # enchanters and engage supports aren't expected to deal damage.
+    all_support_champions = {c for champs in SUPPORT_CHAMPION_STYLE.values() for c in champs}
+    champion = new_match["champion"]
 
-    if avg_damage_share > 0:
+    if is_support:
+        check_style = champion in SUPPORT_CHAMPION_STYLE["Damage"]
+        if champion not in all_support_champions:
+            spikes.append(f"Played {champion} support — not in my champion list, so damage share wasn't checked.")
+            check_style = False
+    else:
+        check_style = True
+
+    if check_style and avg_damage_share > 0:
         dmg_delta = (new_damage_share - avg_damage_share) / avg_damage_share
         if dmg_delta >= SPIKE_THRESHOLD:
             spikes.append(f"Damage share spiked — {new_damage_share*100:.0f}% of team damage vs your usual {avg_damage_share*100:.0f}% 💥")

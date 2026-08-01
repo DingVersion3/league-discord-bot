@@ -76,6 +76,7 @@ RIOT_TO_OPGG_POSITION = {p["riot"]: p["opgg"] for p in POSITIONS}
 OPGG_POSITIONS = [p["opgg"] for p in POSITIONS]
 OPGG_POSITION_RESPONSE_NAMES = {p["opgg"]: p["opgg_response"] for p in POSITIONS}
 
+# Champion/Position related Data
 CHAMPION_ALIASES = {
     "nunu": "Nunu & Willump",
     "willump": "Nunu & Willump",
@@ -128,6 +129,84 @@ CHAMPION_ALIASES = {
     "shyv": "Shyvana",
     "trist": "Tristana",
     "raka": "Soraka",
+}
+
+# To determine if we should be alerting for damage share, we need to know what type of support
+# are playing and since that's not something defined anywhere, this list is what determines what
+# champions are alerted for there damage share or not based on the style of support you are playing.
+# Since this champions can technically cover multiple styles, this wont be supper accurate and will
+# most definitely require monitoring and tinkering based on what the meta is for each particular champion.
+# This is not an ideal way of handling this but unsure of how else to handle it.
+SUPPORT_CHAMPION_STYLE = {
+    "Damage": {
+        "Brand",
+        "Zyra",
+        "Lux",
+        "Xerath",
+        "Vel'Koz",
+        "Hwei",
+        "Swain",
+        "Seraphine",
+        "Pyke",
+        "Morgana",
+        "Senna",
+        "Mel",
+        "Zilean",
+        "Neeko",
+        "Orianna",
+        "Taliyah",
+        "Anivia",
+        "Veigar",
+        "Fiddlesticks",
+        "Ashe",
+        "Heimerdinger",
+        "Shaco",
+        "Karthus",
+        "Teemo",
+        "Twitch",
+        "Zoe",
+    },
+    "Engage": {
+        "Nautilus",
+        "Leona",
+        "Blitzcrank",
+        "Braum",
+        "Tahm Kench",
+        "Thresh",
+        "Maokai",
+        "Rell",
+        "Poppy",
+        "Pantheon",
+        "Rakan",
+        "Alistar",
+        "Camille",
+        "Shen",
+        "Gragas",
+        "Amumu",
+        "Galio",
+        "Sett",
+        "Sion",
+        "K'Sante",
+        "Zac",
+        "Malphite",
+        "Jarvan",
+        "Kled",
+        "Sejuani",
+    },
+    "Enchanters": {
+        "Milio",
+        "Nami",
+        "Lulu",
+        "Karma",
+        "Janna",
+        "Sona",
+        "Yuumi",
+        "Soraka",
+        "Renata Glasc",
+        "Bard",
+        "Ivern",
+        "Taric",
+    },
 }
 
 # Performance thresholds per rank bracket, per role, per stat.

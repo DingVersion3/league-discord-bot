@@ -535,7 +535,12 @@ definition.
 
 All fire from `poll.py` when a new match is detected. All post to the
 guild's configured leaderboard channel, filtered to guilds where the player is
-actually a member.
+actually a member. To determine if we should be alerting for damage share, we need to know what type of support
+you are playing and since that's not something defined anywhere, this list is what determines what
+champions are alerted for there damage share or not based on the style of support you are playing.
+Since this champions can technically cover multiple styles, this wont be supper accurate and will
+most definitely require monitoring and tinkering based on what the meta is for each particular champion.
+This is not an ideal way of handling this but unsure of how else to handle it.
 
 ### Streaks
 
