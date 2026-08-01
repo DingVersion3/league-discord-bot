@@ -147,6 +147,7 @@ async def check_for_new_results(bot) -> None:
             since = int(time.time()) - SECONDS_PER_WEEK
             previous_matches = await get_recent_matches(discord_id, since)
             new_match_row = {
+                "champion": participant["championName"],
                 "cs": participant["totalMinionsKilled"] + participant["neutralMinionsKilled"],
                 "duration": match["info"]["gameDuration"],
                 "damage": participant["totalDamageDealtToChampions"],
@@ -156,6 +157,7 @@ async def check_for_new_results(bot) -> None:
                 ),
                 "position": participant["teamPosition"],
                 "game_mode": match["info"]["gameMode"],
+                "vision_score": participant["vision_score"],
             }
             spike_msg = alerts.get_spike_message(new_match_row, previous_matches)
             if spike_msg:
