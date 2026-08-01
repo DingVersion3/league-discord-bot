@@ -24,7 +24,7 @@ LOSS_MILESTONE_MESSAGES = [
 HIGH_GAME_MILESTONE_MESSAGES = [
     "Time for you and me you pop some champagne with {count} games logged.",
     "Just wanted to thank you for playing {count} games by your side.",
-    "Not saying I'm a smoker, but you deserve a blunt after {count} games.",
+    "Not saying I'm a smoker, but you deserve a blunt after {count} games played.",
 ]
 
 HIGH_WIN_MESSAGES = [
