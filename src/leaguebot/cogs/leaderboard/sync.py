@@ -8,7 +8,7 @@ from leaguebot.db import (
     get_last_match_id, set_last_match_id,
 )
 from leaguebot.riot_api import get_match_ids, get_match, get_rank, RiotAPIError
-from leaguebot.constants import SECONDS_PER_WEEK, MATCHES_TO_CHECK, MIN_GAME_DURATION_SECONDS, TRACKED_GAME_MODES
+from leaguebot.constants import MATCHES_TO_CHECK, MIN_GAME_DURATION_SECONDS, TRACKED_GAME_MODES
 from leaguebot.helpers import log
 
 _SYNC_LOCK = asyncio.Lock()
@@ -29,7 +29,6 @@ async def _sync_all_users() -> dict:
     users = await get_all_registered_users()
     log(f"[SYNC] starting the syn for {len(users)} user(s)")
     now = int(time.time())
-    cutoff = now - SECONDS_PER_WEEK
     summary = {}
 
     for user in users:
@@ -51,14 +50,6 @@ async def _sync_all_users() -> dict:
                 match = await get_match(match_id, regional_route=user["regional_route"])
                 log(f"[SYNC] fetched match {match_id}")
                 played_at = match["info"]["gameStartTimestamp"] // 1000  # ms -> s
-                if played_at < cutoff:
-                    # Riot returns match IDs newest-first, so everything left in
-                    # the list is older than this one. Stop instead of fetching
-                    # them all just to discard them -- they're never saved, so
-                    # get_existing_match_ids never learns about them and they get
-                    # re-fetched on every single sync.
-                    log(f"[SYNC] hit week cutoff at {match_id}, stopping")
-                    break
 
                 if match["info"]["gameMode"] not in TRACKED_GAME_MODES:
                     continue  # rotating/unsupported mode, don't track
