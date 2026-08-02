@@ -85,11 +85,14 @@ async def process_result(discord_id: int, won: bool) -> str | None:
 def get_spike_message(new_match: dict, previous_matches: list[dict]) -> str | None:
     if len(previous_matches) < MIN_GAMES_FOR_SPIKE:
         return None
-    
+
     spikes = []
     is_support = new_match.get("position") == "UTILITY"
     is_classic = new_match.get("game_mode") == "CLASSIC"
+    champion = new_match["champion"]
 
+    # CS is meaningless for supports (they don't farm) and for non-Summoner's
+    # Rift modes (no lane creeps).
     if not is_support and is_classic:
         new_cs_per_min = new_match["cs"] / max(new_match["duration"] / 60, 1)
         avg_cs_per_min = sum(m["cs"] / max(m["duration"] / 60, 1) for m in previous_matches) / len(previous_matches)
@@ -106,11 +109,13 @@ def get_spike_message(new_match: dict, previous_matches: list[dict]) -> str | No
         len([m for m in previous_matches if m["team_damage"] > 0]), 1
     )
 
-    new_vision_score = new_match["vision_score"] / max(new_match["vision_score"], 1)
-    avg_vision_score = sum(m["vision_score"] / max(m["vision_score"], 1) for m in previous_matches if m["vision_score"] > 0) / max(
-        len([m for m in previous_matches if m["vision_score"] > 0]), 1
-    )
-    
+    new_vision_per_min = new_match["vision_score"] / max(new_match["duration"] / 60, 1)
+    vision_history = [m for m in previous_matches if m["vision_score"] > 0]
+    avg_vision_per_min = sum(
+        m["vision_score"] / max(m["duration"] / 60, 1) for m in vision_history
+    ) / max(len(vision_history), 1)
+
+    # Non-supports: damage share always applies.
     if not is_support and avg_damage_share > 0:
         dmg_delta = (new_damage_share - avg_damage_share) / avg_damage_share
         if dmg_delta >= SPIKE_THRESHOLD:
@@ -118,32 +123,27 @@ def get_spike_message(new_match: dict, previous_matches: list[dict]) -> str | No
         elif dmg_delta <= -SPIKE_THRESHOLD:
             spikes.append(f"Damage share dropped — {new_damage_share*100:.0f}% of team damage vs your usual {avg_damage_share*100:.0f}% 🫥")
 
-    # Damage share is only meaningful for supports on damage-oriented picks --
-    # enchanters and engage supports aren't expected to deal damage.
-    all_support_champions = {c for champs in SUPPORT_CHAMPION_STYLE.values() for c in champs}
-    champion = new_match["champion"]
-
+    # Supports: damage share only matters on damage-oriented picks. Enchanters
+    # and engage supports aren't expected to deal damage.
     if is_support:
-        check_style = champion in SUPPORT_CHAMPION_STYLE["Damage"]
+        all_support_champions = {c for champs in SUPPORT_CHAMPION_STYLE.values() for c in champs}
+
         if champion not in all_support_champions:
             spikes.append(f"Played {champion} support — not in my champion list, so damage share wasn't checked.")
-            check_style = False
-    else:
-        check_style = True
+        elif champion in SUPPORT_CHAMPION_STYLE["Damage"] and avg_damage_share > 0:
+            dmg_delta = (new_damage_share - avg_damage_share) / avg_damage_share
+            if dmg_delta >= SPIKE_THRESHOLD:
+                spikes.append(f"Damage share spiked — {new_damage_share*100:.0f}% of team damage vs your usual {avg_damage_share*100:.0f}% 💥")
+            elif dmg_delta <= -SPIKE_THRESHOLD:
+                spikes.append(f"Damage share dropped — {new_damage_share*100:.0f}% of team damage vs your usual {avg_damage_share*100:.0f}% 🫥")
 
-    if check_style and avg_damage_share > 0:
-        dmg_delta = (new_damage_share - avg_damage_share) / avg_damage_share
-        if dmg_delta >= SPIKE_THRESHOLD:
-            spikes.append(f"Damage share spiked — {new_damage_share*100:.0f}% of team damage vs your usual {avg_damage_share*100:.0f}% 💥")
-        elif dmg_delta <= -SPIKE_THRESHOLD:
-            spikes.append(f"Damage share dropped — {new_damage_share*100:.0f}% of team damage vs your usual {avg_damage_share*100:.0f}% 🫥")
-
-    if is_support and avg_vision_score > 0:
-        vision_delta = (new_vision_score - avg_vision_score) / avg_vision_score
+    # Vision is the support's core stat, so it's checked regardless of style.
+    if is_support and avg_vision_per_min > 0:
+        vision_delta = (new_vision_per_min - avg_vision_per_min) / avg_vision_per_min
         if vision_delta >= SPIKE_THRESHOLD:
-            spikes.append(f"Vision score spiked — {new_vision_score*100:.0f}% of team damage vs your usual {avg_vision_score*100:.0f}% 🔍")
+            spikes.append(f"Vision score spiked — {new_vision_per_min:.1f}/min vs your usual {avg_vision_per_min:.1f}/min 🔍")
         elif vision_delta <= -SPIKE_THRESHOLD:
-            spikes.append(f"Vision score dropped — {new_vision_score*100:.0f}% of team damage vs your usual {avg_vision_score*100:.0f}% 🫥")
+            spikes.append(f"Vision score dropped — {new_vision_per_min:.1f}/min vs your usual {avg_vision_per_min:.1f}/min 🫥")
 
     if not spikes:
         return None
