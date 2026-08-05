@@ -839,6 +839,11 @@ root's home directory.
 - Bot set to non-public in the Developer Portal while on a dev key, so a top.gg
   listing can't bring in strangers before the production key is approved
 
+**PUUIDs are encrypted per API key.** Switching keys invalidates every stored
+PUUID — Riot returns 400 "Exception decrypting" on any call using one from a
+previous key. `repuuid.py` re-resolves them all by Riot ID. Run it after any
+key change (dev → personal → production).
+
 ---
 
 ## 19. Things Deliberately Not Built
