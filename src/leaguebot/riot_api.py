@@ -42,6 +42,8 @@ async def _get(session: aiohttp.ClientSession, url: str, max_retries: int = 3) -
                     await asyncio.sleep(retry_after)
                     continue
                 if resp.status != 200:
+                    body = await resp.text()
+                    log(f"[RIOT] unexpected {resp.status} for {url}: {body[:200]}")
                     raise RiotAPIError(resp.status, "Riot API request failed; try again later.")
                 return await resp.json()
         except (aiohttp.ClientError, TimeoutError, ValueError) as error:
