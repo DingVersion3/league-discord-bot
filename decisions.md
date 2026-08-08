@@ -38,6 +38,7 @@ src/leaguebot/
 ├── helpers.py                # helper functions across the project
 ├── fetch_ddragon.py          # manual: caches champion/rune/item/ability data
 ├── fetch_opgg_tierlist.py    # manual: caches OP.GG tier data (~1 hour per rank bracket you pull)
+├── repuuid.py                # manual: re-resolves every registered user's PUUID under the current API key(used when changing from test to personal key, etc.)
 └── cogs/
     ├── admin/                # /setleaderboardchannel, /syncnow, scheduled tasks
     ├── alerts/               # /streak + the live poll loop
@@ -122,9 +123,13 @@ column gets a check-then-add on every `init_db()` run. Safe to run repeatedly.
 
 ### Why `bot_state` is a generic key/value table
 
-Rather than a dedicated `patch_versions` table for one value, `bot_state` holds
-arbitrary named values. Reusable for any future "last known X" without another
-migration. `bot_state` does not match the actual League of Legends Patch #(16.15 from bot_state turn to 26.15 for League of Legends Patch)
+Rather than a dedicated table per value, `bot_state` holds arbitrary named
+values — currently the last known patch version and per-user milestone
+tracking (`milestone:{discord_id}:{games|wins|losses}`). Reusable for any
+future "last known X" without another migration.
+
+Note the stored patch version is Data Dragon's (`16.15`), not League's
+marketing number (`26.15`). See section 14.
 
 ---
 
@@ -153,6 +158,14 @@ async def get_registered_users_in_guild(guild) -> list[dict]:
     all_users = await get_all_registered_users()
     return [u for u in all_users if guild.get_member(u["discord_id"]) is not None]
 ```
+
+**Consequence found later:** `sync_all_users()` reads `users` directly with no
+membership check, so it keeps syncing people who have left every server. One
+registration turned out to belong to someone who joined via a third server that
+the bot was later removed from — they'd been getting synced daily, invisible to
+every display. Filtering sync to current members would need `bot.guilds` access,
+which `sync_all_users()` doesn't have. Deleting the row was simpler for one
+case, but it would accumulate if the bot went public.
 
 ### The bug this caused
 
@@ -201,8 +214,8 @@ user inputs their region incorrectly.
 
 ### Rate limiting
 
-Development keys allow roughly 20 requests/second and 100 per 2 minutes. This
-caused repeated failures during backlog syncs.
+Development and personal keys share the same limits: roughly 20 requests/second
+and 100 per 2 minutes. This caused repeated failures during backlog syncs.
 
 Two mechanisms handle it:
 
@@ -226,6 +239,17 @@ In practice this still hits the limit, because `get_match_ids` and `get_rank`
 calls happen outside the delayed loop. A higher delay (2.0s) would trade a
 longer sync for fewer 101-second stalls — probably faster overall. Not yet
 changed or tested to see whatis actually faster.
+
+### PUUIDs are encrypted per API key
+
+Switching keys invalidates every stored PUUID — Riot returns
+`400 Bad Request - Exception decrypting` on any call using one issued under a
+different key. Symptom is every request failing at once with no obvious cause,
+since it doesn't look like an auth error.
+
+`repuuid.py` re-resolves all of them by Riot ID. Run it after any key change
+(dev → personal → production). Match history is unaffected, since `matches`
+joins on `discord_id` rather than PUUID.
 
 ---
 
@@ -276,21 +300,51 @@ failed.
 Fix: `sync.py` exposes `sync_in_progress()` (checking `_SYNC_LOCK.locked()`),
 and `poll.py` returns early if a sync is running.
 
-**Side effect worth knowing:** during a long sync, poll is fully paused, so
-`last_match_id` goes stale. When the sync finishes, poll can fire alerts for
-games played hours earlier. Observed: a spike alert for a 12-hour-old game.
+That created a second problem: with poll paused for the length of a sync,
+`last_match_id` went stale, so when poll resumed it saw old matches as new and
+fired alerts for them. A spike alert for a 12-hour-old game was observed.
 
-Possible fixes not yet implemented: have sync update `last_match_id`, or filter
-alerts by match age.
+Fixed two ways. Sync advances `last_match_id` to the newest match Riot reported,
+so poll doesn't rediscover anything it just processed. And poll gates alerts on
+`save_match` returning True (sync didn't already store it) plus the match being
+under an hour old — the first catches races, the second catches genuinely stale
+detections.
+
+### Why sync has no age cutoff
+
+It used to skip anything older than a week, on the theory that leaderboards only
+show a week anyway. That was wrong twice over.
+
+Filtering at *storage* time meant all-time consumers — `/whoshouldiplay`,
+career stats, `/nemesis`, milestone counts — could only ever see a week of
+history, because that's all that was ever saved. One user had 8 matches stored
+out of 58 available.
+
+It also wasted the rate limit permanently. Matches rejected by the cutoff were
+never saved, so `get_existing_match_ids()` never learned about them, so they got
+re-fetched and re-discarded on every single sync. One user showed "43 new" every
+day for matches that could never be stored.
+
+The week window belongs at *query* time, where it already was —
+`_weekly_stats_for_user`, meme stats, and `/nemesis` each pass their own `since`
+to `get_recent_matches`. Removing the cutoff from sync left those untouched and
+took stored history from ~50 matches to ~400.
+
+**Rule this generalizes to:** the ingestion layer stores what it's given. Scoping
+is the reader's job.
 
 ---
 
 ## 7. Game Mode Filtering
 
-Riot announced certain rotating modes wouldn't be available through the API, but
-one (`KIWI_JADE` — an internal codename, leaking) came through
-anyway. This related to ARAM Mayhem Classic and since they stated this information wasn't meant 
-to be public via their X/Twitter account(https://x.com/RiotGamesDevRel) we filter only on `CLASSIC` and `ARAM` only.
+Riot stated via [@RiotGamesDevRel](https://x.com/RiotGamesDevRel) that certain
+rotating modes wouldn't be available through the API, but one came through
+anyway — `KIWI_JADE`, an internal codename, corresponding to ARAM Mayhem
+Classic.
+
+Its stats were wildly off normal play: 22 CS in 17 minutes, 13k gold, no item
+data. Games like that distort win rates, performance scores, and every average
+the bot computes.
 
 **Decision: whitelist, not blacklist.**
 
@@ -307,8 +361,6 @@ Applied in both `sync.py` and `poll.py` before `save_match`.
 
 **Not fixed:** mode games saved before this filter existed are still in the
 database, and `matches` has no `game_mode` column to find them by.
-
----
 
 ## 8. OP.GG Integration
 
@@ -349,12 +401,18 @@ Solution: `fetch_opgg_tierlist.py` runs manually after each patch, fetching
 every champion × role × bracket into `data/opgg_tierlist.json`. Commands read
 the cache instantly.
 
-**Cost:** ~3,400 calls, roughly 4 hours. Same model as `fetch_ddragon.py` —
-patch-triggered, manual, not scheduled.
+**Cost:** ~4,660 calls (233 champions × 5 lanes × 4 brackets), roughly an hour
+per bracket. Same model as `fetch_ddragon.py` — patch-triggered, manual, not
+scheduled.
 
-**Why manual rather than a scheduled task:** at 4 hours per run, a 12-hour
+**Why manual rather than a scheduled task:** at ~4 hours per run, a 12-hour
 schedule would mean the bot spends a third of its life fetching. The meta
 doesn't move fast enough to justify it.
+
+**Incremental writes:** the cache is written after each bracket completes, so a
+crash partway through keeps whatever finished rather than losing the whole run.
+`_role_averages` is computed at the end, so a partial file has champion data but
+no averages.
 
 ### Response format quirks
 
@@ -374,6 +432,10 @@ higher-precision JSON response existed. It didn't. `pick_rate` and `win_rate`
 come back rounded to whole percents (`0.09`, not `0.0941`), confirmed
 independently through Claude Desktop with the same MCP server. This is a hard
 limitation of the data source.
+
+**Hit rate is expected to be low.** ~1,000 of ~4,660 calls return usable data —
+most champions aren't played in most roles, so those combinations legitimately
+return nothing.
 
 ### Champion name format
 
@@ -502,6 +564,11 @@ If every champion scores 0–20 on damage share, that stat contributes nothing.
 **Known limitation:** only `gold_plus` is calibrated against real data. The
 other brackets are educated guesses until players in those ranks use the bot.
 
+**Vision scores low on older matches.** The `vision_score` column was added
+partway through, so anything stored before that has `0` and scores zero on that
+stat regardless of how the game actually went. It corrects itself as new matches
+accumulate, but early scores are dragged down.
+
 **Also worth noting:** damage share may not scale with rank the way CS does.
 It's a ratio — in a Diamond game, the pie is split among five stronger players,
 so an ADC's share might stay flat or compress. If Diamond players score oddly
@@ -533,14 +600,26 @@ definition.
 
 ## 11. Alerts
 
-All fire from `poll.py` when a new match is detected. All post to the
-guild's configured leaderboard channel, filtered to guilds where the player is
-actually a member. To determine if we should be alerting for damage share, we need to know what type of support
-you are playing and since that's not something defined anywhere, this list is what determines what
-champions are alerted for there damage share or not based on the style of support you are playing.
-Since this champions can technically cover multiple styles, this wont be supper accurate and will
-most definitely require monitoring and tinkering based on what the meta is for each particular champion.
-This is not an ideal way of handling this but unsure of how else to handle it.
+All fire from `poll.py` when a new match is detected. All post to the guild's
+configured leaderboard channel, filtered to guilds where the player is actually
+a member.
+
+### Support champion styles
+
+Damage share only means something for supports on damage-oriented picks — an
+enchanter or engage support isn't expected to deal damage, so a low share isn't
+a signal. Riot doesn't expose a support subtype anywhere, so
+`SUPPORT_CHAMPION_STYLE` is a hand-maintained list splitting support champions
+into Damage, Engage, and Enchanter.
+
+**This is imprecise by nature.** Plenty of champions span multiple styles
+depending on build and meta, and a static list can't capture that. It needs
+occasional revisiting as champions shift. Champions missing from the list get a
+note in the alert rather than being silently skipped, so gaps surface instead of
+hiding.
+
+No better approach was obvious — the alternative is deriving style from item
+builds or damage patterns, which is a much larger project for a marginal gain.
 
 ### Streaks
 
@@ -559,22 +638,25 @@ Master+ gets extra fanfare.
 
 ### Stat spikes
 
-Compares a new game's CS/min and damage share against that player's own rolling
-average. Fires at 25% deviation either direction, minimum 5 prior games.
+Compares a new game's CS/min, damage share, and vision/min against that player's
+own rolling average. Fires at 25% deviation either direction, minimum 5 prior
+games.
 
-**Exclusions:** CS is skipped for supports (inherently low, noisy) and for
-non-`CLASSIC` modes (Arena has no lane creeps). Damage share still applies
-everywhere.
+**Exclusions:** CS is skipped for supports (they don't farm) and for
+non-`CLASSIC` modes (no lane creeps). Damage share is skipped for supports on
+enchanter or engage picks. Vision is checked for supports only.
 
-**Age gate:** milestones, streaks, rank changes, and stat spikes only fire when
-the match is both freshly played (within `SECONDS_PER_HOUR`) and newly saved by
-poll (`save_match` returns True). Poll pauses entirely while a sync holds the
-lock, and a long backlog sync can stall it for hours — during which
-`last_match_id` goes stale. When poll resumes it sees an old match as "new" and
-used to fire alerts for games sync had already stored. Observed: multiple milestone
-alerts ("10 wins logged") for someone who wasn't actively playing.
+### Age and freshness gating
 
-Bet resolution has no age gate — bets have to resolve or stakes never pay out,
+Milestones, streaks, rank changes, and stat spikes only fire when the match is
+both freshly played (within `SECONDS_PER_HOUR`) and newly saved by poll
+(`save_match` returned True). Poll pauses entirely while a sync holds the lock,
+and a long backlog sync can stall it for hours — during which `last_match_id`
+goes stale. When poll resumes it sees an old match as "new" and used to fire
+alerts for games sync had already stored. Observed: multiple milestone alerts
+("10 wins logged") for someone who wasn't actively playing.
+
+Bet resolution has no gate — bets have to resolve or stakes never pay out,
 including when sync saved the match before poll noticed it.
 
 ### Milestones
@@ -585,12 +667,38 @@ Round-number totals for games, wins, and losses: 1, 10, 25, 50, 100, 200, 300,
 Counts come from `get_recent_matches(discord_id, 0)` — a full-table read per
 check. Fine at this scale; the first thing to optimize if it grows.
 
+**Deduplication:** each counter's last-alerted value is stored in `bot_state`
+under `milestone:{discord_id}:{games|wins|losses}`. Without it, a counter
+sitting at a threshold re-fires on every subsequent match — hit 50 losses, win
+the next game, and the loss milestone alerts again because losses didn't move
+but the check still ran.
+
+Only the first milestone found per match fires, so a game crossing two
+thresholds at once (games and wins) only announces one. The other is recorded as
+alerted regardless.
+
 ---
 
 ## 12. Honeyfruit Economy
 
 Fake currency, guild-scoped. Wallets are created lazily at 1000 on first use, so
 `/register` didn't need changing.
+
+### Earning
+
+Three sources beyond the starting 1000:
+
+- **`/dailybonus`** — 100 Honeyfruit, once per 24 hours, guild-scoped.
+- **`/trivia`** — 100 per correct answer, capped at 5 questions per day.
+  Questions are generated from cached Data Dragon data: guess the champion from
+  a quote (reusing `/wisdom`'s pool) or from an ability name and icon.
+  Multiple-choice via buttons rather than free text, which sidesteps typo and
+  spelling issues entirely.
+- **Mundo Dodgeball** — zero-sum between players, not new currency.
+
+Both `/dailybonus` and `/trivia` track their cooldowns in dedicated tables
+(`wallets.last_daily_claim`, `trivia_plays`) rather than in `bot_state`, since
+both are per-user-per-guild rather than single values.
 
 ### Betting
 
@@ -646,6 +754,15 @@ Deliberate choice for accuracy over efficiency.
 Six hours apart so they don't collide on Mondays. `_SYNC_LOCK` prevents
 overlapping runs regardless.
 
+`patch_check` uses `hours=24` rather than a fixed time, so it drifts with
+restarts and fires once on startup. Fine for something that only matters twice
+a month.
+
+**Collision risk beyond the bot:** unattended-upgrades runs on its own schedule
+and has overlapped with the daily sync. An OpenSSL upgrade mid-sync killed the
+process (see section 16). Nothing coordinates these — the mitigation is PM2
+restart config, not scheduling.
+
 ---
 
 ## 14. Patch Alerts
@@ -684,6 +801,10 @@ before.
 page exists or before the patch reaches all regions, so an alert can arrive
 early with a link that 404s temporarily.
 
+**Unverified.** The offset was added after the 26.15 alert posted a broken
+16.15 link. It hasn't been through a real patch since, so the next one is the
+first live test.
+
 ---
 
 ## 15. Content vs Config
@@ -703,6 +824,12 @@ It'd just relocate them away from the code that reads them.
 
 **Also deliberately not centralized:** `DATA_DIR` (depends on each file's own
 location on disk) and `_SYNC_LOCK` (a live runtime object, not a value).
+
+**Known inconsistency:** `SUPPORT_CHAMPION_STYLE` and `CHAMPION_ALIASES` are
+both content by this rule — hand-maintained lists with a single consumer each —
+but live in `constants.py` anyway. They're tuning data more than message
+content, and both are things you'd expect to edit deliberately rather than
+alongside code.
 
 ### Position vocabularies
 
@@ -785,6 +912,39 @@ should have been 1-1.
 **Deliberately not fixed** — they'll age out of most windows, and a backfill
 script wasn't worth the effort.
 
+### PUUIDs are encrypted per API key
+
+Switching from the dev key to a personal key broke every Riot call at once —
+`400 Bad Request - Exception decrypting`. PUUIDs are encrypted per key, so
+stored ones from a previous key are unreadable.
+
+Hard to diagnose because it doesn't look like an auth error. `repuuid.py`
+re-resolves them all by Riot ID. Run after any key change.
+
+### OpenSSL upgraded underneath a running process
+
+The bot died overnight with no traceback and stayed down 10 hours.
+`unattended-upgrades` had replaced `libssl3t64` and `openssl` at 06:51 while a
+sync was running. Existing SSL connections broke, the process crashed, PM2
+restarted it into the same broken state repeatedly, then hit its default
+restart limit and gave up permanently.
+
+Two contributing factors: `run_bot.sh` had recently lost its `while true` loop
+(previously masking this by restarting independently of PM2), and PM2 defaults
+to giving up after 15 rapid restarts.
+
+Fix: `pm2 start run_bot.sh --max-restarts 0 --restart-delay 5000`. Can't prevent
+the crash, but recovery is now automatic.
+
+### Duplicate spike alerts
+
+Non-supports got the damage share message twice. The support-style check was
+added as a second block, but its `else` branch set the check flag to `True` for
+non-supports — so they passed through both the original block and the new one.
+
+Fix: two mutually exclusive blocks, one gated on `is_support` and one on
+`not is_support`, with no shared flag between them.
+
 ---
 
 ## 17. Known Limitations
@@ -793,56 +953,65 @@ Things that are wrong or incomplete, and why they're being lived with:
 
 | Limitation | Notes |
 |---|---|
-| Dev API key expires every 24h | Requires manual regeneration. Production key pending Riot approval. |
+| Personal API key rate limits | 20/sec, 100/2min. Syncs are slow as a result. Production key pending Riot approval. |
 | OP.GG pick rate precision | Rounded to whole percents at the source. Confirmed independently. Not fixable. |
-| 36 matches with blank position | Predate the column. Excluded from position stats. Will age out. |
+| Matches with blank position | Predate the column. Excluded from position stats. Will age out. |
+| Matches with zero vision score | Predate the column. Score 0 on that stat in performance scoring until they age out. |
 | Untracked mode games in DB | Saved before the whitelist existed. No `game_mode` column to find them by. |
 | Non-gold thresholds | Educated guesses until players in those brackets use the bot. |
-| Patch version offset | Fragile +10 workaround. Breaks if either versioning scheme changes. |
+| Patch version offset | Fragile +10 workaround. Untested against a real patch. |
 | OP.GG tier ranking ≠ website | The MCP tool's `rank` doesn't match op.gg's site. Cause unknown; likely a different internal bracket. |
 | `matches` grows unbounded | No pruning. Fine at this scale. |
 | Poll misses multi-game sessions | Only checks `count=1`. Sync catches the rest. |
-| Poll pauses during sync, so `last_match_id` could go stale, safe guards are in place but you never know. |
+| Poll pauses during sync | `last_match_id` goes stale. Safeguards are in place, but the interaction is subtle. |
 | Meta/off-meta threshold | 2% flags normal picks as off-meta. Rank-based would be better. |
+| Sync includes users who left | `sync_all_users()` has no membership check, so it keeps fetching for people no longer in any server. One such registration was found and deleted manually. |
+| Filtered matches re-fetched | Mode and remake skips are never saved, so they're re-fetched every sync. One call per user, not worth a table. |
 
 ---
 
 ## 18. Deployment
 
-- **VPS** under PM2
+- **VPS** under PM2, started with
+  `pm2 start run_bot.sh --name league-bot --max-restarts 0 --restart-delay 5000`
 - **`run_bot.sh`** activates the venv and runs `python -u -m leaguebot.bot`
 - **Deploy:** `git pull` on the VPS, then `pm2 restart league-bot --update-env`
 
 **`--update-env` matters** — PM2 caches environment variables from the original
 `pm2 start`, so a plain restart can serve stale `.env` values.
 
+**`--max-restarts 0` matters** — PM2 defaults to giving up after 15 rapid
+restarts and marking the process stopped permanently. That turned a brief
+OpenSSL-upgrade crash into 10 hours of downtime (section 16).
+
 ### Website
 
-`scuttlebuddy.lol` — static HTML served by Nginx, DNS A records at Namecheap pointing to the VPS.
+`scuttlebuddy.lol` — static HTML served by Nginx over HTTPS (Let's Encrypt via
+Certbot, auto-renewing). DNS A records at Namecheap point `@` and `www` to the
+VPS.
 
 Exists because **Riot requires one for production API key approval**. A Discord
 invite link alone doesn't satisfy it — they want a page documenting what the bot
 does, where to add it, and linking to Terms of Service and Privacy Policy, plus
-a `riot.txt` at the domain root for ownership verification.
+a `riot.txt` at the domain root for ownership verification. **HTTPS is
+mandatory** — the application form rejects `http://` URLs.
 
-Deliberately basic. A full web app for a bot serving one friend group would be
-building for scale that doesn't exist.
+Deliberately basic. A full web app would be building for scale that doesn't
+exist yet.
 
 Files live in `/var/www/scuttlebuddy.lol/`, owned by `www-data`. Note: serving
 from `/root/` doesn't work — Nginx runs as `www-data` and can't traverse into
-root's home directory.
+root's home directory. Certbot edited `/etc/nginx/sites-enabled/scuttlebuddy.lol`
+directly, which isn't in the site repo — don't overwrite it from an older copy.
 
 ### Riot compliance
 
 - Uses Riot assets under the "Legal Jibber Jabber" fan content policy, with the
   required attribution in the site footer
-- Bot set to non-public in the Developer Portal while on a dev key, so a top.gg
-  listing can't bring in strangers before the production key is approved
-
-**PUUIDs are encrypted per API key.** Switching keys invalidates every stored
-PUUID — Riot returns 400 "Exception decrypting" on any call using one from a
-previous key. `repuuid.py` re-resolves them all by Riot ID. Run it after any
-key change (dev → personal → production).
+- Bot set to non-public in the Developer Portal while awaiting the production
+  key, so a top.gg listing can't bring in strangers early
+- **PUUIDs are key-encrypted** — see section 5. Run `repuuid.py` after any key
+  change.
 
 ---
 
@@ -872,23 +1041,47 @@ were judged a better use of effort.
 real project. Machine-translating the roast pools would strip the personality
 that's most of the bot's value.
 
+**Deriving KDA thresholds from OP.GG role averages.** Built, then reverted.
+Turning a population average into bad/good cutoffs needs a spread multiplier,
+and OP.GG's KDA weights assists fully while ours halves them for non-supports —
+so a conversion factor is needed that can't be derived from the data. Three
+unvalidated transformations between measurement and threshold. Hand-written
+values tuned against real games are more trustworthy. (Section 10.)
+
+**Blending server stats into OP.GG's tier numbers.** With ~6 users, your data
+would be a rounding error against millions of games — merging them changes
+nothing. Making it matter would mean deliberately overweighting local data,
+which produces a number that represents neither dataset honestly. Solved by
+showing them side by side instead: `/tierlist` displays the global tier and your
+server's own record on that champion as separate values.
+
 ---
 
 ## 20. If Picking This Up Later
 
 Immediate open items:
 
-1. **Riot production key** — application submitted, no response. Everything
-   gated on rate limits improves once it lands.
+1. **Riot production key** — personal key approved and in use; production key
+   still pending. Everything gated on rate limits improves once it lands.
 2. **Threshold calibration** — only `gold_plus` is validated. Use
    `tests/whoshouldiplay_test.py` to inspect scoring against real matches.
-3. **Patch URL offset** — verify it still produces working links after the next
-   patch.
-5. **Sync delay** — 1.4s still hits the rate limit. Try 2.0s.
+   (Note: `tests/` isn't tracked in git.)
+3. **Patch URL offset** — the `+10` fix hasn't been through a real patch yet.
+   Next one is the first live test.
+4. **Sync delay** — 1.4s still hits the rate limit. Try 2.0s.
+5. **`pm2 startup`** — still not configured, so nothing restarts the bot after a
+   VPS reboot. There's a pending "System restart required" notice.
+6. **VPS updates** — pending, including the reboot above.
 
 After each patch:
 
 ```bash
 python -m leaguebot.fetch_ddragon          # minutes
-python -m leaguebot.fetch_opgg_tierlist    # ~4 hours
+python -m leaguebot.fetch_opgg_tierlist    # ~1 hour per rank bracket
+```
+
+After any API key change:
+
+```bash
+python -m leaguebot.repuuid                # seconds
 ```

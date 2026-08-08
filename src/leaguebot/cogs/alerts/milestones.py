@@ -3,6 +3,8 @@
 # as the rest of the alert system.
 import random
 
+from leaguebot.db import get_bot_state, set_bot_state
+
 MILESTONES = [1, 10, 25, 50, 100, 200, 300, 500, 750, 1000]
 MILESTONE_STEP_AFTER_1000 = 500
 
@@ -50,20 +52,25 @@ def _is_high_milestone(count: int) -> bool:
     return _is_milestone(count) and count >= 100
 
 
-def get_milestone_message(games: int, wins: int, losses: int) -> str | None:
-    # Checks all three counters; returns the first milestone hit, if any.
-    # (In the rare case a game triggers two counters — e.g. games + wins —
-    # only one message is sent to avoid spamming the channel.)
-    if _is_high_milestone(games):
-        return random.choice(HIGH_GAME_MILESTONE_MESSAGES).format(count=games)
-    elif _is_milestone(games):
-        return random.choice(GAME_MILESTONE_MESSAGES).format(count=games)
-    if _is_high_milestone(wins):
-        return random.choice(HIGH_WIN_MESSAGES).format(count=wins)
-    elif _is_milestone(wins):
-        return random.choice(WIN_MILESTONE_MESSAGES).format(count=wins)
-    if _is_high_milestone(losses):
-        return random.choice(HIGH_LOSS_MESSAGES).format(count=losses)
-    elif _is_milestone(losses):
-        return random.choice(LOSS_MILESTONE_MESSAGES).format(count=losses)
+async def get_milestone_message(discord_id: int, games: int, wins: int, losses: int) -> str | None:
+    # Each counter tracks the last milestone it fired at, so a threshold only
+    # alerts once. Without this, hitting 50 losses then winning would re-fire
+    # the loss milestone -- losses didn't move, but the check runs again.
+    
+    for k, count, high_pool, norm_pool in (
+        ("games", games, HIGH_GAME_MILESTONE_MESSAGES, GAME_MILESTONE_MESSAGES),
+        ("wins", wins, HIGH_WIN_MESSAGES, WIN_MILESTONE_MESSAGES),
+        ("losses", losses, HIGH_LOSS_MESSAGES, LOSS_MILESTONE_MESSAGES),
+    ):
+        if not _is_milestone(count):
+            continue
+
+        state_k = f"milestone:{discord_id}:{k}"
+        if await get_bot_state(state_k) == str(count):
+            continue
+
+        await set_bot_state(state_k, str(count))
+        pool = high_pool if _is_high_milestone(count) else norm_pool
+        return random.choice(pool).format(count=count)
+
     return None

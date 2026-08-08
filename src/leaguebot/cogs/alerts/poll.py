@@ -122,7 +122,7 @@ async def check_for_new_results(bot) -> None:
             total_games = len(all_matches)
             total_wins = sum(1 for m in all_matches if m["win"])
             total_losses = total_games - total_wins
-            milestone_msg = milestones.get_milestone_message(total_games, total_wins, total_losses)
+            milestone_msg = await milestones.get_milestone_message(discord_id, total_games, total_wins, total_losses)
             if milestone_msg:
                 await post_alert(bot, discord_id, milestone_msg)
 
