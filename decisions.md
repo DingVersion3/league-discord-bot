@@ -1069,9 +1069,6 @@ Immediate open items:
 3. **Patch URL offset** — the `+10` fix hasn't been through a real patch yet.
    Next one is the first live test.
 4. **Sync delay** — 1.4s still hits the rate limit. Try 2.0s.
-5. **`pm2 startup`** — still not configured, so nothing restarts the bot after a
-   VPS reboot. There's a pending "System restart required" notice.
-6. **VPS updates** — pending, including the reboot above.
 
 After each patch:
 
