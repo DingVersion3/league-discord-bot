@@ -666,6 +666,21 @@ async def count_recent_trivia_plays(discord_id: int, guild_id: int, since_timest
             row = await cursor.fetchone()
             return row[0] if row else 0
 
+async def get_oldest_recent_trivia_play(discord_id: int, guild_id: int, since_timestamp: int) -> int | None:
+    async with _connect() as db:
+        db.row_factory = aiosqlite.Row
+        async with db.execute(
+            """
+            SELECT played_at FROM trivia_plays
+            WHERE discord_id = ? AND guild_id = ? AND played_at >= ?
+            ORDER BY played_at ASC
+            LIMIT 1
+            """,
+            (discord_id, guild_id, since_timestamp),
+        ) as cursor:
+            row = await cursor.fetchone()
+            return row["played_at"] if row else None
+
 async def get_bot_state(key: str) -> str | None:
     async with _connect() as db:
         db.row_factory = aiosqlite.Row

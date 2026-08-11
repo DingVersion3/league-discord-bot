@@ -5,7 +5,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-from leaguebot.db import log_trivia_play, count_recent_trivia_plays, adjust_wallet
+from leaguebot.db import log_trivia_play, count_recent_trivia_plays, adjust_wallet, get_oldest_recent_trivia_play
 from leaguebot.constants import SECONDS_PER_DAY, TRIVIA_REWARD, MAX_TRIVIA_PER_DAY
 from .questions import generate_question
 
@@ -68,8 +68,13 @@ class TriviaCog(commands.Cog):
         plays_today = await count_recent_trivia_plays(interaction.user.id, interaction.guild_id, since)
 
         if plays_today >= MAX_TRIVIA_PER_DAY:
+            oldest = await get_oldest_recent_trivia_play(interaction.user.id, interaction.guild_id, since)
+            seconds_remaining = max((oldest + SECONDS_PER_DAY) - int(time.time()), 0) if oldest else 0
+            hours = seconds_remaining // 3600
+            minutes = (seconds_remaining % 3600) // 60
             await interaction.response.send_message(
-                f"You've already played {MAX_TRIVIA_PER_DAY} trivia questions today. Come back tomorrow.",
+                f"You've already played {MAX_TRIVIA_PER_DAY} trivia questions today. "
+                f"Try again in {hours}h {minutes}m.",
                 ephemeral=True,
             )
             return
