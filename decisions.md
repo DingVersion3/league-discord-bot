@@ -409,10 +409,10 @@ scheduled.
 schedule would mean the bot spends a third of its life fetching. The meta
 doesn't move fast enough to justify it.
 
-**Incremental writes:** the cache is written after each bracket completes, so a
+**Incremental writes:** the cache is written after each role completes, so a
 crash partway through keeps whatever finished rather than losing the whole run.
 `_role_averages` is computed at the end, so a partial file has champion data but
-no averages.
+no averages. 
 
 ### Response format quirks
 
@@ -1065,15 +1065,13 @@ Immediate open items:
 2. **Threshold calibration** — only `gold_plus` is validated. Use
    `tests/whoshouldiplay_test.py` to inspect scoring against real matches.
    (Note: `tests/` isn't tracked in git.)
-3. **Patch URL offset** — the `+10` fix hasn't been through a real patch yet.
-   Next one is the first live test.
-4. **Sync delay** — 1.4s still hits the rate limit. Try 2.0s.
 
 After each patch:
 
 ```bash
-python -m leaguebot.fetch_ddragon          # minutes
-python -m leaguebot.fetch_opgg_tierlist    # ~1 hour per rank bracket
+python -m leaguebot.fetch_ddragon                  # minutes
+python -m leaguebot.fetch_opgg_tierlist            # resume ~ 1 hour per rank bracket
+python -m leaguebot.fetch_opgg_tierlist --force    # full refresh
 ```
 
 After any API key change:

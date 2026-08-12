@@ -16,6 +16,7 @@ import asyncio
 import json
 import re
 import time
+import argparse
 from pathlib import Path
 
 from mcp import ClientSession
@@ -88,12 +89,39 @@ async def _fetch_one(session: ClientSession, champion: str, position: str, tier:
     position_name = OPGG_POSITION_RESPONSE_NAMES[position]
     return _extract_position_stats(raw_text, position_name)
 
+def _write(results: dict) -> None:
+    with open(DATA_DIR / "opgg_tierlist.json", "w") as f:
+        json.dump(results, f, indent=2)
 
-async def main() -> None:
+def _load_existing(force: bool = False) -> dict:
+    # Resume support: a run can die partway through (OP.GG 504s, network drops),
+    # and re-fetching hours of already-cached data is wasteful. Reads whatever
+    # the last run wrote so completed bracket/position combinations get skipped.
+    if force:
+        log("--force: ignoring existing cache, fetching everything")
+        return {"generated_at": int(time.time()), "brackets": {}}
+
+    path = DATA_DIR / "opgg_tierlist.json"
+    if not path.exists():
+        return {"generated_at": int(time.time()), "brackets": {}}
+
+    try:
+        with open(path) as f:
+            existing = json.load(f)
+    except (json.JSONDecodeError, OSError):
+        log("existing cache unreadable, starting fresh")
+        return {"generated_at": int(time.time()), "brackets": {}}
+
+    log(f"resuming from existing cache (generated {existing.get('generated_at')})")
+    return existing
+
+
+async def main(force: bool = False) -> None:
     champion_names = _load_champion_names()
     log(f"Fetching {len(champion_names)} champions x {len(OPGG_POSITIONS)} lanes x {len(BRACKETS)} brackets...")
 
-    results = {"generated_at": int(time.time()), "brackets": {}}
+    results = _load_existing(force)
+    results["generated_at"] = int(time.time())
     total_calls = 0
     total_hits = 0
 
@@ -102,8 +130,14 @@ async def main() -> None:
             await session.initialize()
 
             for tier in BRACKETS:
-                results["brackets"][tier] = {}
+                results["brackets"].setdefault(tier, {})
+
                 for position in OPGG_POSITIONS:
+                    already = results["brackets"][tier].get(position)
+                    if already:
+                        log(f"  [{tier}] {position}: skipping, {len(already)} already cached")
+                        continue
+
                     results["brackets"][tier][position] = {}
                     for champion in champion_names:
                         entry = await _fetch_one(session, champion, position, tier)
@@ -115,16 +149,16 @@ async def main() -> None:
 
                     log(f"  [{tier}] {position}: {len(results['brackets'][tier][position])} champions found")
 
-                with open(DATA_DIR / "opgg_tierlist.json", "w") as f:
-                    json.dump(results, f, indent=2)
-                log(f"  [{tier}] saved progress")
+                    # Write after each position rather than each bracket, so a
+                    # failure costs at most one lane's worth of fetching.
+                    _write(results)
 
     # Playrate-weighted role averages, so popular champions count more than
     # rarely-played ones when establishing what's "normal" for a role.
     for tier in BRACKETS:
         results["brackets"][tier]["_role_averages"] = {}
         for position in OPGG_POSITIONS:
-            champs = results["brackets"][tier][position]
+            champs = results["brackets"][tier].get(position, {})
             total_play = sum(c["play"] for c in champs.values())
             if total_play <= 0:
                 continue
@@ -134,12 +168,14 @@ async def main() -> None:
                 "sample_games": total_play,
             }
 
-    with open(DATA_DIR / "opgg_tierlist.json", "w") as f:
-        json.dump(results, f, indent=2)
+    _write(results)
 
-    log(f"\nDone. {total_hits}/{total_calls} calls returned usable data.")
-    log(f"Saved to {DATA_DIR / 'opgg_tierlist.json'}")
+    log(f"done. {total_hits}/{total_calls} calls returned usable data this run.")
+    log(f"saved to {DATA_DIR / 'opgg_tierlist.json'}")
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    parser = argparse.ArgumentParser(description="Cache OP.GG tier data. Resumes from an existing cache unless --force.")
+    parser.add_argument("--force", action="store_true", help="ignore the existing cache and re-fetch everything")
+    args = parser.parse_args()
+    asyncio.run(main(args.force))
