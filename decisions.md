@@ -801,9 +801,8 @@ before.
 page exists or before the patch reaches all regions, so an alert can arrive
 early with a link that 404s temporarily.
 
-**Unverified.** The offset was added after the 26.15 alert posted a broken
-16.15 link. It hasn't been through a real patch since, so the next one is the
-first live test.
+**Verified.** The offset was added after the 26.15 alert posted a broken
+16.15 link. It has now been through a real patch since.
 
 ---
 

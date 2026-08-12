@@ -34,7 +34,8 @@ async def check_for_new_patch(bot) -> None:
 
     major, minor, *_ = latest_version.split(".")
     patch_url = _build_patch_url(latest_version)
-    message = f"🦀 **Patch {major}.{minor} is live!**\n\n📋 Read the full patch notes: {patch_url}"
+    real_major = int(major) + PATCH_VERSION_OFFSET
+    message = f"🦀 **Patch {real_major}.{minor} is live!**\n\n📋 Read the full patch notes: {patch_url}"
 
     for guild in bot.guilds:
         channel_id = await get_leaderboard_channel(guild.id)
