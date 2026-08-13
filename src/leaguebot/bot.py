@@ -70,6 +70,7 @@ async def main():
         await bot.load_extension("leaguebot.cogs.trivia.cog")
         await bot.load_extension("leaguebot.cogs.opgg.cog")
         await bot.load_extension("leaguebot.cogs.core.cog")
+        await bot.load_extension("leaguebot.cogs.sentience.cog")
         await bot.start(TOKEN)
 
 
