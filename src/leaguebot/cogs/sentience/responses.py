@@ -1,4 +1,5 @@
 import random
+import re
 
 MENTION_RESPONSES = [
     "What.",
@@ -361,17 +362,22 @@ GOODBYE_RESPONSES = [
     "Go on then. I've got a camp to guard.",
 ]
 
+def _compile(triggers: list[str]) -> re.Pattern:
+    # Word boundaries, so "hell" doesn't match inside "hello" and "gn" doesn't
+    # match inside "design". Compiled once at import rather than per message.
+    return re.compile(r"\b(" + "|".join(re.escape(t) for t in triggers) + r")\b", re.IGNORECASE)
+
+
+_HOSTILE = _compile(HOSTILE_TRIGGERS)
+_GREETING = _compile(GREETING_TRIGGERS)
+_GOODBYE = _compile(GOODBYE_TRIGGERS)
+
 
 def get_response(content: str) -> tuple[str, bool]:
-    lowered = content.lower()
-
-    if any(trigger in lowered for trigger in HOSTILE_TRIGGERS):
+    if _HOSTILE.search(content):
         return random.choice(HOSTILE_RESPONSES), True
-
-    if any(trigger in lowered for trigger in GREETING_TRIGGERS):
+    if _GREETING.search(content):
         return random.choice(GREETING_RESPONSES), False
-
-    if any(trigger in lowered for trigger in GOODBYE_TRIGGERS):
+    if _GOODBYE.search(content):
         return random.choice(GOODBYE_RESPONSES), False
-
     return random.choice(MENTION_RESPONSES), False
