@@ -66,7 +66,7 @@ async def main():
         await bot.load_extension("leaguebot.cogs.leaderboard.cog")
         await bot.load_extension("leaguebot.cogs.memestats.cog")
         await bot.load_extension("leaguebot.cogs.alerts.cog")
-        await bot.load_extension("leaguebot.cogs.betting.cog")
+        await bot.load_extension("leaguebot.cogs.honeyfruit.cog")
         await bot.load_extension("leaguebot.cogs.trivia.cog")
         await bot.load_extension("leaguebot.cogs.opgg.cog")
         await bot.load_extension("leaguebot.cogs.core.cog")

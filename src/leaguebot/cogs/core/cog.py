@@ -11,7 +11,7 @@ from leaguebot.cogs.leaderboard.board import _weekly_stats_for_user
 CATEGORY_ORDER = [
     "Track & Compare",
     "Live Alerts",
-    "Honeyfruit Betting",
+    "Honeyfruit",
     "Fun",
     "Utility",
     "Admin",
@@ -21,7 +21,7 @@ CATEGORY_BY_COG = {
     "RecapCog": "Track & Compare",
     "LeaderboardCog": "Track & Compare",
     "AlertsCog": "Live Alerts",
-    "BettingCog": "Honeyfruit Betting",
+    "BettingCog": "Honeyfruit",
     "RandomChampCog": "Fun",
     "MemeStatsCog": "Fun",
     "CoreCog": "Utility",

@@ -5,10 +5,9 @@
 import time
 
 from leaguebot.helpers import log
-from leaguebot.db import get_all_registered_users, get_streak, set_last_match_id, get_leaderboard_channel,get_rank as db_get_rank, save_rank, get_recent_matches, get_open_bet, save_match
+from leaguebot.db import get_all_registered_users, get_streak, set_last_match_id, get_leaderboard_channel,get_rank as db_get_rank, save_rank, get_recent_matches, save_match
 from leaguebot.riot_api import get_match_ids, get_match, get_rank as riot_get_rank, RiotAPIError
 from leaguebot.constants import MIN_GAME_DURATION_SECONDS, SECONDS_PER_WEEK, TRACKED_GAME_MODES, SECONDS_PER_HOUR
-from leaguebot.cogs.betting import betting as betting_logic
 from leaguebot.cogs.leaderboard.sync import sync_in_progress
 from . import alerts
 from . import milestones
@@ -166,25 +165,6 @@ async def check_for_new_results(bot) -> None:
             spike_msg = alerts.get_spike_message(new_match_row, previous_matches)
             if spike_msg:
                 await post_alert(bot, discord_id, spike_msg)
-
-        # resolve any open bets on this player's game, across every guild they're in
-        # (bets are guild-scoped, so a player could have a separate open bet per server)
-        for guild in bot.guilds:
-            if guild.get_member(discord_id) is None:
-                continue
-            open_bet = await get_open_bet(discord_id, guild.id)
-            if not open_bet:
-                continue
-            results = await betting_logic.resolve(open_bet["bet_id"], guild.id, won)
-            if results:
-                outcome = "won" if won else "lost"
-                lines = [
-                    f"<@{r['discord_id']}> {'won' if r['won'] else 'lost'} {r['amount']} Honeyfruit"
-                    + (f" (+{r['payout']})" if r['won'] else "")
-                    for r in results
-                ]
-                summary = f"🎲 Bet resolved — <@{discord_id}> {outcome} their game!\n" + "\n".join(lines)
-                await post_alert(bot, discord_id, summary)
     log(f"[ALERTS] check complete, {found} new match(es)")
 
 
