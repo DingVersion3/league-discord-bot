@@ -143,7 +143,7 @@ SUPPORT_CHAMPION_STYLE = {
         "Zyra",
         "Lux",
         "Xerath",
-        "Vel'Koz",
+        "Velkoz",
         "Hwei",
         "Swain",
         "Seraphine",
