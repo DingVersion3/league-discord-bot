@@ -1,5 +1,5 @@
 {
-  "version": "16.16.1",
+  "version": "16.17.1",
   "items": {
     "1001": "Boots",
     "1004": "Faerie Charm",
@@ -272,6 +272,7 @@
     "226664": "Hollow Radiance",
     "226665": "Jak'Sho, The Protean",
     "226667": "Radiant Virtue",
+    "226668": "Ultra Hydra",
     "226671": "Galeforce",
     "226672": "Kraken Slayer",
     "226673": "Immortal Shieldbow",
@@ -369,8 +370,7 @@
     "3089": "Rabadon's Deathcap",
     "3091": "Wit's End",
     "3094": "Rapid Firecannon",
-    "3095": "Deprecated item",
-    "3097": "Stormrazor",
+    "3095": "Stormrazor",
     "3100": "Lich Bane",
     "3102": "Banshee's Veil",
     "3105": "Aegis of the Legion",
