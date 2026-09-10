@@ -1,13 +1,3 @@
-
-# Shared constants used across multiple cogs/modules. Anything that's a pure
-# config value, threshold, or timing setting lives here so it has one source
-# of truth instead of being duplicated per-file.
-
-# Deliberately NOT here: message/content templates (LOSS_MESSAGES, WIN_MESSAGES,
-# STAT_SHARDS, REGION_CHOICES, etc.) since those are domain data specific to
-# the file that uses them, not shared config. Also not here: DATA_DIR (depends
-# on each file's own location on disk) and _SYNC_LOCK (a live runtime object,
-# not a value).
 import os
 from pathlib import Path
 
@@ -131,12 +121,6 @@ CHAMPION_ALIASES = {
     "raka": "Soraka",
 }
 
-# To determine if we should be alerting for damage share, we need to know what type of support
-# are playing and since that's not something defined anywhere, this list is what determines what
-# champions are alerted for there damage share or not based on the style of support you are playing.
-# Since this champions can technically cover multiple styles, this wont be supper accurate and will
-# most definitely require monitoring and tinkering based on what the meta is for each particular champion.
-# This is not an ideal way of handling this but unsure of how else to handle it.
 SUPPORT_CHAMPION_STYLE = {
     "Damage": {
         "Brand",
@@ -171,7 +155,7 @@ SUPPORT_CHAMPION_STYLE = {
         "Leona",
         "Blitzcrank",
         "Braum",
-        "Tahm Kench",
+        "TahmKench",
         "Thresh",
         "Maokai",
         "Rell",
@@ -202,7 +186,7 @@ SUPPORT_CHAMPION_STYLE = {
         "Sona",
         "Yuumi",
         "Soraka",
-        "Renata Glasc",
+        "RenataGlasc",
         "Bard",
         "Ivern",
         "Taric",
