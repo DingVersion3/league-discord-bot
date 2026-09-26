@@ -1,5 +1,5 @@
 {
-  "version": "16.18.1",
+  "version": "16.19.1",
   "items": {
     "1001": "Boots",
     "1004": "Faerie Charm",
@@ -782,6 +782,8 @@
     "773157": "Zhonya's Hourglass",
     "773158": "Ionian Boots of Lucidity",
     "773160": "Feral Flare",
+    "773161": "Moonflair Spellblade",
+    "773162": "Cloak and Dagger",
     "773165": "Morellonomicon",
     "773172": "Zephyr",
     "773173": "Eleisa's Miracle",
