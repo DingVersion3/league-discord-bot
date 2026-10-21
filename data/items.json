@@ -1,5 +1,5 @@
 {
-  "version": "16.20.1",
+  "version": "16.21.1",
   "items": {
     "1001": "Boots",
     "1004": "Faerie Charm",
@@ -578,13 +578,6 @@
     "4644": "Crown of the Shattered Queen",
     "4645": "Shadowflame",
     "4646": "Stormsurge",
-    "550001": "Healthbar Splash: Blue",
-    "550002": "Healthbar Splash: Orange",
-    "550003": "Healthbar Splash: Green",
-    "550004": "Healthbar Splash: Pink",
-    "550005": "Healthbar Cleanup: Reset Color",
-    "550006": "Healthbar Splash: Rainbow",
-    "550007": "Party Favor",
     "6029": "Ironspike Whip",
     "6032": "Stat Bonus",
     "6035": "Silvermere Dawn",
