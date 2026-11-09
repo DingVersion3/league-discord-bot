@@ -170,6 +170,17 @@ async def init_db() -> None:
                 value TEXT
             )
         """)
+        await db.execute("""
+            CREATE TABLE IF NOT EXISTS worlds_picks (
+                discord_id INTEGER NOT NULL,
+                guild_id INTEGER NOT NULL,
+                picks TEXT NOT NULL,
+                submitted_at INTEGER NOT NULL,
+                correct INTEGER,
+                payout INTEGER,
+                PRIMARY KEY (discord_id, guild_id)
+            )
+        """)
         await db.commit()
 
 async def register_user(discord_id: int, game_name: str, tag_line: str, puuid: str, regional_route: str = "americas", platform_route: str = "na1") -> None:
@@ -607,6 +618,7 @@ async def delete_user_data(discord_id: int) -> None:
         await db.execute("DELETE FROM wallets WHERE discord_id = ?", (discord_id,))
         await db.execute("DELETE FROM wagers WHERE bettor_discord_id = ?", (discord_id,))
         await db.execute("DELETE FROM bets WHERE tracked_discord_id = ?", (discord_id,))
+        await db.execute("DELETE FROM worlds_picks WHERE discord_id = ?", (discord_id,))
         await db.execute("DELETE FROM users WHERE discord_id = ?", (discord_id,))
         await db.commit()
 
@@ -711,3 +723,56 @@ async def get_existing_match_ids(discord_id: int) -> set[str]:
         ) as cursor:
             rows = await cursor.fetchall()
             return {row[0] for row in rows}
+
+async def save_worlds_pick(discord_id: int, guild_id: int, picks_json: str, submitted_at: int) -> bool:
+    async with _connect() as db:
+        cursor = await db.execute(
+            """
+            INSERT INTO worlds_picks (discord_id, guild_id, picks, submitted_at)
+            VALUES (?, ?, ?, ?)
+            ON CONFLICT(discord_id, guild_id) DO NOTHING
+            """,
+            (discord_id, guild_id, picks_json, submitted_at),
+        )
+        await db.commit()
+        return cursor.rowcount == 1
+
+async def get_worlds_pick(discord_id: int, guild_id: int) -> dict | None:
+    async with _connect() as db:
+        db.row_factory = aiosqlite.Row
+        async with db.execute(
+            "SELECT * FROM worlds_picks WHERE discord_id = ? AND guild_id = ?",
+            (discord_id, guild_id),
+        ) as cursor:
+            row = await cursor.fetchone()
+            return dict(row) if row else None
+
+async def get_worlds_picks_for_guild(guild_id: int) -> list[dict]:
+    async with _connect() as db:
+        db.row_factory = aiosqlite.Row
+        async with db.execute(
+            "SELECT * FROM worlds_picks WHERE guild_id = ?", (guild_id,)
+        ) as cursor:
+            rows = await cursor.fetchall()
+            return [dict(row) for row in rows]
+
+async def get_unpaid_worlds_picks() -> list[dict]:
+    async with _connect() as db:
+        db.row_factory = aiosqlite.Row
+        async with db.execute(
+            "SELECT * FROM worlds_picks WHERE payout IS NULL"
+        ) as cursor:
+            rows = await cursor.fetchall()
+            return [dict(row) for row in rows]
+
+async def set_worlds_payout(discord_id: int, guild_id: int, correct: int, payout: int) -> bool:
+    async with _connect() as db:
+        cursor = await db.execute(
+            """
+            UPDATE worlds_picks SET correct = ?, payout = ?
+            WHERE discord_id = ? AND guild_id = ? AND payout IS NULL
+            """,
+            (correct, payout, discord_id, guild_id),
+        )
+        await db.commit()
+        return cursor.rowcount == 1

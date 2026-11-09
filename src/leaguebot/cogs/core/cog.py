@@ -26,6 +26,7 @@ CATEGORY_BY_COG = {
     "MemeStatsCog": "Fun",
     "CoreCog": "Utility",
     "AdminCog": "Admin",
+    "WorldsCog": "Honeyfruit",
 }
 
 
